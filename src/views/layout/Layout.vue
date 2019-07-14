@@ -4,25 +4,29 @@
     <sidebar class="sidebar-container"/>
     <div class="main-container">
       <navbar/>
-      <!--<tags-view/>-->
+      <tags-view/>
       <app-main/>
     </div>
   </div>
 </template>
 
 <script>
-  import {Navbar, Sidebar, AppMain} from './components'
+  import {Navbar, Sidebar, AppMain, TagsView} from './components'
   import ResizeMixin from './mixin/ResizeHandler'
+  import {keepAlive as keepAliveApi} from '@/api/login'
 
   export default {
     name: 'Layout',
     components: {
       Navbar,
       Sidebar,
-      AppMain
-      // TagsView
+      AppMain,
+      TagsView
     },
     mixins: [ResizeMixin],
+    created() {
+      this.keepAlive()
+    },
     computed: {
       sidebar() {
         return this.$store.state.app.sidebar
@@ -40,8 +44,11 @@
       }
     },
     methods: {
+      keepAlive() {
+        keepAliveApi().then(r => setTimeout(() => this.keepAlive(), 1000 * 60 * 10)).catch(r => setTimeout(() => this.keepAlive(), 1000 * 60 * 10))
+      },
       handleClickOutside() {
-        this.$store.dispatch('CloseSideBar', {withoutAnimation: false})
+        this.$store.dispatch('closeSideBar', {withoutAnimation: false})
       }
     }
   }
