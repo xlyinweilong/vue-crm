@@ -1,12 +1,12 @@
 import Layout from '@/views/layout/Layout'
 
-const vipRouter = {
-  path: '/vip',
+const transactionRouter = {
+  path: '/transaction',
   component: Layout,
-  redirect: '/vip/delivery',
-  name: 'vip',
+  redirect: '/transaction/delivery',
+  name: 'transaction',
   meta: {
-    title: '会员',
+    title: '交易',
     icon: 'table',
   },
   children: [
@@ -129,4 +129,4 @@ const vipRouter = {
     }
   ]
 }
-export default vipRouter
+export default transactionRouter

@@ -1,12 +1,12 @@
 import Layout from '@/views/layout/Layout'
 
 const vipRouter = {
-  path: '/vip',
+  path: '/report',
   component: Layout,
-  redirect: '/vip/delivery',
-  name: 'vip',
+  redirect: '/report/delivery',
+  name: 'report',
   meta: {
-    title: '会员',
+    title: '报表',
     icon: 'table',
   },
   children: [

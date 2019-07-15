@@ -1,12 +1,12 @@
 import Layout from '@/views/layout/Layout'
 
-const vipRouter = {
-  path: '/vip',
+const manageRouter = {
+  path: '/manage',
   component: Layout,
-  redirect: '/vip/delivery',
-  name: 'vip',
+  redirect: '/manage/delivery',
+  name: 'manage',
   meta: {
-    title: '会员',
+    title: '管理',
     icon: 'table',
   },
   children: [
@@ -58,7 +58,7 @@ const vipRouter = {
       children: [
         {
           path: 'organization',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/manage/business/user_list'),
           name: 'organization',
           meta: {title: '组织机构'}
         },
@@ -70,7 +70,7 @@ const vipRouter = {
         },
         {
           path: 'user_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/manage/business/user_list'),
           name: 'user_manage',
           meta: {title: '用户管理'}
         },
@@ -129,4 +129,4 @@ const vipRouter = {
     }
   ]
 }
-export default vipRouter
+export default manageRouter
