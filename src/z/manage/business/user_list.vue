@@ -100,12 +100,12 @@ export default {
     },
     // 获取列表
     getList() {
-      // this.listLoading = true
+      this.listLoading = true
       getList(this.listQuery).then(response => {
         this.selectedIds = []
         this.list = response.data.content
         this.total = response.data.totalElements
-      })
+      }).finally(() => { this.listLoading = false })
     },
     // 选择
     selectionChange(val) {
