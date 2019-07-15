@@ -7,125 +7,88 @@ const vipRouter = {
   name: 'vip',
   meta: {
     title: '会员',
-    icon: 'table',
+    icon: 'table'
   },
   children: [
     {
-      path: 'platform_settings',
+      path: 'vip_manager',
       component: () => import('@/z/SubLayout'),
-      name: 'platform_settings',
-      meta: {title: '平台设置'},
+      name: 'vip_manager',
+      meta: { title: '会员管理' },
       children: [
         {
-          path: 'skin_settings',
+          path: 'vip_list',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'skin_settings',
-          meta: {title: '皮肤设置'}
-        },
-        {
-          path: 'reminder_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reminder_settings',
-          meta: {title: '提醒设置'}
+          name: 'vip_list',
+          meta: { title: '会员列表' }
         }
       ]
     },
     {
-      path: 'account_manage',
+      path: 'vip_card_manager',
       component: () => import('@/z/SubLayout'),
-      name: 'account_manage',
-      meta: {title: '账户管理'},
+      name: 'vip_card_manager',
+      meta: { title: '会员卡管理' },
       children: [
         {
-          path: 'account_info',
+          path: 'vip_card',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'account_info',
-          meta: {title: '账户信息'}
+          name: 'vip_card',
+          meta: { title: '会员卡' }
         },
         {
-          path: 'mobile_short_message',
+          path: 'vip_center_ad',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'mobile_short_message',
-          meta: {title: '手机短信'}
+          name: 'vip_center_ad',
+          meta: { title: '会员中心广告' }
         }
       ]
     },
     {
-      path: 'business_manage',
+      path: 'ticket_manager',
       component: () => import('@/z/SubLayout'),
-      name: 'business_manage',
-      meta: {title: '商家管理'},
+      name: 'ticket_manager',
+      meta: { title: '卡卷管理' },
       children: [
         {
-          path: 'organization',
+          path: 'ticket_list',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'organization',
-          meta: {title: '组织机构'}
+          name: 'ticket_list',
+          meta: { title: '卡卷列表' }
         },
         {
-          path: 'shop_manage',
+          path: 'give_ticket',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'shop_manage',
-          meta: {title: '门店管理'}
+          name: 'give_ticket',
+          meta: { title: '赠送卡卷' }
         },
         {
-          path: 'user_manage',
+          path: 'ticket_write_off',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'user_manage',
-          meta: {title: '用户管理'}
+          name: 'ticket_write_off',
+          meta: { title: '卡卷核销' }
         },
         {
-          path: 'role_manage',
+          path: 'ticket_log',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '角色管理'}
+          name: 'ticket_log',
+          meta: { title: '卡卷记录' }
         }
       ]
     },
     {
-      path: 'wechat_public_platform',
+      path: 'vip_belong_manager',
       component: () => import('@/z/SubLayout'),
-      name: 'wechat_public_platform',
-      meta: {title: '微信公众平台'},
+      name: 'vip_belong_manager',
+      meta: { title: '会员归属管理' },
       children: [
         {
-          path: 'parameter_settings',
+          path: 'vip_channel',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'parameter_settings',
-          meta: {title: '参数设置'}
-        },
-        {
-          path: 'reply_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reply_settings',
-          meta: {title: '回复设置'}
-        },
-        {
-          path: 'message_template',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'message_template',
-          meta: {title: '自定义菜单'}
-        },
-        {
-          path: 'role_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '消息模板配置'}
-        },
-        {
-          path: 'material',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'material',
-          meta: {title: '素材分类'}
+          name: 'vip_channel',
+          meta: { title: '多门店所属' }
         }
       ]
-    },
-    {
-      path: 'replenishment',
-      component: () => import('@/z/bill/index'),
-      name: 'replenishment',
-      hidden: true,
-      meta: {title: '粉丝管理'}
     }
   ]
 }

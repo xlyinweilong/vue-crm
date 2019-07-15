@@ -7,125 +7,40 @@ const transactionRouter = {
   name: 'transaction',
   meta: {
     title: '交易',
-    icon: 'table',
+    icon: 'table'
   },
   children: [
     {
-      path: 'platform_settings',
+      path: 'all_transaction',
       component: () => import('@/z/SubLayout'),
-      name: 'platform_settings',
-      meta: {title: '平台设置'},
+      name: 'all_transaction',
+      meta: { title: '全部交易' },
       children: [
         {
-          path: 'skin_settings',
+          path: 'sale_bill_manager',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'skin_settings',
-          meta: {title: '皮肤设置'}
+          name: 'sale_bill_manager',
+          meta: { title: '订单管理' }
         },
         {
-          path: 'reminder_settings',
+          path: 'integral_manager',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reminder_settings',
-          meta: {title: '提醒设置'}
+          name: 'integral_manager',
+          meta: { title: '积分管理' }
+        },
+        {
+          path: 'return_bill_manager',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'return_bill_manager',
+          meta: { title: '退单管理' }
+        },
+        {
+          path: 'evaluate_manager',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'evaluate_manager',
+          meta: { title: '评价管理' }
         }
       ]
-    },
-    {
-      path: 'account_manage',
-      component: () => import('@/z/SubLayout'),
-      name: 'account_manage',
-      meta: {title: '账户管理'},
-      children: [
-        {
-          path: 'account_info',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'account_info',
-          meta: {title: '账户信息'}
-        },
-        {
-          path: 'mobile_short_message',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'mobile_short_message',
-          meta: {title: '手机短信'}
-        }
-      ]
-    },
-    {
-      path: 'business_manage',
-      component: () => import('@/z/SubLayout'),
-      name: 'business_manage',
-      meta: {title: '商家管理'},
-      children: [
-        {
-          path: 'organization',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'organization',
-          meta: {title: '组织机构'}
-        },
-        {
-          path: 'shop_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'shop_manage',
-          meta: {title: '门店管理'}
-        },
-        {
-          path: 'user_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'user_manage',
-          meta: {title: '用户管理'}
-        },
-        {
-          path: 'role_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '角色管理'}
-        }
-      ]
-    },
-    {
-      path: 'wechat_public_platform',
-      component: () => import('@/z/SubLayout'),
-      name: 'wechat_public_platform',
-      meta: {title: '微信公众平台'},
-      children: [
-        {
-          path: 'parameter_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'parameter_settings',
-          meta: {title: '参数设置'}
-        },
-        {
-          path: 'reply_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reply_settings',
-          meta: {title: '回复设置'}
-        },
-        {
-          path: 'message_template',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'message_template',
-          meta: {title: '自定义菜单'}
-        },
-        {
-          path: 'role_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '消息模板配置'}
-        },
-        {
-          path: 'material',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'material',
-          meta: {title: '素材分类'}
-        }
-      ]
-    },
-    {
-      path: 'replenishment',
-      component: () => import('@/z/bill/index'),
-      name: 'replenishment',
-      hidden: true,
-      meta: {title: '粉丝管理'}
     }
   ]
 }

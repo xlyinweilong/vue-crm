@@ -1,132 +1,227 @@
 import Layout from '@/views/layout/Layout'
 
-const vipRouter = {
+const reportRouter = {
   path: '/report',
   component: Layout,
   redirect: '/report/delivery',
   name: 'report',
   meta: {
     title: '报表',
-    icon: 'table',
+    icon: 'table'
   },
   children: [
     {
-      path: 'platform_settings',
+      path: 'vip',
       component: () => import('@/z/SubLayout'),
-      name: 'platform_settings',
-      meta: {title: '平台设置'},
+      name: 'vip',
+      meta: { title: '会员' },
       children: [
         {
-          path: 'skin_settings',
+          path: 'vip_active_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'skin_settings',
-          meta: {title: '皮肤设置'}
+          name: 'vip_active_report',
+          meta: { title: '会员活跃度报表' }
         },
         {
-          path: 'reminder_settings',
+          path: 'vip_promotion_award_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reminder_settings',
-          meta: {title: '提醒设置'}
+          name: 'vip_promotion_award_report',
+          meta: { title: '会员推广奖励报表' }
+        },
+        {
+          path: 'vip_open_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'vip_open_report',
+          meta: { title: '会员开卡分析报表' }
+        },
+        {
+          path: 'vip_save_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'vip_save_report',
+          meta: { title: '会员维护情况报表' }
         }
       ]
     },
     {
-      path: 'account_manage',
+      path: 'fan_data',
       component: () => import('@/z/SubLayout'),
-      name: 'account_manage',
-      meta: {title: '账户管理'},
+      name: 'fan_data',
+      meta: { title: '粉丝数据' },
       children: [
         {
-          path: 'account_info',
+          path: 'fan_active_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'account_info',
-          meta: {title: '账户信息'}
-        },
-        {
-          path: 'mobile_short_message',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'mobile_short_message',
-          meta: {title: '手机短信'}
+          name: 'fan_active_report',
+          meta: { title: '分析活跃报表' }
         }
       ]
     },
     {
-      path: 'business_manage',
+      path: 'evaluate_report',
       component: () => import('@/z/SubLayout'),
-      name: 'business_manage',
-      meta: {title: '商家管理'},
+      name: 'evaluate_report',
+      meta: { title: '评价报表' },
       children: [
         {
-          path: 'organization',
+          path: 'evaluate_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'organization',
-          meta: {title: '组织机构'}
-        },
-        {
-          path: 'shop_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'shop_manage',
-          meta: {title: '门店管理'}
-        },
-        {
-          path: 'user_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'user_manage',
-          meta: {title: '用户管理'}
-        },
-        {
-          path: 'role_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '角色管理'}
+          name: 'evaluate_report',
+          meta: { title: '评价报表' }
         }
       ]
     },
     {
-      path: 'wechat_public_platform',
+      path: 'performance_member_contrast',
       component: () => import('@/z/SubLayout'),
-      name: 'wechat_public_platform',
-      meta: {title: '微信公众平台'},
+      name: 'performance_member_contrast',
+      meta: { title: '业绩-会员对比' },
       children: [
         {
-          path: 'parameter_settings',
+          path: 'org_order_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'parameter_settings',
-          meta: {title: '参数设置'}
+          name: 'org_order_report',
+          meta: { title: '机构订单表' }
         },
         {
-          path: 'reply_settings',
+          path: 'channel_order_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reply_settings',
-          meta: {title: '回复设置'}
+          name: 'channel_order_report',
+          meta: { title: '门店订单表' }
         },
         {
-          path: 'message_template',
+          path: 'employ_order_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'message_template',
-          meta: {title: '自定义菜单'}
+          name: 'employ_order_report',
+          meta: { title: '店员订单表' }
         },
         {
-          path: 'role_manage',
+          path: 'org_vip_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '消息模板配置'}
+          name: 'org_vip_report',
+          meta: { title: '机构会员表' }
         },
         {
-          path: 'material',
+          path: 'channel_vip_report',
           component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'material',
-          meta: {title: '素材分类'}
+          name: 'channel_vip_report',
+          meta: { title: '门店会员表' }
+        },
+        {
+          path: 'employ_vip_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'employ_vip_report',
+          meta: { title: '店员会员表' }
+        },
+        {
+          path: 'org_rebuy_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'org_rebuy_report',
+          meta: { title: '机构复购率表' }
+        },
+        {
+          path: 'channel_rebuy_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'channel_rebuy_report',
+          meta: { title: '门店复购率表' }
+        },
+        {
+          path: 'employ_rebuy_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'employ_rebuy_report',
+          meta: { title: '店员复购率表' }
         }
       ]
     },
     {
-      path: 'replenishment',
+      path: 'customer_report',
       component: () => import('@/z/bill/index'),
-      name: 'replenishment',
+      name: 'customer_report',
       hidden: true,
-      meta: {title: '粉丝管理'}
+      meta: { title: '客服报表' },
+      children: [
+        {
+          path: 'customer_group_sending_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'customer_group_sending_report',
+          meta: { title: '客服群发报表' }
+        },
+        {
+          path: 'customer_session_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'customer_session_report',
+          meta: { title: '客服回话报表' }
+        },
+        {
+          path: 'info_perfect_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'info_perfect_report',
+          meta: { title: '资料完善报表' }
+        }
+      ]
+    },
+    {
+      path: 'vip_return_visit_report',
+      component: () => import('@/z/bill/index'),
+      name: 'vip_return_visit_report',
+      hidden: true,
+      meta: { title: '会员回访统计' },
+      children: [
+        {
+          path: 'org_consume_return_visit_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'org_consume_return_visit_report',
+          meta: { title: '机构消费回访表' }
+        },
+        {
+          path: 'channel_consume_return_visit_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'channel_consume_return_visit_report',
+          meta: { title: '门店消费回访表' }
+        },
+        {
+          path: 'employ_consume_return_visit_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'employ_consume_return_visit_report',
+          meta: { title: '店员消费回访表' }
+        },
+        {
+          path: 'org_sleep_vip_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'org_sleep_vip_report',
+          meta: { title: '机构休眠会员表' }
+        },
+        {
+          path: 'channel_sleep_vip_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'channel_sleep_vip_report',
+          meta: { title: '门店休眠会员表' }
+        },
+        {
+          path: 'employ_sleep_vip_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'employ_sleep_vip_report',
+          meta: { title: '店员休眠会员表' }
+        },
+        {
+          path: 'org_vip_birth_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'org_vip_birth_report',
+          meta: { title: '机构生日会员表' }
+        },
+        {
+          path: 'channel_vip_birth_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'channel_vip_birth_report',
+          meta: { title: '门店生日会员表' }
+        },
+        {
+          path: 'employ_vip_birth_report',
+          component: () => import('@/z/bill/transfer/transfer_list'),
+          name: 'employ_vip_birth_report',
+          meta: { title: '店员生日会员表' }
+        }
+      ]
     }
   ]
 }
-export default vipRouter
+export default reportRouter
