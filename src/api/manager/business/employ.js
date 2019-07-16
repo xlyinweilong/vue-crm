@@ -18,7 +18,7 @@ export function getList(params) {
 
 export function info(params) {
   return request({
-    url: 'api/kuyunshang/plan/info',
+    url: 'api/employ/info',
     method: 'get',
     params: params
   })
@@ -26,8 +26,15 @@ export function info(params) {
 
 export function deleteEle(data) {
   return request({
-    url: 'api/kuyunshang/plan/delete',
+    url: 'api/employ/delete',
     method: 'post',
     data
+  })
+}
+
+export function loadQrCode() {
+  return request({
+    url: 'api/employ/load_qr_code',
+    method: 'get'
   })
 }
