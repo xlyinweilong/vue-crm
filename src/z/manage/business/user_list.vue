@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button :loading="listLoading" class="filter-item" type="primary" icon="el-icon-plus" @click="add">新增</el-button>
-      <el-button :loading="listLoading" class="filter-item" type="success" @click="showQrCode = true">二维码绑定</el-button>
+      <el-button :loading="listLoading" class="filter-item" type="success" icon="el-icon-full-screen" @click="showQrCode = true">二维码绑定</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -42,8 +42,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" plain @click="edit(scope.row)" icon="el-icon-edit">编辑</el-button>
-          <el-button :disabled="scope.row.erpId != null" type="danger" plain @click="deleteEle(scope.row)" icon="el-icon-delete">删除</el-button>
+          <el-button type="primary" plain icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
+          <el-button :disabled="scope.row.erpId != null" type="danger" plain icon="el-icon-delete" @click="deleteEle(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -54,76 +54,76 @@
 </template>
 
 <script>
-  import {getList, deleteEle} from '@/api/manager/business/employ'
-  import Pagination from '@/components/Pagination'
-  import userAddEdit from './user_add_edit'
-  import userQrCode from './user_qr_code'
+import { getList, deleteEle } from '@/api/manager/business/employ'
+import Pagination from '@/components/Pagination'
+import userAddEdit from './user_add_edit'
+import userQrCode from './user_qr_code'
 
-  export default {
-    name: 'UserList',
-    components: {
-      Pagination, userAddEdit,userQrCode
-    },
-    filters: {},
-    directives: {},
-    data() {
-      return {
-        show: false,
-        showQrCode: false,
-        listQuery: {
-          pageIndex: 1,
-          pageSize: 10,
-          name: ''
-        },
-        list: [],
-        total: 0,
-        listLoading: false
-      }
-    },
-    methods: {
-      add() {
-        this.show = true
-        this.$refs.userAddEdit.onOpen('')
+export default {
+  name: 'UserList',
+  components: {
+    Pagination, userAddEdit, userQrCode
+  },
+  filters: {},
+  directives: {},
+  data() {
+    return {
+      show: false,
+      showQrCode: false,
+      listQuery: {
+        pageIndex: 1,
+        pageSize: 10,
+        name: ''
       },
-      edit(row) {
-        this.show = true
-        this.$refs.userAddEdit.onOpen(row.id)
-      },
-      // 获取列表
-      getList() {
+      list: [],
+      total: 0,
+      listLoading: false
+    }
+  },
+  mounted() {
+    this.getList()
+  },
+  methods: {
+    add() {
+      this.show = true
+      this.$refs.userAddEdit.onOpen('')
+    },
+    edit(row) {
+      this.show = true
+      this.$refs.userAddEdit.onOpen(row.id)
+    },
+    // 获取列表
+    getList() {
+      this.listLoading = true
+      getList(this.listQuery).then(response => {
+        this.selectedIds = []
+        this.list = response.data.content
+        this.total = response.data.totalElements
+      }).finally(() => {
+        this.listLoading = false
+      })
+    },
+    // 选择
+    selectionChange(val) {
+      this.selectedIds = val
+    },
+    deleteEle(row) {
+      this.$confirm('确定要删除吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
         this.listLoading = true
-        getList(this.listQuery).then(response => {
-          this.selectedIds = []
-          this.list = response.data.content
-          this.total = response.data.totalElements
-        }).finally(() => {
+        deleteEle({ ids: [row.id] }).then(() => {
+          this.$message({ type: 'success', message: '删除成功!' })
+          this.getList()
+        }).catch(() => {
           this.listLoading = false
         })
-      },
-      // 选择
-      selectionChange(val) {
-        this.selectedIds = val
-      },
-      deleteEle(row) {
-        this.$confirm('确定要删除吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.listLoading = true
-          deleteEle({ids: [row.id]}).then(() => {
-            this.$message({type: 'success', message: '删除成功!'})
-            this.getList()
-          }).catch(() => {
-            this.listLoading = false
-          })
-        })
-      }
-    },
-    mounted() {
-      this.getList()
+      })
     }
   }
+}
 </script>
 
 <style scoped>
