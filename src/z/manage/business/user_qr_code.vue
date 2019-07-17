@@ -6,6 +6,9 @@
     @close="onClose"
     @open="onOpen">
     <div style="text-align: center;">
+      <div>
+        <img v-if="imgSrc != ''" :src="imgSrc" />
+      </div>
       <div id="userRqCode" ref="qrcode" style="text-align: center;display:inline-block;position:relative;"/>
       <div style="margin-top: 15px;font-size: 12px;color:#909399">
         使用微信扫描二维码，填写员工编号，微信会和该员工进行绑定<br>
@@ -37,6 +40,7 @@ export default {
   },
   data() {
     return {
+      imgSrc:'',
       qrcode: {
         url: '',
         icon: 'https://cn.vuejs.org/images/logo.png'
@@ -53,13 +57,14 @@ export default {
     },
     onOpen() {
       this.$nextTick(() => {
-        this.qrCode(this.qrcode.url)
+        // this.qrCode(this.qrcode.url)
       })
     },
     loadQrCode() {
       this.loading = true
       loadQrCode().then(res => {
-        this.qrcode.url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + res.data.appId + '&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1&redirect_uri=' + res.data.domain + '/' + res.data.appBase + '/static/login.html'
+        this.imgSrc = res.data
+        // this.qrcode.url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + res.data.appId + '&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1&redirect_uri=' + res.data.domain + '/' + res.data.appBase + '/static/login.html'
       }).finally(() => this.loading = false)
     },
     qrCode(url) {
