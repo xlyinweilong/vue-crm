@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :title="eleId == '' ? '新增' : '修改'"
+    :close-on-click-modal="false"
     :visible="show"
     @close="onClose"
     width="60%">

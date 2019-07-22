@@ -49,10 +49,12 @@
       </el-dropdown>
     </div>
     <el-dialog
+      :close-on-click-modal="false"
       title="修改密码"
+      @open="onOpen"
       :visible.sync="resetPassword"
       width="40%">
-      <el-form :model="form" v-loading="loading">
+      <el-form ref="form" :model="form" v-loading="loading">
         <el-form-item label="原密码">
           <el-input type="password" v-model="form.oldPasswd" @keyup.enter.native="doResetPasswd"></el-input>
         </el-form-item>
@@ -63,8 +65,10 @@
           <el-input type="password" v-model="form.rePasswd" @keyup.enter.native="doResetPasswd"></el-input>
         </el-form-item>
       </el-form>
-      <el-button :loading="loading" @click="resetPassword = false">取消</el-button>
-      <el-button :loading="loading" type="primary" @click="doResetPasswd">确定</el-button>
+      <div slot="footer" class="dialog-footer">
+        <el-button :loading="loading" @click="resetPassword = false">取消</el-button>
+        <el-button :loading="loading" type="primary" @click="doResetPasswd">确定</el-button>
+      </div>
     </el-dialog>
 
   </div>
@@ -111,6 +115,14 @@
       }
     },
     methods: {
+      onOpen(){
+        this.form = {
+          oldPasswd: '',
+          newPasswd: '',
+          rePasswd: ''
+        }
+        this.$nextTick(()=>this.$refs['form'].resetFields())
+      },
       toggleSideBar() {
         this.$store.dispatch('toggleSideBar')
       },
@@ -139,50 +151,63 @@
     height: 50px;
     line-height: 50px;
     border-radius: 0px !important;
+
     .hamburger-container {
       line-height: 58px;
       height: 50px;
       float: left;
       padding: 0 10px;
     }
+
     .breadcrumb-container {
       float: left;
     }
+
     .errLog-container {
       display: inline-block;
       vertical-align: top;
     }
+
     .right-menu {
       float: right;
       height: 100%;
+
       &:focus {
         outline: none;
       }
+
       .right-menu-item {
         display: inline-block;
         margin: 0 8px;
       }
+
       .screenfull {
         height: 20px;
       }
+
       .international {
         vertical-align: top;
       }
+
       .theme-switch {
         vertical-align: 15px;
       }
+
       .avatar-container {
         height: 50px;
         margin-right: 30px;
+
         .avatar-wrapper {
           cursor: pointer;
           margin-top: 5px;
           position: relative;
+
           .user-avatar {
             width: 40px;
             height: 40px;
             border-radius: 10px;
           }
+
           .el-icon-caret-bottom {
             position: absolute;
             right: -20px;

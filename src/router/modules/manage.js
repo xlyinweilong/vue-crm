@@ -58,28 +58,28 @@ const manageRouter = {
       children: [
         {
           path: 'organization',
-          component: () => import('@/z/manage/business/user_list'),
+          component: () => import('@/z/manage/business/user/user_list'),
           name: 'organization',
           meta: {title: '组织机构'}
         },
         {
           path: 'shop_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/manage/business/channel/channel_list'),
           name: 'shop_manage',
           meta: {title: '门店管理'}
         },
         {
           path: 'user_manage',
-          component: () => import('@/z/manage/business/user_list'),
+          component: () => import('@/z/manage/business/user/user_list'),
           name: 'user_manage',
           meta: {title: '用户管理'}
         },
-        {
-          path: 'role_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '角色管理'}
-        }
+        // {
+        //   path: 'role_manage',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'role_manage',
+        //   meta: {title: '角色管理'}
+        // }
       ]
     },
     {
@@ -90,34 +90,34 @@ const manageRouter = {
       children: [
         {
           path: 'parameter_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/manage/business/weChatPublicPlatform/parameter_settings'),
           name: 'parameter_settings',
           meta: {title: '参数设置'}
         },
-        {
-          path: 'reply_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reply_settings',
-          meta: {title: '回复设置'}
-        },
-        {
-          path: 'message_template',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'message_template',
-          meta: {title: '自定义菜单'}
-        },
+        // {
+        //   path: 'reply_settings',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'reply_settings',
+        //   meta: {title: '回复设置'}
+        // },
+        // {
+        //   path: 'message_template',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'message_template',
+        //   meta: {title: '自定义菜单'}
+        // },
         {
           path: 'role_manage',
           component: () => import('@/z/bill/transfer/transfer_list'),
           name: 'role_manage',
           meta: {title: '消息模板配置'}
         },
-        {
-          path: 'material',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'material',
-          meta: {title: '素材分类'}
-        }
+        // {
+        //   path: 'material',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'material',
+        //   meta: {title: '素材分类'}
+        // }
       ]
     },
     {

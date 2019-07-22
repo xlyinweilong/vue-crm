@@ -4,6 +4,7 @@
     title="微信二维码"
     width="450px"
     @close="onClose"
+    :close-on-click-modal="false"
     @open="onOpen">
     <div style="text-align: center;">
       <div>
