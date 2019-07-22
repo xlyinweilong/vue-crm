@@ -51,8 +51,6 @@ export default {
   directives: {},
   data() {
     return {
-      show: false,
-      showQrCode: false,
       listQuery: {
         pageIndex: 1,
         pageSize: 10,
@@ -67,14 +65,6 @@ export default {
     this.getList()
   },
   methods: {
-    add() {
-      this.show = true
-      this.$refs.userAddEdit.onOpen('')
-    },
-    edit(row) {
-      this.show = true
-      this.$refs.userAddEdit.onOpen(row.id)
-    },
     // 获取列表
     getList() {
       this.listLoading = true

@@ -32,7 +32,7 @@ const vipRouter = {
       children: [
         {
           path: 'vip_card',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/vip/grade/grade_list'),
           name: 'vip_card',
           meta: { title: '会员卡' }
         },
