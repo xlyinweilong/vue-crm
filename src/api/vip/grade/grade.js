@@ -15,3 +15,12 @@ export function setDefaultGrade(data) {
     data
   })
 }
+
+export function setGradeImage(data) {
+  return request({
+    url: 'api/vip/vip_grade/set_grade_image',
+    method: 'post',
+    data
+  })
+}
+

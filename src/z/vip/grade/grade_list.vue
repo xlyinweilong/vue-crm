@@ -13,6 +13,12 @@
       fit
       border
     >
+      <el-table-column label="卡颜色" align="center" width="120px">
+        <template slot-scope="scope">
+          <div style="width: 100px;text-align: center"><el-image v-if="scope.row.cardImageUrl != null" :src="baseUrl + scope.row.cardImageUrl"></el-image></div>
+          <el-button type="text" @click="showSetGradeColor(scope.row)" v-text="scope.row.cardImageUrl != null ? '更换颜色' : '设置颜色'"></el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="编号" align="center">
         <template slot-scope="scope">
           {{ scope.row.code }}
@@ -45,22 +51,27 @@
       <!--</el-table-column>-->
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
+    <setGradeColor :show.sync="show" :colorList="colorList" :eleId="eleId" :eleUrl="eleUrl" @getList="getList"/>
   </div>
 </template>
 
 <script>
   import {getList,setDefaultGrade} from '@/api/vip/grade/grade'
+  import {all as getAllColor} from '@/api/config/card_image'
+  import setGradeColor from './set_grade_color'
   import Pagination from '@/components/Pagination'
 
   export default {
     name: 'channelList',
     components: {
-      Pagination
+      Pagination,setGradeColor
     },
     filters: {},
     directives: {},
     data() {
       return {
+        baseUrl: process.env.BASE_API + "/static/images/card/",
+        show:false,
         listQuery: {
           pageIndex: 1,
           pageSize: 10,
@@ -69,13 +80,22 @@
         defaultId:'',
         list: [],
         total: 0,
-        listLoading: false
+        listLoading: false,
+        colorList:[],
+        eleId:'',
+        eleUrl:''
       }
     },
     mounted() {
+      this.getAllColor()
       this.getList()
     },
     methods: {
+      showSetGradeColor(row){
+        this.eleId = row.id
+        this.eleUrl = row.cardImageUrl
+        this.show = true
+      },
       changeDefaultGrade(row) {
         if(row.default){
           this.listLoading = true
@@ -84,6 +104,10 @@
             this.getList()
           }).catch(() => this.listLoading = false)
         }
+      },
+      async getAllColor(){
+        this.listLoading = true
+        await getAllColor().then(res => this.colorList = res.data).catch(() => this.listLoading = false)
       },
       // 获取列表
       getList() {
