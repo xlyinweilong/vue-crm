@@ -7,3 +7,19 @@ export function getList(params) {
     params: params
   })
 }
+
+export function saveLocation(data) {
+  return request({
+    url: 'api/channel/save_location',
+    method: 'post',
+    data: data
+  })
+}
+
+export function save(data) {
+  return request({
+    url: 'api/channel/save',
+    method: 'post',
+    data: data
+  })
+}
