@@ -173,7 +173,7 @@
     position: absolute;
     height: 200px;
     width: 200px;
-    top: 0;
+    npm: 0;
     left: 0;
     overflow: auto;
     margin: 0;
