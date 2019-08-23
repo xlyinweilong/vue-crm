@@ -8,6 +8,13 @@ export function getList(params) {
   })
 }
 
+export function getAll() {
+  return request({
+    url: 'api/vip/vip_grade/all',
+    method: 'get'
+  })
+}
+
 export function setDefaultGrade(data) {
   return request({
     url: 'api/vip/vip_grade/set_default',
@@ -24,3 +31,10 @@ export function setGradeImage(data) {
   })
 }
 
+export function save(data) {
+  return request({
+    url: 'api/vip/vip_grade/save',
+    method: 'post',
+    data
+  })
+}

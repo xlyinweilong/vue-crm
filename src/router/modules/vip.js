@@ -18,7 +18,7 @@ const vipRouter = {
       children: [
         {
           path: 'vip_list',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/vip/vip_manager/vip_list'),
           name: 'vip_list',
           meta: { title: '会员列表' }
         }
@@ -37,10 +37,10 @@ const vipRouter = {
           meta: { title: '会员卡' }
         },
         {
-          path: 'vip_center_ad',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'vip_center_ad',
-          meta: { title: '会员中心广告' }
+          path: 'vip_power',
+          component: () => import('@/z/vip/power/list'),
+          name: 'vip_power',
+          meta: { title: '会员权益设置' }
         }
       ]
     },
