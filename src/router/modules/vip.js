@@ -41,6 +41,12 @@ const vipRouter = {
           component: () => import('@/z/vip/power/list'),
           name: 'vip_power',
           meta: { title: '会员权益设置' }
+        },
+        {
+          path: 'vip_rule',
+          component: () => import('@/z/vip/rule/list'),
+          name: 'vip_rule',
+          meta: { title: '会员规则设置' }
         }
       ]
     },
@@ -76,20 +82,20 @@ const vipRouter = {
         }
       ]
     },
-    {
-      path: 'vip_belong_manager',
-      component: () => import('@/z/SubLayout'),
-      name: 'vip_belong_manager',
-      meta: { title: '会员归属管理' },
-      children: [
-        {
-          path: 'vip_channel',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'vip_channel',
-          meta: { title: '多门店所属' }
-        }
-      ]
-    }
+    // {
+    //   path: 'vip_belong_manager',
+    //   component: () => import('@/z/SubLayout'),
+    //   name: 'vip_belong_manager',
+    //   meta: { title: '会员归属管理' },
+    //   children: [
+    //     {
+    //       path: 'vip_channel',
+    //       component: () => import('@/z/bill/transfer/transfer_list'),
+    //       name: 'vip_channel',
+    //       meta: { title: '多门店所属' }
+    //     }
+    //   ]
+    // }
   ]
 }
 export default vipRouter

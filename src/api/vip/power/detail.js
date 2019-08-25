@@ -14,3 +14,11 @@ export function save(data) {
     data
   })
 }
+
+export function saveInfo(data) {
+  return request({
+    url: 'api/vip/vip_power_detail/save_info',
+    method: 'post',
+    data
+  })
+}

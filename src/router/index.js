@@ -88,6 +88,8 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
-  vipRouter,marketingRouter,transactionRouter,reportRouter,manageRouter,
+  vipRouter,
+  // marketingRouter,
+  transactionRouter,reportRouter,manageRouter,
   {path: '*', redirect: '/404', hidden: true}
 ]

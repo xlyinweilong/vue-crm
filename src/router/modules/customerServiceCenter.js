@@ -22,46 +22,46 @@ const transactionRouter = {
           name: 'skin_settings',
           meta: {title: '皮肤设置'}
         },
-        {
-          path: 'reminder_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reminder_settings',
-          meta: {title: '提醒设置'}
-        }
+        // {
+        //   path: 'reminder_settings',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'reminder_settings',
+        //   meta: {title: '提醒设置'}
+        // }
       ]
     },
-    {
-      path: 'account_manage',
-      component: () => import('@/z/SubLayout'),
-      name: 'account_manage',
-      meta: {title: '账户管理'},
-      children: [
-        {
-          path: 'account_info',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'account_info',
-          meta: {title: '账户信息'}
-        },
-        {
-          path: 'mobile_short_message',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'mobile_short_message',
-          meta: {title: '手机短信'}
-        }
-      ]
-    },
+    // {
+    //   path: 'account_manage',
+    //   component: () => import('@/z/SubLayout'),
+    //   name: 'account_manage',
+    //   meta: {title: '账户管理'},
+    //   children: [
+    //     {
+    //       path: 'account_info',
+    //       component: () => import('@/z/bill/transfer/transfer_list'),
+    //       name: 'account_info',
+    //       meta: {title: '账户信息'}
+    //     },
+    //     {
+    //       path: 'mobile_short_message',
+    //       component: () => import('@/z/bill/transfer/transfer_list'),
+    //       name: 'mobile_short_message',
+    //       meta: {title: '手机短信'}
+    //     }
+    //   ]
+    // },
     {
       path: 'business_manage',
       component: () => import('@/z/SubLayout'),
       name: 'business_manage',
       meta: {title: '商家管理'},
       children: [
-        {
-          path: 'organization',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'organization',
-          meta: {title: '组织机构'}
-        },
+        // {
+        //   path: 'organization',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'organization',
+        //   meta: {title: '组织机构'}
+        // },
         {
           path: 'shop_manage',
           component: () => import('@/z/bill/transfer/transfer_list'),
@@ -74,12 +74,12 @@ const transactionRouter = {
           name: 'user_manage',
           meta: {title: '用户管理'}
         },
-        {
-          path: 'role_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '角色管理'}
-        }
+        // {
+        //   path: 'role_manage',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'role_manage',
+        //   meta: {title: '角色管理'}
+        // }
       ]
     },
     {
