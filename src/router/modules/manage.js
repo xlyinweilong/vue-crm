@@ -17,10 +17,10 @@ const manageRouter = {
       meta: {title: '平台设置'},
       children: [
         {
-          path: 'skin_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'skin_settings',
-          meta: {title: '皮肤设置'}
+          path: 'interface_settings',
+          component: () => import('@/z/manage/platform_settings/interface_settings'),
+          name: 'interface_settings',
+          meta: {title: '界面设置'}
         },
         {
           path: 'reminder_settings',
@@ -56,12 +56,12 @@ const manageRouter = {
       name: 'business_manage',
       meta: {title: '商家管理'},
       children: [
-        {
-          path: 'organization',
-          component: () => import('@/z/manage/business/user/user_list'),
-          name: 'organization',
-          meta: {title: '组织机构'}
-        },
+        // {
+        //   path: 'organization',
+        //   component: () => import('@/z/manage/business/user/user_list'),
+        //   name: 'organization',
+        //   meta: {title: '组织机构'}
+        // },
         {
           path: 'shop_manage',
           component: () => import('@/z/manage/business/channel/channel_list'),
@@ -72,7 +72,7 @@ const manageRouter = {
           path: 'user_manage',
           component: () => import('@/z/manage/business/user/user_list'),
           name: 'user_manage',
-          meta: {title: '用户管理'}
+          meta: {title: '员工管理'}
         },
         // {
         //   path: 'role_manage',

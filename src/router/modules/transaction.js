@@ -18,21 +18,15 @@ const transactionRouter = {
       children: [
         {
           path: 'sale_bill_manager',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/transfer/sale_bill_list'),
           name: 'sale_bill_manager',
-          meta: { title: '订单管理' }
+          meta: { title: '销售管理' }
         },
         {
           path: 'integral_manager',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/transfer/integral_list'),
           name: 'integral_manager',
           meta: { title: '积分管理' }
-        },
-        {
-          path: 'return_bill_manager',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'return_bill_manager',
-          meta: { title: '退单管理' }
         },
         {
           path: 'evaluate_manager',
