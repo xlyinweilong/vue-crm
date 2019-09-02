@@ -128,7 +128,7 @@
       changeDefaultGrade(row) {
         if (row.default) {
           this.listLoading = true
-          setDefaultGrade({id: row.id}).then(res => {
+          setDefaultGrade({id: row.erpId}).then(res => {
             this.$message({message: '操作成功', type: 'success'})
             this.getList()
           }).catch(() => this.listLoading = false)
@@ -146,7 +146,7 @@
           this.list = res.data.page.content
           this.total = res.data.page.totalElements
           this.defaultId = res.data.defaultId
-          this.list.filter(c => c.id === this.defaultId).forEach(c => c.default = true)
+          this.list.filter(c => c.erpId === this.defaultId).forEach(c => c.default = true)
         }).finally(() => {
           this.listLoading = false
         })
