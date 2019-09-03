@@ -12,6 +12,8 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    const firstUrl = window.location.pathname.split('/')[1]
+    config.headers['tn_id'] = firstUrl
     config.headers['content-type'] = 'application/json'
     // Do something before request is sent
     if (store.getters.token) {

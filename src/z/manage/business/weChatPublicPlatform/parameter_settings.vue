@@ -10,20 +10,25 @@
           <el-tab-pane label="开发者信息" name="BASE">
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="微信号" prop="weChatCode">
-                  <el-input v-model.trim="form.weChatCode" @keyup.enter.native="saveData"></el-input>
+                <el-form-item label="小程序开发者AppId" prop="weChatAppId">
+                  <el-input v-model.trim="form.weChatAppId" @keyup.enter.native="saveData"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="小程序开发者AppSecret" prop="weChatAppSecret">
+                  <el-input v-model.trim="form.weChatAppSecret" @keyup.enter.native="saveData"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="开发者AppId" prop="weChatAppId">
-                  <el-input v-model.trim="form.weChatAppId" @keyup.enter.native="saveData"></el-input>
+                <el-form-item label="公众号开发者AppId" prop="weChatCode">
+                  <el-input v-model.trim="form.weChatCode" @keyup.enter.native="saveData"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="开发者AppSecret" prop="weChatAppSecret">
-                  <el-input v-model.trim="form.weChatAppSecret" @keyup.enter.native="saveData"></el-input>
+                <el-form-item label="公众号开发者AppSecret" prop="weChatCode">
+                  <el-input v-model.trim="form.weChatCode" @keyup.enter.native="saveData"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
