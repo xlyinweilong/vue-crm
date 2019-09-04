@@ -30,7 +30,7 @@ const transactionRouter = {
         },
         {
           path: 'evaluate_manager',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/transfer/evaluate/index'),
           name: 'evaluate_manager',
           meta: { title: '评价管理' }
         }

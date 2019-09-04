@@ -43,6 +43,11 @@
           {{ scope.row.address }}
         </template>
       </el-table-column>
+      <el-table-column label="联系电话" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.phone }}
+        </template>
+      </el-table-column>
       <el-table-column label="介绍图" align="center">
         <template slot-scope="scope">
           <el-image v-if="scope.row.imageUrl" style="width: 50px; height: 50px" :src="baseUrl + scope.row.imageUrl" fit="fit" />

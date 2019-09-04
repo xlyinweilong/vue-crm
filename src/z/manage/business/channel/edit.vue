@@ -14,10 +14,12 @@
               <el-button icon="el-icon-question"></el-button>
             </el-tooltip>
           </el-input>
-
         </el-form-item>
         <el-form-item label="地址：">
           <el-input v-model="form.address" :maxlength="200"></el-input>
+        </el-form-item>
+        <el-form-item label="联系电话：">
+          <el-input v-model="form.phone" :maxlength="50"></el-input>
         </el-form-item>
         <el-form-item label="介绍图：">
           <imageUpload  :imageUrl.sync="form.imageUrl" :status.sync="status" :baseUrl="baseUrl" />
@@ -58,7 +60,8 @@
         form: {
           aliasName: '',
           address: '',
-          imageUrl: ''
+          imageUrl: '',
+          phone:''
         }
       }
     },

@@ -22,34 +22,34 @@ const manageRouter = {
           name: 'interface_settings',
           meta: {title: '界面设置'}
         },
-        {
-          path: 'reminder_settings',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'reminder_settings',
-          meta: {title: '提醒设置'}
-        }
+        // {
+        //   path: 'reminder_settings',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'reminder_settings',
+        //   meta: {title: '提醒设置'}
+        // }
       ]
     },
-    {
-      path: 'account_manage',
-      component: () => import('@/z/SubLayout'),
-      name: 'account_manage',
-      meta: {title: '账户管理'},
-      children: [
-        {
-          path: 'account_info',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'account_info',
-          meta: {title: '账户信息'}
-        },
-        {
-          path: 'mobile_short_message',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'mobile_short_message',
-          meta: {title: '手机短信'}
-        }
-      ]
-    },
+    // {
+    //   path: 'account_manage',
+    //   component: () => import('@/z/SubLayout'),
+    //   name: 'account_manage',
+    //   meta: {title: '账户管理'},
+    //   children: [
+    //     {
+    //       path: 'account_info',
+    //       component: () => import('@/z/bill/transfer/transfer_list'),
+    //       name: 'account_info',
+    //       meta: {title: '账户信息'}
+    //     },
+    //     {
+    //       path: 'mobile_short_message',
+    //       component: () => import('@/z/bill/transfer/transfer_list'),
+    //       name: 'mobile_short_message',
+    //       meta: {title: '手机短信'}
+    //     }
+    //   ]
+    // },
     {
       path: 'business_manage',
       component: () => import('@/z/SubLayout'),
@@ -106,12 +106,12 @@ const manageRouter = {
         //   name: 'message_template',
         //   meta: {title: '自定义菜单'}
         // },
-        {
-          path: 'role_manage',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'role_manage',
-          meta: {title: '消息模板配置'}
-        },
+        // {
+        //   path: 'role_manage',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'role_manage',
+        //   meta: {title: '消息模板配置'}
+        // },
         // {
         //   path: 'material',
         //   component: () => import('@/z/bill/transfer/transfer_list'),
@@ -120,13 +120,13 @@ const manageRouter = {
         // }
       ]
     },
-    {
-      path: 'replenishment',
-      component: () => import('@/z/bill/index'),
-      name: 'replenishment',
-      hidden: true,
-      meta: {title: '粉丝管理'}
-    }
+    // {
+    //   path: 'replenishment',
+    //   component: () => import('@/z/bill/index'),
+    //   name: 'replenishment',
+    //   hidden: true,
+    //   meta: {title: '粉丝管理'}
+    // }
   ]
 }
 export default manageRouter

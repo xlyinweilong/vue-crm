@@ -22,13 +22,15 @@
             </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="公众号开发者AppId" prop="weChatCode">
-                  <el-input v-model.trim="form.weChatCode" @keyup.enter.native="saveData"></el-input>
+                <el-form-item label="公众号开发者AppId" prop="weChatPlatformAppId">
+                  <el-tooltip class="item" effect="dark" content="公众号用于【卡卷生成】，请确保公众号与小程序绑定，并且开通了卡卷功能" placement="top-start">
+                    <el-input v-model.trim="form.weChatPlatformAppId" @keyup.enter.native="saveData"></el-input>
+                  </el-tooltip>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="公众号开发者AppSecret" prop="weChatCode">
-                  <el-input v-model.trim="form.weChatCode" @keyup.enter.native="saveData"></el-input>
+                <el-form-item label="公众号开发者AppSecret" prop="weChatPlatformAppSecret">
+                  <el-input v-model.trim="form.weChatPlatformAppSecret" @keyup.enter.native="saveData"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -52,14 +54,16 @@
     data() {
       return {
         form: {
-          weChatCode: '',
           weChatAppId: '',
-          weChatAppSecret: ''
+          weChatAppSecret: '',
+          weChatPlatformAppId: '',
+          weChatPlatformAppSecret:''
         },
         rules: {
-          weChatCode: [{required: true, message: '必填字段', trigger: 'blur'}],
           weChatAppId: [{required: true, message: '必填字段', trigger: 'blur'}],
-          weChatAppSecret: [{required: true, message: '必填字段', trigger: 'blur'}]
+          weChatAppSecret: [{required: true, message: '必填字段', trigger: 'blur'}],
+          weChatPlatformAppId: [{required: true, message: '必填字段', trigger: 'blur'}],
+          weChatPlatformAppSecret: [{required: true, message: '必填字段', trigger: 'blur'}]
         },
         loading: false,
         tabName: 'BASE'
