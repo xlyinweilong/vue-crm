@@ -20,7 +20,7 @@ const transactionRouter = {
           path: 'skin_settings',
           component: () => import('@/z/bill/transfer/transfer_list'),
           name: 'skin_settings',
-          meta: {title: '皮肤设置'}
+          meta: {title: '界面设置'}
         },
         // {
         //   path: 'reminder_settings',

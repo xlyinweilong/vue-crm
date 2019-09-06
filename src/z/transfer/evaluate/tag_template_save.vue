@@ -39,6 +39,15 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="出现时分数" prop="showInScore">
+            <el-tooltip class="item" effect="dark" content="当分数时多少时，显示这个标签" placement="top-start">
+              <el-input-number style="width: 100%" v-model="form.showInScore" :min="1" :max="5" :step="1" step-strictly label="标签权重"></el-input-number>
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button :loading="loading" @click="onClose">取消</el-button>
@@ -70,7 +79,8 @@
           content: '',
           position: 0,
           type: 'FIXED',
-          randomWeight: 1
+          randomWeight: 1,
+          showInScore:1
         }
       }
     },
@@ -90,7 +100,8 @@
             content: '',
             position: 0,
             type: 'FIXED',
-            randomWeight: 1
+            randomWeight: 1,
+            showInScore:1
           }
         }
         if (this.$refs['form'] != null) {
@@ -100,8 +111,8 @@
       save() {
         this.$refs.form.validate(valid => {
           if (valid && !this.loading) {
-            if (this.form.position === 0 && this.form.type === 'FIXED') {
-              this.$message.error('随机位置必须为随机类型')
+            if(this.form.type === 'FIXED' && this.form.position === 0){
+              this.$message.error({message: '固定类型不可以位置是0'})
               return
             }
             this.loading = true

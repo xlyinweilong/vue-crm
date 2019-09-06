@@ -18,7 +18,7 @@ const manageRouter = {
       children: [
         {
           path: 'interface_settings',
-          component: () => import('@/z/manage/platform_settings/interface_settings'),
+          component: () => import('@/z/manage/platform_settings/index'),
           name: 'interface_settings',
           meta: {title: '界面设置'}
         },

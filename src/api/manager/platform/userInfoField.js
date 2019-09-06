@@ -2,24 +2,24 @@ import request from '@/utils/request'
 
 export function getList(params) {
   return request({
-    url: 'api/erp_integral/list',
+    url: 'api/diy_user_info_field/list',
     method: 'get',
     params: params
   })
 }
 
-export function saveConfig(data) {
+export function save(data) {
   return request({
-    url: 'api/erp_integral/save_config',
+    url: 'api/diy_user_info_field/save',
     method: 'post',
     data: data
   })
 }
 
-export function infoConfig(params) {
+export function deleteEle(data) {
   return request({
-    url: 'api/erp_integral/info_config',
-    method: 'get',
-    params: params
+    url: 'api/diy_user_info_field/delete',
+    method: 'post',
+    data: data
   })
 }

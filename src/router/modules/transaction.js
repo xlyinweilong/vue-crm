@@ -24,7 +24,7 @@ const transactionRouter = {
         },
         {
           path: 'integral_manager',
-          component: () => import('@/z/transfer/integral_list'),
+          component: () => import('@/z/transfer/integral/index'),
           name: 'integral_manager',
           meta: { title: '积分管理' }
         },

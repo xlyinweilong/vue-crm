@@ -74,8 +74,8 @@
       info() {
         this.listLoading = true
         info({gradeErpId: this.gradeErpId}).then(res => {
-          this.form.ruleInfo = res.data.ruleInfo != null ? res.data.ruleInfo : ''
-          this.form.powerInfo = res.data.powerInfo != null ? res.data.powerInfo : ''
+          this.form.ruleInfo = res.data == null || res.data.ruleInfo == null ? '' : res.data.ruleInfo
+            this.form.powerInfo = res.data == null || res.data.powerInfo == null ? '' : res.data.powerInfo
         }).finally(() => this.listLoading = false)
       },
       // 获取列表
