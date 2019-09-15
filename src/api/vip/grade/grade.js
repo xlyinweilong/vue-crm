@@ -38,3 +38,20 @@ export function save(data) {
     data
   })
 }
+
+export function saveWeChart(data) {
+  return request({
+    url: 'api/vip/vip_grade/save_we_chart',
+    method: 'post',
+    data
+  })
+}
+
+export function submitWeChart(data) {
+  return request({
+    url: 'api/vip/vip_grade/submit_we_chart',
+    method: 'post',
+    data
+  })
+}
+

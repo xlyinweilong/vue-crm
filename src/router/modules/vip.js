@@ -58,13 +58,19 @@ const vipRouter = {
       children: [
         {
           path: 'ticket_list',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/vip/ticket/ticket/list'),
           name: 'ticket_list',
           meta: { title: '卡卷列表' }
         },
+        // {
+        //   path: 'ticket_qr_code_list',
+        //   component: () => import('@/z/vip/ticket/ticket_qr_code/list'),
+        //   name: 'ticket_qr_code_list',
+        //   meta: { title: '卡卷二维码' }
+        // },
         {
           path: 'give_ticket',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/vip/ticket/give_user/index'),
           name: 'give_ticket',
           meta: { title: '赠送卡卷' }
         },

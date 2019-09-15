@@ -49,9 +49,9 @@
         </template>
       </el-table-column>
       <!--<el-table-column label="会员权益中宽度" align="center">-->
-        <!--<template slot-scope="scope">-->
-          <!--{{ scope.row.powerWidth }}-->
-        <!--</template>-->
+      <!--<template slot-scope="scope">-->
+      <!--{{ scope.row.powerWidth }}-->
+      <!--</template>-->
       <!--</el-table-column>-->
       <el-table-column label="卡颜色" align="center" width="120px">
         <template slot-scope="scope">
@@ -61,11 +61,16 @@
           <el-button type="text" @click="showSetGradeColor(scope.row)" v-text="scope.row.cardImageUrl != null ? '更换颜色' : '设置颜色'"></el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center">
+      <el-table-column label="编辑" align="center">
         <template slot-scope="scope">
           <el-button type="primary" plain icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
+      <!--<el-table-column label="生成微信卡" align="center">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-button type="primary" plain icon="el-icon-edit" @click="editWeChart(scope.row)">生成微信卡</el-button>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <!--<el-table-column label="排序" align="center">-->
       <!--<template slot-scope="scope">-->
       <!--<el-input-number style="width: 100%" v-model="scope.row.gradeIndex" :min="0" :max="99999" :step="1" step-strictly @blur="setGradeIndex(scope.row)" :controls="false"></el-input-number>-->
@@ -75,6 +80,7 @@
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
     <setGradeColor :show.sync="show" :colorList="colorList" :eleId="eleId" :eleUrl="eleUrl" @getList="getList"/>
     <gradeSave ref="gradeSave" :show.sync="showGradeSave" @getList="getList"/>
+    <save ref="save" @getList="getList"/>
   </div>
 </template>
 
@@ -83,12 +89,13 @@
   import {all as getAllColor} from '@/api/config/card_image'
   import setGradeColor from './set_grade_color'
   import gradeSave from './grade_save'
+  import save from './save'
   import Pagination from '@/components/Pagination'
 
   export default {
     name: 'channelList',
     components: {
-      Pagination, setGradeColor, gradeSave
+      Pagination, setGradeColor, gradeSave, save
     },
     filters: {},
     directives: {},
@@ -116,6 +123,9 @@
       this.getList()
     },
     methods: {
+      editWeChart(row) {
+        this.$refs.save.onOpen(row)
+      },
       edit(row) {
         this.$refs.gradeSave.onOpen(row)
         this.showGradeSave = true

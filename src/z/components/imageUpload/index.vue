@@ -23,7 +23,7 @@
       :action="baseApi + '/api/upload/upload?parent='+type">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2MB</div>
+      <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2MB</div>-->
     </el-upload>
     <el-dialog :visible.sync="dialogVisible" append-to-body>
       <img width="100%" :src="baseUrl + imageUrl" alt="图片"/>

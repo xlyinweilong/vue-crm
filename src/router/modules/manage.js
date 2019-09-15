@@ -17,8 +17,20 @@ const manageRouter = {
       meta: {title: '平台设置'},
       children: [
         {
+          path: 'company_info',
+          component: () => import('@/z/manage/platform_settings/company_info'),
+          name: 'company_info',
+          meta: {title: '公司信息'}
+        },
+        {
+          path: 'diy_view',
+          component: () => import('@/z/manage/platform_settings/diy_view/list'),
+          name: 'diy_view',
+          meta: {title: '公众号菜单'}
+        },
+        {
           path: 'interface_settings',
-          component: () => import('@/z/manage/platform_settings/index'),
+          component: () => import('@/z/manage/platform_settings/ui/index'),
           name: 'interface_settings',
           meta: {title: '界面设置'}
         },
@@ -120,13 +132,20 @@ const manageRouter = {
         // }
       ]
     },
-    // {
-    //   path: 'replenishment',
-    //   component: () => import('@/z/bill/index'),
-    //   name: 'replenishment',
-    //   hidden: true,
-    //   meta: {title: '粉丝管理'}
-    // }
+    {
+      path: 'system_manage',
+      component: () => import('@/z/SubLayout'),
+      name: 'system_manage',
+      meta: {title: '系统设置'},
+      children: [
+        {
+          path: 'system_init',
+          component: () => import('@/z/manage/system/system_init'),
+          name: 'system_init',
+          meta: {title: '初始化系统'}
+        }
+      ]
+    }
   ]
 }
 export default manageRouter
