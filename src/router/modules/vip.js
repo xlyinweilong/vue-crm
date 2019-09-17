@@ -76,16 +76,16 @@ const vipRouter = {
         },
         {
           path: 'ticket_write_off',
-          component: () => import('@/z/bill/transfer/transfer_list'),
+          component: () => import('@/z/vip/ticket/check/list'),
           name: 'ticket_write_off',
           meta: { title: '卡卷核销' }
         },
-        {
-          path: 'ticket_log',
-          component: () => import('@/z/bill/transfer/transfer_list'),
-          name: 'ticket_log',
-          meta: { title: '卡卷记录' }
-        }
+        // {
+        //   path: 'ticket_log',
+        //   component: () => import('@/z/bill/transfer/transfer_list'),
+        //   name: 'ticket_log',
+        //   meta: { title: '卡卷记录' }
+        // }
       ]
     },
     // {

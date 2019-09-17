@@ -68,12 +68,12 @@ const manageRouter = {
       name: 'business_manage',
       meta: {title: '商家管理'},
       children: [
-        // {
-        //   path: 'organization',
-        //   component: () => import('@/z/manage/business/user/user_list'),
-        //   name: 'organization',
-        //   meta: {title: '组织机构'}
-        // },
+        {
+          path: 'wechart_user_list',
+          component: () => import('@/z/manage/business/wechart_user/list'),
+          name: 'wechart_user_list',
+          meta: {title: '用户管理'}
+        },
         {
           path: 'shop_manage',
           component: () => import('@/z/manage/business/channel/channel_list'),
@@ -85,7 +85,7 @@ const manageRouter = {
           component: () => import('@/z/manage/business/user/user_list'),
           name: 'user_manage',
           meta: {title: '员工管理'}
-        },
+        }
         // {
         //   path: 'role_manage',
         //   component: () => import('@/z/bill/transfer/transfer_list'),

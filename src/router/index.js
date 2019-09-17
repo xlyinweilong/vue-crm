@@ -73,7 +73,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/z/etl/extract'),
+        component: () => import('@/z/vip/ticket/ticket/list'),
         name: 'Dashboard',
         meta: {title: 'dashboard', icon: 'dashboard', noCache: true}
       }
