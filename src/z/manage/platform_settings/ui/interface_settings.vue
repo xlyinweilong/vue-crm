@@ -8,9 +8,28 @@
       <el-form-item label="轮播图">
         <imageUploadMultiple :fileList="form.fileList" :baseUrl="baseUrl" :type="'info'"/>
       </el-form-item>
+      <el-form-item label="轮播图连接">
+        <el-tooltip class="item" effect="dark" content="多个使用英文的逗号分隔" placement="top">
+        <el-input
+          :maxlength="2000"
+          type="textarea"
+          autosize
+          placeholder="请输入轮播图链接url"
+          v-model="form.fileListUrls">
+        </el-input>
+        </el-tooltip>
+      </el-form-item>
       <el-form-item label="底部图">
         <imageUpload :imageUrl.sync="form.infoFooterImageUrl" :status.sync="infoFooterImageUrlStatus" :baseUrl="baseUrl" :type="'info'"/>
         <div>不上传使用默认图片</div>
+      </el-form-item>
+      <el-form-item label="底部图链接">
+        <el-input
+          :maxlength="2000"
+          placeholder="请输入url"
+          v-model="form.infoFooterImageUrlGoUrl"
+          clearable>
+        </el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">保存</el-button>
@@ -38,7 +57,9 @@
         form: {
           infoBackImageUrl: '',
           infoFooterImageUrl: '',
-          fileList: []
+          infoFooterImageUrlGoUrl: '',
+          fileList: [],
+          fileListUrls: ''
         }
       }
     },

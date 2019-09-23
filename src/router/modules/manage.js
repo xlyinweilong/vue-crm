@@ -23,12 +23,6 @@ const manageRouter = {
           meta: {title: '公司信息'}
         },
         {
-          path: 'diy_view',
-          component: () => import('@/z/manage/platform_settings/diy_view/list'),
-          name: 'diy_view',
-          meta: {title: '公众号菜单'}
-        },
-        {
           path: 'interface_settings',
           component: () => import('@/z/manage/platform_settings/ui/index'),
           name: 'interface_settings',
@@ -105,6 +99,18 @@ const manageRouter = {
           component: () => import('@/z/manage/business/weChatPublicPlatform/parameter_settings'),
           name: 'parameter_settings',
           meta: {title: '参数设置'}
+        },
+        {
+          path: 'diy_view',
+          component: () => import('@/z/manage/platform_settings/diy_view/list'),
+          name: 'diy_view',
+          meta: {title: '公众号菜单'}
+        },
+        {
+          path: 'source_material',
+          component: () => import('@/z/manage/business/weChatPublicPlatform/source_material'),
+          name: 'source_material',
+          meta: {title: '素材管理'}
         },
         // {
         //   path: 'reply_settings',
