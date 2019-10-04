@@ -14,11 +14,11 @@
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="图标" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.icon }}
-        </template>
-      </el-table-column>
+      <!--<el-table-column label="图标" align="center">-->
+        <!--<template slot-scope="scope">-->
+          <!--{{ scope.row.icon }}-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column label="升级规则信息" align="center">
         <template slot-scope="scope">
           {{ scope.row.levelUpInfo }}

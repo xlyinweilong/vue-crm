@@ -74,6 +74,7 @@
         form.fileList = this.form.fileList.map(f => f.imageUrl)
         save(form).then(res => {
           this.$message({message: '保存成功', type: 'success'})
+          this.getInfo()
         }).finally(() => this.loading = false)
       },
       async getBaseUrl() {
@@ -89,7 +90,7 @@
           if (this.form.infoFooterImageUrl != '' && this.form.infoFooterImageUrl != null) {
             this.infoFooterImageUrlStatus = 'HAS_IMAGE'
           }
-          this.form.fileList = this.form.fileList.map(f => ({imageUrl: f, url: this.baseUrl + f}))
+          this.form.fileList = this.form.fileList.map(f => ({uid:f,imageUrl: f, url: this.baseUrl + f}))
         }).finally(() => this.loading = false)
       }
     }

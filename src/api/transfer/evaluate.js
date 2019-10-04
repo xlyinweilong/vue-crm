@@ -16,9 +16,9 @@ export function save(data) {
   })
 }
 
-export function deleteEle(data) {
+export function changeStatus(data) {
   return request({
-    url: 'api/evaluation/delete',
+    url: 'api/evaluation/change_status',
     method: 'post',
     data: data
   })

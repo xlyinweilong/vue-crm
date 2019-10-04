@@ -53,7 +53,17 @@
           <el-image v-if="scope.row.imageUrl" style="width: 50px; height: 50px" :src="baseUrl + scope.row.imageUrl" fit="fit" />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="260px">
+      <el-table-column label="评价总得分" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.evaluateTotalRate }}
+        </template>
+      </el-table-column>
+      <el-table-column label="评价次数" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.evaluateTotalCount }}
+        </template>
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="250" align="center">
         <template slot-scope="scope">
           <el-button type="primary" plain icon="el-icon-location" @click="setLocation(scope.row)">坐标</el-button>
           <el-button type="primary" plain icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>

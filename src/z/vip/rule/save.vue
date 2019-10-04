@@ -6,17 +6,17 @@
     @close="onClose"
     width="600px">
     <el-form ref="form" :model="form" v-loading="loading" :rules="rules">
-      <el-form-item label="类型" prop="icon">
-        <el-select style="width: 100%" v-model="form.icon" placeholder="请选择类型">
-          <el-option v-for="ci in cardIconList" :label="ci.url" :value="ci.url">
-            <span style="float: left">{{ ci.url }}</span>
-            <span style="float: right;">
-               <el-image style="width: 30px; height: 30px" :src="baseUrl + ci.url" fit="fit" />
-            </span>
+      <!--<el-form-item label="类型" prop="icon">-->
+        <!--<el-select style="width: 100%" v-model="form.icon" placeholder="请选择类型">-->
+          <!--<el-option v-for="ci in cardIconList" :label="ci.url" :value="ci.url">-->
+            <!--<span style="float: left">{{ ci.url }}</span>-->
+            <!--<span style="float: right;">-->
+               <!--<el-image style="width: 30px; height: 30px" :src="baseUrl + ci.url" fit="fit" />-->
+            <!--</span>-->
 
-          </el-option>
-        </el-select>
-      </el-form-item>
+          <!--</el-option>-->
+        <!--</el-select>-->
+      <!--</el-form-item>-->
       <el-form-item label="升级规则信息" prop="levelUpInfo">
         <el-input v-model.trim="form.levelUpInfo" placeholder="请输入升级规则信息" @keyup.enter.native="save" :maxlength="50"></el-input>
       </el-form-item>

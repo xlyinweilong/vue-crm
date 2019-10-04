@@ -38,3 +38,21 @@ export function loadQrCode() {
     method: 'get'
   })
 }
+
+export function exportExcel(params) {
+  return request({
+    url: 'api/employ/export',
+    method: 'get',
+    params: params,
+    responseType: 'blob'
+  })
+}
+
+export function downloadImages() {
+  return request({
+    url: 'api/employ/download',
+    method: 'get',
+    responseType: 'blob'
+  })
+}
+

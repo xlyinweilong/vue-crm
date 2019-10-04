@@ -87,7 +87,6 @@
       }
     },
     mounted() {
-      this.getList()
     },
     methods: {
       add() {

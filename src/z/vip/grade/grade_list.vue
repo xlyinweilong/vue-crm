@@ -53,12 +53,19 @@
       <!--{{ scope.row.powerWidth }}-->
       <!--</template>-->
       <!--</el-table-column>-->
-      <el-table-column label="卡颜色" align="center" width="120px">
+      <!--<el-table-column label="卡颜色" align="center" width="120px">-->
+      <!--<template slot-scope="scope">-->
+      <!--<div style="width: 100px;text-align: center">-->
+      <!--<el-image v-if="scope.row.cardImageUrl != null" :src="baseUrl + scope.row.cardImageUrl"></el-image>-->
+      <!--</div>-->
+      <!--<el-button type="text" @click="showSetGradeColor(scope.row)" v-text="scope.row.cardImageUrl != null ? '更换颜色' : '设置颜色'"></el-button>-->
+      <!--</template>-->
+      <!--</el-table-column>-->
+      <el-table-column label="卡图片" align="center" width="120px">
         <template slot-scope="scope">
           <div style="width: 100px;text-align: center">
-            <el-image v-if="scope.row.cardImageUrl != null" :src="baseUrl + scope.row.cardImageUrl"></el-image>
+            <el-image v-if="scope.row.cardImageDiyUrl != null" :src="scope.row.cardImageDiyUrl"></el-image>
           </div>
-          <el-button type="text" @click="showSetGradeColor(scope.row)" v-text="scope.row.cardImageUrl != null ? '更换颜色' : '设置颜色'"></el-button>
         </template>
       </el-table-column>
       <el-table-column label="编辑" align="center">
@@ -67,9 +74,9 @@
         </template>
       </el-table-column>
       <!--<el-table-column label="生成微信卡" align="center">-->
-        <!--<template slot-scope="scope">-->
-          <!--<el-button type="primary" plain icon="el-icon-edit" @click="editWeChart(scope.row)">生成微信卡</el-button>-->
-        <!--</template>-->
+      <!--<template slot-scope="scope">-->
+      <!--<el-button type="primary" plain icon="el-icon-edit" @click="editWeChart(scope.row)">生成微信卡</el-button>-->
+      <!--</template>-->
       <!--</el-table-column>-->
       <!--<el-table-column label="排序" align="center">-->
       <!--<template slot-scope="scope">-->

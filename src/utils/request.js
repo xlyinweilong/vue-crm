@@ -47,23 +47,36 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (response.headers['content-type'].indexOf('application/octet-stream') > -1) {
-      return response
-    }
-    if (response.headers['content-type'].indexOf('application/msexcel') > -1) {
+    if (response.headers['content-type'].indexOf('application/octet-stream') > -1 ||
+      response.headers['content-type'].indexOf('application/msexcel') > -1) {
       let blob = new Blob([response.data], {
         type: 'application/vnd.ms-excel'
       })
-      var downloadElement = document.createElement('a')
-      var href = window.URL.createObjectURL(blob)
+      let downloadElement = document.createElement('a')
+      let href = window.URL.createObjectURL(blob)
+      let filename = response.headers['filename']
       downloadElement.href = href
-      downloadElement.download = '导出文件.xlsx'
+      downloadElement.download = filename == null ? '导出文件.xlsx' : filename
       document.body.appendChild(downloadElement)
       downloadElement.click()
       document.body.removeChild(downloadElement)
       window.URL.revokeObjectURL(href)
       return response.data
     }
+    // if (response.headers['content-type'].indexOf('application/msexcel') > -1) {
+    //   let blob = new Blob([response.data], {
+    //     type: 'application/vnd.ms-excel'
+    //   })
+    //   let downloadElement = document.createElement('a')
+    //   let href = window.URL.createObjectURL(blob)
+    //   downloadElement.href = href
+    //   downloadElement.download = '导出文件.xlsx'
+    //   document.body.appendChild(downloadElement)
+    //   downloadElement.click()
+    //   document.body.removeChild(downloadElement)
+    //   window.URL.revokeObjectURL(href)
+    //   return response.data
+    // }
     if (res.code !== 0) {
       Message({
         message: res.message,

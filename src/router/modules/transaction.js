@@ -33,6 +33,12 @@ const transactionRouter = {
           component: () => import('@/z/transfer/evaluate/index'),
           name: 'evaluate_manager',
           meta: { title: '评价管理' }
+        },
+        {
+          path: 'complaint_manager',
+          component: () => import('@/z/transfer/complaint/index'),
+          name: 'complaint_manager',
+          meta: { title: '投诉建议' }
         }
       ]
     }

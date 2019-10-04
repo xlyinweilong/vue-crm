@@ -42,12 +42,12 @@ const vipRouter = {
           name: 'vip_power',
           meta: { title: '会员权益设置' }
         },
-        {
-          path: 'vip_rule',
-          component: () => import('@/z/vip/rule/list'),
-          name: 'vip_rule',
-          meta: { title: '会员规则设置' }
-        }
+        // {
+        //   path: 'vip_rule',
+        //   component: () => import('@/z/vip/rule/list'),
+        //   name: 'vip_rule',
+        //   meta: { title: '会员规则设置' }
+        // }
       ]
     },
     {
