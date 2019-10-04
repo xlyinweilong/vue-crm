@@ -6,11 +6,11 @@ import {asyncRouterMap, constantRouterMap} from '@/router'
  * @param route
  */
 function hasPermission(powers, route) {
-  // if (route.meta && route.meta.power) {
-  //   return powers.some(power => power.indexOf(route.meta.power) === 0)
-  // } else {
+  if (route.meta && route.meta.power) {
+    return powers.some(power => power.indexOf(route.meta.power) === 0)
+  } else {
     return true
-  // }
+  }
 }
 
 /**

@@ -7,7 +7,8 @@ const reportRouter = {
   name: 'report',
   meta: {
     title: '报表',
-    icon: 'table'
+    icon: 'table',
+    power: 'report'
   },
   children: [
     {

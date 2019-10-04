@@ -21,7 +21,7 @@ export function logout() {
 
 export function getUserInfo(token) {
   return request({
-    url: 'api/user/info',
+    url: 'api/user/my_info',
     method: 'get',
     params: {token}
   })

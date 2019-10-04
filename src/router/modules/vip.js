@@ -7,20 +7,21 @@ const vipRouter = {
   name: 'vip',
   meta: {
     title: '会员',
-    icon: 'table'
+    icon: 'table',
+    power: 'vip'
   },
   children: [
     {
       path: 'vip_manager',
       component: () => import('@/z/SubLayout'),
       name: 'vip_manager',
-      meta: { title: '会员管理' },
+      meta: {title: '会员管理', power: 'vip_manage'},
       children: [
         {
           path: 'vip_list',
           component: () => import('@/z/vip/vip_manager/vip_list'),
           name: 'vip_list',
-          meta: { title: '会员列表' }
+          meta: {title: '会员列表', power: 'vip_manage_list'}
         }
       ]
     },
@@ -28,19 +29,19 @@ const vipRouter = {
       path: 'vip_card_manager',
       component: () => import('@/z/SubLayout'),
       name: 'vip_card_manager',
-      meta: { title: '会员卡管理' },
+      meta: {title: '会员卡管理', power: 'vip_grade'},
       children: [
         {
           path: 'vip_card',
           component: () => import('@/z/vip/grade/grade_list'),
           name: 'vip_card',
-          meta: { title: '会员卡' }
+          meta: {title: '会员卡', power: 'vip_grade_card'}
         },
         {
           path: 'vip_power',
           component: () => import('@/z/vip/power/list'),
           name: 'vip_power',
-          meta: { title: '会员权益设置' }
+          meta: {title: '会员权益设置', power: 'vip_grade_explain'}
         },
         // {
         //   path: 'vip_rule',
@@ -54,13 +55,13 @@ const vipRouter = {
       path: 'ticket_manager',
       component: () => import('@/z/SubLayout'),
       name: 'ticket_manager',
-      meta: { title: '卡卷管理' },
+      meta: {title: '卡卷管理', power: 'vip_ticket'},
       children: [
         {
           path: 'ticket_list',
           component: () => import('@/z/vip/ticket/ticket/list'),
           name: 'ticket_list',
-          meta: { title: '卡卷列表' }
+          meta: {title: '卡卷列表', power: 'vip_ticket_list'}
         },
         // {
         //   path: 'ticket_qr_code_list',
@@ -72,13 +73,13 @@ const vipRouter = {
           path: 'give_ticket',
           component: () => import('@/z/vip/ticket/give_user/index'),
           name: 'give_ticket',
-          meta: { title: '赠送卡卷' }
+          meta: {title: '赠送卡卷', power: 'vip_ticket_grant'}
         },
         {
           path: 'ticket_write_off',
           component: () => import('@/z/vip/ticket/check/list'),
           name: 'ticket_write_off',
-          meta: { title: '卡卷核销' }
+          meta: {title: '卡卷核销', power: 'vip_ticket_check'}
         },
         // {
         //   path: 'ticket_log',
