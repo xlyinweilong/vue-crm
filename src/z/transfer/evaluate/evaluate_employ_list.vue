@@ -15,9 +15,8 @@
         <el-option :key="5" label="5" :value="5"/>
       </el-select>
       <el-input placeholder="单据编号" clearable v-model.trim="listQuery.billCode" style="width: 150px;" class="filter-item" @keyup.enter.native="getList"/>
-      <!--<el-input placeholder="评价昵称" clearable v-model.trim="listQuery.nickName" style="width: 150px;" class="filter-item" @keyup.enter.native="getList"/>-->
-      <el-input placeholder="店铺编号" clearable v-model.trim="listQuery.channelCode" style="width: 150px;" class="filter-item" @keyup.enter.native="getList"/>
-      <el-input placeholder="店铺名称" clearable v-model.trim="listQuery.channelName" style="width: 150px;" class="filter-item" @keyup.enter.native="getList"/>
+      <el-input placeholder="员工编号" clearable v-model.trim="listQuery.employCode" style="width: 150px;" class="filter-item" @keyup.enter.native="getList"/>
+      <el-input placeholder="员工姓名" clearable v-model.trim="listQuery.employName" style="width: 150px;" class="filter-item" @keyup.enter.native="getList"/>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">查询</el-button>
     </div>
     <el-table
@@ -38,6 +37,16 @@
         <template slot-scope="scope">
           <el-tag v-if="!scope.row.disabled" type="success">是</el-tag>
           <el-tag v-if="scope.row.disabled" type="danger">否</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="服务员工编号" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.employCode }}
+        </template>
+      </el-table-column>
+      <el-table-column label="服务员工姓名" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.employName }}
         </template>
       </el-table-column>
       <el-table-column label="店铺编号" align="center">
@@ -86,21 +95,13 @@
           {{ scope.row.billCount }}
         </template>
       </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        width="60">
-        <template slot-scope="scope">
-          <el-button @click="changeStatus(scope.row)" type="text" v-text="scope.row.disabled ? '恢复':'失效'"></el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
   </div>
 </template>
 
 <script>
-  import {getList, changeStatus} from '@/api/transfer/evaluate'
+  import {getList as getEvaluateEmployList} from '@/api/transfer/evaluateEmploy'
   import Pagination from '@/components/Pagination'
 
   export default {
@@ -113,16 +114,14 @@
       return {
         listQuery: {
           billCode:'',
-          evaluateScore:'',
-          channelName: '',
-          channelCode: '',
+          evaluateScore: '',
           startDate: '',
           endDate: '',
           employName: '',
           disabled: '',
           pageIndex: 1,
           pageSize: 10,
-          nickName: '',
+          vipCode: '',
           employCode: ''
         },
         list: [],
@@ -136,19 +135,11 @@
       // 获取列表
       getList() {
         this.listLoading = true
-        getList(this.listQuery).then(response => {
+        getEvaluateEmployList(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
         }).finally(() => {
           this.listLoading = false
-        })
-      },
-      changeStatus(row) {
-        this.$confirm('确定要' + (row.disabled ? '恢复' : '失效') + '选中的数据吗?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
-          changeStatus({id: row.id}).then(response => {
-            this.$message({message: response.message, type: 'success'});
-            this.getList()
-          })
         })
       }
     }
