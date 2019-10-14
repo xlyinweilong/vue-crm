@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+
+    </div>
+    <div class="filter-container">
       <el-button :loading="listLoading" class="filter-item" type="primary" icon="el-icon-plus" @click="add">新增</el-button>
       <!--<el-button class="filter-item" style="margin-left: 10px;" type="danger" icon="el-icon-delete" @click="deleteElement" :disabled="listLoading || selectedIds.length == 0">删除</el-button>-->
     </div>
@@ -43,24 +46,35 @@
           {{ scope.row.quantity }}
         </template>
       </el-table-column>
+      <el-table-column label="已领取数量" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.receiveQuantity }}
+        </template>
+      </el-table-column>
+      <el-table-column label="每人限制领取数" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.useLimit }}
+        </template>
+      </el-table-column>
       <el-table-column label="起用时间" align="center">
         <template slot-scope="scope">
-          {{ scope.row.startTime }}
+           <span v-if="scope.row.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">{{ scope.row.startTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="结束时间" align="center">
         <template slot-scope="scope">
-          {{ scope.row.endTime }}
+           <span v-if="scope.row.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">{{ scope.row.endTime }}</span>
+          <span v-if="scope.row.dateInfoType == 'DATE_TYPE_FIX_TERM'">{{ scope.row.fixedEndTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="领取后多少天内有效" align="center">
         <template slot-scope="scope">
-          {{ scope.row.fixedTerm }}
+          <span v-if="scope.row.dateInfoType == 'DATE_TYPE_FIX_TERM'">{{ scope.row.fixedTerm }}</span>
         </template>
       </el-table-column>
       <el-table-column label="领取后多少天开始生效" align="center">
         <template slot-scope="scope">
-          {{ scope.row.fixedBeginTerm }}
+          <span v-if="scope.row.dateInfoType == 'DATE_TYPE_FIX_TERM'">{{ scope.row.fixedBeginTerm }}}</span>
         </template>
       </el-table-column>
       <el-table-column label="指定用户领取" align="center">
@@ -69,7 +83,19 @@
           <el-tag v-if="!scope.row.bindOpenid" type="danger">否</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="审核" align="center">
+      <el-table-column label="上券架" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.onShelf" type="success">上</el-tag>
+          <el-tag v-if="!scope.row.onShelf">下</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="生日劵" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.isBirthday" type="success">是</el-tag>
+          <el-tag v-if="!scope.row.isBirthday">否</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="审核" align="center" min-width="100px">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.isChecked == 0 && !scope.row.isPush" type="primary">未推送</el-tag>
           <el-tag v-if="scope.row.isChecked == 0 && scope.row.isPush" type="primary">审核中</el-tag>
@@ -78,39 +104,44 @@
           <span v-if="scope.row.isChecked == -1">{{scope.row.refuseReason}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="编辑" align="center"  fixed="right">
+      <el-table-column label="操作" align="center" fixed="right" width="200">
         <template slot-scope="scope">
           <!--<el-button type="primary" :disabled="scope.row.isPush" plain icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>-->
           <el-button type="text" :disabled="scope.row.isPush" @click="edit(scope.row)">编辑</el-button>
+          <el-button type="text" :disabled="scope.row.isPush" @click="pushToWeChart(scope.row)">推送</el-button>
+          <el-button type="text" :disabled="scope.row.isChecked != 1" @click="upShelf(scope.row)" v-text="scope.row.onShelf ? '下架' :'上架'"></el-button>
+          <el-button type="text" :disabled="scope.row.isChecked == 0" @click="setBirthday(scope.row)">生日劵</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="推送" align="center"  fixed="right">
-        <template slot-scope="scope">
-          <!--<el-button type="danger" :disabled="scope.row.isPush"  plain icon="el-icon-sell" @click="pushToWeChart(scope.row)">推送</el-button>-->
-          <el-button type="text" :disabled="scope.row.isPush"  @click="pushToWeChart(scope.row)">推送</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column label="投放二维码" align="center"  fixed="right">
+      <!--<el-table-column label="推送" align="center" fixed="right">-->
+        <!--<template slot-scope="scope">-->
+          <!--&lt;!&ndash;<el-button type="danger" :disabled="scope.row.isPush"  plain icon="el-icon-sell" @click="pushToWeChart(scope.row)">推送</el-button>&ndash;&gt;-->
+  <!---->
+        <!--</template>-->
+      <!--</el-table-column>-->
+      <el-table-column label="投放二维码" align="center" fixed="right">
         <template slot-scope="scope">
           <!--<el-button type="danger" :disabled="scope.row.isChecked != 1"  plain icon="el-icon-full-screen" @click="createQrCode(scope.row)">二维码</el-button>-->
-          <el-button type="text" :disabled="scope.row.isChecked != 1"  @click="createQrCode(scope.row)">二维码</el-button>
+          <el-button type="text" :disabled="scope.row.isChecked != 1" @click="createQrCode(scope.row)">二维码</el-button>
         </template>
       </el-table-column>
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
     <saveEle ref="saveEle" @getList="getList"/>
     <qrCode ref="qrCode"/>
+    <birthday ref="birthday" @getList="getList"/>
   </div>
 </template>
 
 <script>
-  import {getList,pushToWeChart,createQrCode,deleteEle} from '@/api/vip/ticket/ticket'
+  import {getList, pushToWeChart, createQrCode, deleteEle,upShelf} from '@/api/vip/ticket/ticket'
   import saveEle from './save'
   import qrCode from './qrCode'
+  import birthday from './birthday'
   import Pagination from '@/components/Pagination'
 
   export default {
-    components: {saveEle, Pagination,qrCode},
+    components: {saveEle, Pagination, qrCode,birthday},
     filters: {},
     directives: {},
     data() {
@@ -135,6 +166,9 @@
       edit(row) {
         this.$refs.saveEle.onOpen(row)
       },
+      setBirthday(row) {
+        this.$refs.birthday.onOpen(row)
+      },
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(res => {
@@ -146,7 +180,7 @@
       selectionChange(val) {
         this.selectedIds = val
       },
-      pushToWeChart(row){
+      pushToWeChart(row) {
         this.$confirm('确定要推送到腾讯吗?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
           pushToWeChart({id: row.id}).then(response => {
             this.$message({message: response.message, type: 'success'});
@@ -154,13 +188,22 @@
           })
         })
       },
-      createQrCode(row){
+      createQrCode(row) {
         this.$refs.qrCode.onOpen(row)
       },
       //删除
       deleteElement() {
         this.$confirm('确定要删除选中的数据吗?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
           deleteEle({ids: this.selectedIds.map(s => s.id)}).then(response => {
+            this.$message({message: response.message, type: 'success'});
+            this.getList()
+          })
+        })
+      },
+      upShelf(ele) {
+        let str = ele.onShelf ? '下架' : '上架'
+        this.$confirm('确定要' + str + '选中的数据吗?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          upShelf({id: ele.id}).then(response => {
             this.$message({message: response.message, type: 'success'});
             this.getList()
           })

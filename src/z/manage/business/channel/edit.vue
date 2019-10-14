@@ -7,7 +7,7 @@
     top="3vh"
     width="650px">
     <div v-loading="loading">
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="别名：">
           <el-input v-model="form.aliasName" :maxlength="100">
             <el-tooltip slot="append" class="item" effect="dark" content="没有别名显示店铺的名称" placement="top">
@@ -23,6 +23,12 @@
         </el-form-item>
         <el-form-item label="介绍图：">
           <imageUpload  :imageUrl.sync="form.imageUrl" :status.sync="status" :baseUrl="baseUrl" />
+        </el-form-item>
+        <el-form-item label="是否显示：">
+          <el-select v-model="form.powerShow" placeholder="请选择" style="width: 100%">
+            <el-option key="1" label="显示" :value="1" />
+            <el-option key="0" label="不显示" :value="0" />
+          </el-select>
         </el-form-item>
       </el-form>
     </div>
@@ -61,7 +67,8 @@
           aliasName: '',
           address: '',
           imageUrl: '',
-          phone:''
+          phone:'',
+          powerShow:1
         }
       }
     },
@@ -69,6 +76,7 @@
     },
     methods: {
       onOpen() {
+        this.form.powerShow = this.ele.powerShow
         this.form.aliasName = this.ele.aliasName
         this.form.address = this.ele.address
         if (this.ele.imageUrl == null || this.ele.imageUrl == '') {

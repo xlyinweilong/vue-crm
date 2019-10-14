@@ -60,10 +60,17 @@
           {{scope.row.totalCount}}
         </template>
       </el-table-column>
+      <el-table-column label="绑定账号昵称" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.weChatUser != null" v-text="scope.row.weChatUser.nickName"></span>
+        </template>
+      </el-table-column>
+
       <el-table-column fixed="right" label="操作" width="250" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" plain icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
-          <el-button :disabled="scope.row.erpId != null" type="danger" plain icon="el-icon-delete" @click="deleteEle(scope.row)">删除</el-button>
+          <el-button type="text" @click="edit(scope.row)">编辑</el-button>
+          <el-button :disabled="scope.row.weChatUser == null" type="text" @click="unbind(scope.row)">解绑</el-button>
+          <el-button :disabled="scope.row.erpId != null || scope.row.weChatUser != null" type="text" @click="deleteEle(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -74,7 +81,7 @@
 </template>
 
 <script>
-  import {getList, deleteEle,exportExcel,downloadImages} from '@/api/manager/business/employ'
+  import {getList, deleteEle, exportExcel, downloadImages, unbind} from '@/api/manager/business/employ'
   import Pagination from '@/components/Pagination'
   import userAddEdit from './user_add_edit'
   import userQrCode from './user_qr_code'
@@ -105,7 +112,7 @@
       this.getList()
     },
     methods: {
-      downloadImages(){
+      downloadImages() {
         this.listLoading = true
         downloadImages().then(res => {
         }).finally(() => this.listLoading = false)
@@ -143,9 +150,20 @@
           deleteEle({ids: [row.id]}).then(() => {
             this.$message({type: 'success', message: '删除成功!'})
             this.getList()
-          }).catch(() => {
-            this.listLoading = false
-          })
+          }).catch(() => this.listLoading = false)
+        })
+      },
+      unbind(row) {
+        this.$confirm('确定要解绑吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.listLoading = true
+          unbind({id: row.id}).then(() => {
+            this.$message({type: 'success', message: '解绑成功!'})
+            this.getList()
+          }).catch(() => this.listLoading = false)
         })
       }
     }

@@ -55,3 +55,11 @@ export function submitWeChart(data) {
   })
 }
 
+export function saveAutoSendTicket(data) {
+  return request({
+    url: 'api/vip/vip_grade/save_auto_send_ticket',
+    method: 'post',
+    data
+  })
+}
+

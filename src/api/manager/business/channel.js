@@ -23,3 +23,20 @@ export function save(data) {
     data: data
   })
 }
+
+export function loadQrCode(params) {
+  return request({
+    url: 'api/channel/load_qr_code',
+    method: 'get',
+    params: params
+  })
+}
+
+
+export function loadComplaintQrCode(params) {
+  return request({
+    url: 'api/channel/load_complaint_qr_code',
+    method: 'get',
+    params: params
+  })
+}

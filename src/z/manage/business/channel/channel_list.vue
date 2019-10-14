@@ -28,6 +28,11 @@
           <el-tag :type="scope.row.disabled == 1 ? 'danger':'success'" v-text="scope.row.disabled == 1 ? '禁用':'启用'"/>
         </template>
       </el-table-column>
+      <el-table-column label="显示" align="center">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.powerShow == 1 ? 'success':'danger'" v-text="scope.row.powerShow == 1 ? '显示':'不显示'"/>
+        </template>
+      </el-table-column>
       <el-table-column label="坐标" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.lat != null">{{ scope.row.lat }},{{ scope.row.lng }}</span>
@@ -50,7 +55,7 @@
       </el-table-column>
       <el-table-column label="介绍图" align="center">
         <template slot-scope="scope">
-          <el-image v-if="scope.row.imageUrl" style="width: 50px; height: 50px" :src="baseUrl + scope.row.imageUrl" fit="fit" />
+          <el-image v-if="scope.row.imageUrl" style="width: 50px; height: 50px" :src="baseUrl + scope.row.imageUrl" fit="fit"/>
         </template>
       </el-table-column>
       <el-table-column label="评价总得分" align="center">
@@ -63,16 +68,20 @@
           {{ scope.row.evaluateTotalCount }}
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="250" align="center">
+      <el-table-column fixed="right" label="操作" width="320" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" plain icon="el-icon-location" @click="setLocation(scope.row)">坐标</el-button>
-          <el-button type="primary" plain icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
+          <el-button type="text"  @click="loadQrCode(scope.row.id)">拉新二维码</el-button>
+          <el-button type="text"  @click="loadComplaintCode(scope.row.id)">投诉二维码</el-button>
+          <el-button type="text"  @click="setLocation(scope.row)">坐标</el-button>
+          <el-button type="text"  @click="edit(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
     <location :show.sync="showLocation" :ele="ele" @getList="getList"/>
     <edit :show.sync="showEdit" :ele="ele" :baseUrl="baseUrl" @getList="getList"/>
+    <channelQrCode ref="channelQrCode"/>
+    <channelComplaintCode ref="channelComplaintCode"/>
   </div>
 </template>
 
@@ -81,12 +90,14 @@
   import Pagination from '@/components/Pagination'
   import location from './location'
   import edit from './edit'
+  import channelQrCode from './channel_qr_code'
+  import channelComplaintCode from './channel_complaint_code'
   import {getBaseUrl} from '@/api/upload/upload'
 
   export default {
     name: 'channelList',
     components: {
-      Pagination, location, edit
+      Pagination, location, edit, channelQrCode,channelComplaintCode
     },
     filters: {},
     directives: {},
@@ -131,6 +142,12 @@
       },
       async getBaseUrl() {
         await getBaseUrl().then(res => this.baseUrl = res.data)
+      },
+      loadQrCode(channelId) {
+        this.$refs.channelQrCode.onOpen(channelId)
+      },
+      loadComplaintCode(channelId){
+        this.$refs.channelComplaintCode.onOpen(channelId)
       }
     }
   }

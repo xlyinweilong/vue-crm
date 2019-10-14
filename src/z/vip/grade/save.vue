@@ -111,7 +111,7 @@
           <el-form-item label="支持全部门店" prop="useAllLocations">
             <el-select style="width: 100%" v-model="form.useAllLocations" placeholder="请选择">
               <el-option key="true" label="是" :value="true"/>
-              <el-option key="false" label="否" :value="false"/>
+              <!--<el-option key="false" label="否" :value="false"/>-->
             </el-select>
           </el-form-item>
         </el-col>
@@ -134,7 +134,7 @@
         <el-col :span="6">
           <el-form-item label="卡券领取页面是否可分享" prop="canShare">
             <el-select style="width: 100%" v-model="form.canShare" placeholder="请选择">
-              <el-option key="true" label="是" :value="true"/>
+              <!--<el-option key="true" label="是" :value="true"/>-->
               <el-option key="false" label="否" :value="false"/>
             </el-select>
           </el-form-item>
@@ -142,7 +142,7 @@
         <el-col :span="6">
           <el-form-item label="卡券是否可转赠" prop="canGiveFriend">
             <el-select style="width: 100%" v-model="form.canGiveFriend" placeholder="请选择">
-              <el-option key="true" label="是" :value="true"/>
+              <!--<el-option key="true" label="是" :value="true"/>-->
               <el-option key="false" label="否" :value="false"/>
             </el-select>
           </el-form-item>

@@ -55,13 +55,13 @@ const vipRouter = {
       path: 'ticket_manager',
       component: () => import('@/z/SubLayout'),
       name: 'ticket_manager',
-      meta: {title: '卡卷管理', power: 'vip_ticket'},
+      meta: {title: '卡券管理', power: 'vip_ticket'},
       children: [
         {
           path: 'ticket_list',
           component: () => import('@/z/vip/ticket/ticket/list'),
           name: 'ticket_list',
-          meta: {title: '卡卷列表', power: 'vip_ticket_list'}
+          meta: {title: '卡券列表', power: 'vip_ticket_list'}
         },
         // {
         //   path: 'ticket_qr_code_list',
@@ -73,13 +73,13 @@ const vipRouter = {
           path: 'give_ticket',
           component: () => import('@/z/vip/ticket/give_user/index'),
           name: 'give_ticket',
-          meta: {title: '赠送卡卷', power: 'vip_ticket_grant'}
+          meta: {title: '赠送卡券', power: 'vip_ticket_grant'}
         },
         {
           path: 'ticket_write_off',
           component: () => import('@/z/vip/ticket/check/list'),
           name: 'ticket_write_off',
-          meta: {title: '卡卷核销', power: 'vip_ticket_check'}
+          meta: {title: '卡券核销', power: 'vip_ticket_check'}
         },
         // {
         //   path: 'ticket_log',

@@ -3,7 +3,7 @@ import Layout from '@/views/layout/Layout'
 const manageRouter = {
   path: '/manage',
   component: Layout,
-  redirect: '/manage/delivery',
+  redirect: '/manage/platform_settings/company_info',
   name: 'manage',
   meta: {
     title: '管理',
@@ -100,6 +100,12 @@ const manageRouter = {
           component: () => import('@/z/manage/business/weChatPublicPlatform/parameter_settings'),
           name: 'parameter_settings',
           meta: {title: '参数设置', power: 'manage_wechat_parameter'}
+        },
+        {
+          path: 'reply',
+          component: () => import('@/z/manage/business/weChatPublicPlatform/reply'),
+          name: 'reply',
+          meta: {title: '回复设置', power: 'manage_wechat_reply'}
         },
         {
           path: 'diy_view',

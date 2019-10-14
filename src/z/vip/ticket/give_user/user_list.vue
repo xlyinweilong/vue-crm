@@ -47,10 +47,10 @@
           <el-tag v-if="!scope.row.isGodUserInfoIntegral" type="danger">否</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="送卷" align="center">
+      <el-table-column label="送券" align="center">
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="dark" content="与公众号24小时内有互动的用户，才能发送卡卷" placement="top">
-            <el-button type="primary" :disabled="scope.row.platformOpenId == null || !scope.row.canSendCard" plain icon="el-icon-s-ticket" @click="edit(scope.row)">送卷</el-button>
+          <el-tooltip class="item" effect="dark" content="与公众号24小时内有互动的用户，才能发送卡券" placement="top">
+            <el-button type="primary" :disabled="scope.row.platformOpenId == null || !scope.row.canSendCard" plain icon="el-icon-s-ticket" @click="edit(scope.row)">送券</el-button>
           </el-tooltip>
         </template>
       </el-table-column>

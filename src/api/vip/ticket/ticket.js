@@ -40,3 +40,18 @@ export function sendTicket(data) {
   })
 }
 
+export function upShelf(data) {
+  return request({
+    url: 'api/vip/ticket/up_shelf',
+    method: 'post',
+    data
+  })
+}
+
+export function setBirthday(data) {
+  return request({
+    url: 'api/vip/ticket/set_birthday',
+    method: 'post',
+    data
+  })
+}

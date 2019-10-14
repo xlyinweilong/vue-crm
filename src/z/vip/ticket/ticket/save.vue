@@ -17,8 +17,8 @@
             <el-select style="width: 100%" v-model="form.cardType" placeholder="请选择">
               <el-option key="CASH" label="代金券" value="CASH"/>
               <el-option key="DISCOUNT" label="折扣券" value="DISCOUNT"/>
-              <el-option key="GIFT" label="兑换券" value="GIFT"/>
-              <el-option key="GROUPON" label="团购券" value="GROUPON"/>
+              <el-option disabled key="GIFT" label="兑换券" value="GIFT"/>
+              <el-option disabled key="GROUPON" label="团购券" value="GROUPON"/>
             </el-select>
           </el-form-item>
         </el-col>
@@ -110,7 +110,7 @@
         <el-col :span="6">
           <el-form-item label="指定用户领取" prop="bindOpenid">
             <el-select style="width: 100%" v-model="form.bindOpenid" placeholder="请选择">
-              <!--<el-option key="true" label="指定" :value="true"/>-->
+              <el-option disabled key="true" label="指定" :value="true"/>
               <el-option key="false" label="非指定" :value="false"/>
             </el-select>
           </el-form-item>
@@ -124,7 +124,7 @@
           <el-form-item label="支持全部门店" prop="useAllLocations">
             <el-select style="width: 100%" v-model="form.useAllLocations" placeholder="请选择">
               <el-option key="true" label="是" :value="true"/>
-              <!--<el-option key="false" label="否" :value="false"/>-->
+              <el-option disabled key="false" label="否" :value="false"/>
             </el-select>
           </el-form-item>
         </el-col>
@@ -147,7 +147,7 @@
         <el-col :span="6">
           <el-form-item label="卡券领取页面是否可分享" prop="canShare">
             <el-select style="width: 100%" v-model="form.canShare" placeholder="请选择">
-              <el-option key="true" label="是" :value="true"/>
+              <el-option disabled key="true" label="是" :value="true"/>
               <el-option key="false" label="否" :value="false"/>
             </el-select>
           </el-form-item>
@@ -155,7 +155,7 @@
         <el-col :span="6">
           <el-form-item label="卡券是否可转赠" prop="canGiveFriend">
             <el-select style="width: 100%" v-model="form.canGiveFriend" placeholder="请选择">
-              <el-option key="true" label="是" :value="true"/>
+              <el-option disabled key="true" label="是" :value="true"/>
               <el-option key="false" label="否" :value="false"/>
             </el-select>
           </el-form-item>

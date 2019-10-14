@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input class="filter-item" style="width: 200px;" placeholder="微信昵称" v-model="listQuery.nickName" clearable/>
+      <el-input class="filter-item" style="width: 200px;" placeholder="微信昵称" @keyup.enter.native="getList" v-model="listQuery.nickName" clearable/>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">查询</el-button>
       <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
     </div>

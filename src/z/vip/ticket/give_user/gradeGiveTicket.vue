@@ -2,10 +2,11 @@
   <el-dialog
     title="赠送卡券"
     :close-on-click-modal="false"
-    width="65%"
+    width="650px"
     :visible="show"
     @close="onClose">
     <el-table
+      ref="multipleTable"
       v-loading="listLoading"
       :data="list"
       tooltip-effect="dark"
@@ -29,14 +30,15 @@
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
     <div slot="footer" class="dialog-footer">
-      <el-button :disabled="selectedIds.length === 0" :loading="loading" type="primary" @click="sendTicket">赠送</el-button>
+      <el-button :disabled="selectedIds.length > 1" :loading="loading" type="primary" @click="save">确定</el-button>
       <el-button :loading="loading" @click="onClose">取消</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
-  import {getList, sendTicket} from '@/api/vip/ticket/ticket'
+  import {getList} from '@/api/vip/ticket/ticket'
+  import {saveAutoSendTicket} from '@/api/vip/grade/grade'
   import Pagination from '@/components/Pagination'
 
   export default {
@@ -78,23 +80,29 @@
           this.selectedIds = []
           this.list = res.data.content
           this.total = res.data.totalElements
+          this.$nextTick(() => {
+            let ticket = this.list.find(l => l.cardId == this.ele.giveTicketCardId)
+            if (ticket) {
+              this.$refs.multipleTable.toggleRowSelection(ticket)
+            } else {
+              this.$refs.multipleTable.clearSelection()
+            }
+          })
         }).finally(() => this.listLoading = false)
       },
       selectionChange(val) {
         this.selectedIds = val
       },
-      sendTicket() {
-        if (this.selectedIds.length > 1) {
-          this.$message.error({message: '单次只能发1张'})
-          return
-        }
+      save() {
         this.loading = true
-        let list = this.selectedIds.map(s => ({
-          title: s.title, ticketId: s.id, cardId: s.cardId, userNickName: this.ele.userNickName,
-          nickName: this.ele.nickName, userId: this.ele.id, platformOpenId: this.ele.platformOpenId
-        }))
-        sendTicket({list: list, platformOpenId: this.ele.platformOpenId}).then(res => {
-          this.$message({message: '发送成功', type: 'success'})
+        let giveTicketCardId = null
+        let giveTicketName = null
+        if (this.selectedIds.length == 1) {
+          giveTicketCardId = this.selectedIds[0].cardId
+          giveTicketName = this.selectedIds[0].title
+        }
+        saveAutoSendTicket({id: this.ele.id, giveTicketCardId: giveTicketCardId, giveTicketName: giveTicketName}).then(res => {
+          this.$message({message: '保存成功', type: 'success'})
           this.onClose()
           this.$emit("getList", {})
         }).finally(() => this.loading = false)

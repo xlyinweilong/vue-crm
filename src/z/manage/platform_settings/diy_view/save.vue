@@ -20,6 +20,7 @@
               <el-option key="location_select" label="location_select" value="location_select"/>
               <el-option key="media_id" label="media_id" value="media_id"/>
               <el-option key="view_limited" label="view_limited" value="view_limited"/>
+              <el-option key="miniprogram" label="miniprogram" value="miniprogram"/>
             </el-select>
           </el-form-item>
         </el-col>

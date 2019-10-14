@@ -56,3 +56,11 @@ export function downloadImages() {
   })
 }
 
+export function unbind(data) {
+  return request({
+    url: 'api/employ/unbind',
+    method: 'post',
+    data
+  })
+}
+

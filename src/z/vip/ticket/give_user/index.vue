@@ -7,6 +7,9 @@
       <el-tab-pane label="赠送记录" name="sendLogList">
         <sendLogList ref="sendLogList"/>
       </el-tab-pane>
+      <!--<el-tab-pane label="自动赠送配置" name="sendConfig">-->
+        <!--<sendConfig ref="sendConfig"/>-->
+      <!--</el-tab-pane>-->
     </el-tabs>
   </div>
 </template>
@@ -14,9 +17,10 @@
 <script>
   import userList from './user_list'
   import sendLogList from './send_log_list'
+  import sendConfig from './send_config'
 
   export default {
-    components: {userList, sendLogList},
+    components: {userList, sendLogList, sendConfig},
     filters: {},
     directives: {},
     data() {
@@ -28,10 +32,12 @@
     },
     methods: {
       tabClick() {
-        if(this.tabName === 'sendLogList'){
+        if (this.tabName === 'sendLogList') {
           this.$refs.sendLogList.init()
-        }else if(this.tabName === 'userList'){
+        } else if (this.tabName === 'userList') {
           this.$refs.userList.getList()
+        }else if(this.tabName === 'sendConfig'){
+          this.$refs.sendConfig.init()
         }
       }
     }

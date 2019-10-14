@@ -87,7 +87,7 @@
           {{ scope.row.employNames }}
         </template>
       </el-table-column>
-      <el-table-column label="卡卷拥有人" align="center">
+      <el-table-column label="卡券拥有人" align="center">
         <template slot-scope="scope">
           {{ scope.row.userNickName }}
         </template>

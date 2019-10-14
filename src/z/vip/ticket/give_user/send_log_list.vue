@@ -17,7 +17,7 @@
           {{ scope.row.createDate }}
         </template>
       </el-table-column>
-      <el-table-column label="卡卷" align="center">
+      <el-table-column label="卡券" align="center">
         <template slot-scope="scope">
           {{ scope.row.title }}
         </template>
