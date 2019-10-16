@@ -74,7 +74,7 @@
       </el-table-column>
       <el-table-column label="领取后多少天开始生效" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.dateInfoType == 'DATE_TYPE_FIX_TERM'">{{ scope.row.fixedBeginTerm }}}</span>
+          <span v-if="scope.row.dateInfoType == 'DATE_TYPE_FIX_TERM'">{{ scope.row.fixedBeginTerm }}</span>
         </template>
       </el-table-column>
       <el-table-column label="指定用户领取" align="center">

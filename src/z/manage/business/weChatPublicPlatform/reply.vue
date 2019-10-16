@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tab-container">
-      <el-tabs v-model="tabName" style="margin-top:15px;" type="border-card">
+      <el-tabs v-model="tabName" style="margin-top:15px;" type="border-card" @tab-click="tabClick">
         <el-tab-pane label="回复配置" name="BASE">
           <el-form ref="form" :model="form" :rules="rules" v-loading="loading">
             <el-form-item label="一般回复" prop="reply">
@@ -18,9 +18,9 @@
             <el-button style="float:right" :loading="loading" class="filter-item" type="success" icon="el-icon-check" @click="save">保存</el-button>
           </div>
         </el-tab-pane>
-        <!--<el-tab-pane label="设置" name="CONF">-->
-
-        <!--</el-tab-pane>-->
+        <el-tab-pane label="关键字回复" name="KEY">
+          <replyList ref="replyList"/>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -29,9 +29,10 @@
 <script>
   import {save, info} from '@/api/config/sysconfig'
   import Sticky from '@/components/Sticky'
+  import replyList from './reply/replyList'
 
   export default {
-    components: {},
+    components: {replyList},
     data() {
       return {
         form: {
@@ -56,6 +57,11 @@
       this.loading = false
     },
     methods: {
+      tabClick() {
+        if (this.tabName == 'KEY') {
+          this.$refs.replyList.getList()
+        }
+      },
       async getInfo(key, rs) {
         await info({key: key}).then(res => {
           this.form[rs] = res.data.configValue

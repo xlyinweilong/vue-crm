@@ -22,6 +22,12 @@ const vipRouter = {
           component: () => import('@/z/vip/vip_manager/vip_list'),
           name: 'vip_list',
           meta: {title: '会员列表', power: 'vip_manage_list'}
+        },
+        {
+          path: 'vip_recommend_activity',
+          component: () => import('@/z/vip/vip_manager/recommend/list'),
+          name: 'vip_recommend_activity',
+          meta: {title: '会员拉新活动码', power: 'vip_recommend_activity'}
         }
       ]
     },
@@ -63,17 +69,17 @@ const vipRouter = {
           name: 'ticket_list',
           meta: {title: '卡券列表', power: 'vip_ticket_list'}
         },
-        // {
-        //   path: 'ticket_qr_code_list',
-        //   component: () => import('@/z/vip/ticket/ticket_qr_code/list'),
-        //   name: 'ticket_qr_code_list',
-        //   meta: { title: '卡卷二维码' }
-        // },
         {
           path: 'give_ticket',
           component: () => import('@/z/vip/ticket/give_user/index'),
           name: 'give_ticket',
           meta: {title: '赠送卡券', power: 'vip_ticket_grant'}
+        },
+        {
+          path: 'receive_list',
+          component: () => import('@/z/vip/ticket/receive/list'),
+          name: 'receive_list',
+          meta: { title: '领取列表', power: 'vip_ticket_receive' }
         },
         {
           path: 'ticket_write_off',

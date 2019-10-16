@@ -17,6 +17,12 @@ const reportRouter = {
       name: 'vip',
       meta: { title: '会员' },
       children: [
+        {
+          path: 'vip_recommend_report',
+          component: () => import('@/z/report/vip/recommend'),
+          name: 'vip_recommend_report',
+          meta: { title: '会员拉新报表' }
+        },
         // {
         //   path: 'vip_active_report',
         //   component: () => import('@/z/bill/transfer/transfer_list'),
