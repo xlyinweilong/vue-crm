@@ -1,9 +1,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <el-input style="width: 200px" class="filter-item" v-model="listQuery.nickName" clearable placeholder="微信注册时昵称" @keyup.enter.native="getList"/>
+      <el-input style="width: 200px" class="filter-item" v-model="listQuery.mobile" clearable placeholder="常用卡的手机号码" @keyup.enter.native="getList"/>
       <el-select class="filter-item" v-model="listQuery.canSendCard" clearable placeholder="可发送的用户">
-        <el-option key="true" label="可发送" :value="true" />
-        <el-option key="false" label="不可发送" :value="false" />
+        <el-option key="true" label="可发送" :value="true"/>
+        <el-option key="false" label="不可发送" :value="false"/>
       </el-select>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">查询</el-button>
     </div>
@@ -41,6 +43,11 @@
           {{ scope.row.birthday }}
         </template>
       </el-table-column>
+      <el-table-column label="常用卡的手机号码" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.defaultVipMobile }}
+        </template>
+      </el-table-column>
       <el-table-column label="获取完善资料积分" align="center">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.isGodUserInfoIntegral" type="success">是</el-tag>
@@ -76,10 +83,12 @@
         total: 0,
         listLoading: false,
         listQuery: {
-          canSendCard:null,
+          canSendCard: null,
+          nickName: '',
           // isEmploy: false,
           pageIndex: 1,
-          pageSize: 10
+          pageSize: 10,
+          mobile: ''
         }
       }
     },

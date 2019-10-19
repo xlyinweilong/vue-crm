@@ -26,19 +26,15 @@
         </template>
       </el-table-column>
       <el-table-column label="编号" align="center">
-        <template v-if="listQuery.type != 'diy'" slot-scope="scope">
-          {{ scope.row[1] }}
-        </template>
-        <template v-if="listQuery.type == 'diy'" slot-scope="scope">
-          {{ scope.row[0] }}
+        <template slot-scope="scope">
+          <span v-if="listQuery.type != 'diy'">{{ scope.row[1] }}</span>
+          <span v-if="listQuery.type == 'diy'">{{ scope.row[0] }}</span>
         </template>
       </el-table-column>
       <el-table-column label="数量" align="center">
-        <template v-if="listQuery.type != 'diy'" slot-scope="scope">
-          {{ scope.row[2] }}
-        </template>
-        <template v-if="listQuery.type == 'diy'" slot-scope="scope">
-          {{ scope.row[1] }}
+        <template slot-scope="scope">
+          <span v-if="listQuery.type != 'diy'">{{ scope.row[2] }}</span>
+          <span v-if="listQuery.type == 'diy'">{{ scope.row[1] }}</span>
         </template>
       </el-table-column>
     </el-table>
