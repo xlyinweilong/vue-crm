@@ -24,12 +24,12 @@
         </el-col>
         <el-col :span="6" v-if="form.cardType === 'CASH'">
           <el-form-item label="减免金额" prop="reduceCost">
-            <el-input-number style="width: 100%" v-model="form.reduceCost" :min="1" :max="99999999999" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
+            <el-input-number style="width: 100%" v-model="form.reduceCost" :min="1" :max="99999999" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="form.cardType === 'CASH' || form.cardType === 'GIFT'">
           <el-form-item label="使用门槛" prop="leastCost">
-            <el-input-number style="width: 100%" v-model="form.leastCost" :min="0" :max="99999999999" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
+            <el-input-number style="width: 100%" v-model="form.leastCost" :min="0" :max="99999999" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="form.cardType === 'DISCOUNT'">
@@ -68,7 +68,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="卡券库存数量" prop="quantity">
-            <el-input-number style="width: 100%" v-model="form.quantity" :min="0" :max="100000000" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
+            <el-input-number style="width: 100%" v-model="form.quantity" :min="1" :max="100000000" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -89,7 +89,7 @@
             <el-date-picker style="width: 100%" v-model="form.startTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"/>
           </el-form-item>
           <el-form-item label="领取后多少天内有效" prop="fixedTerm" v-if="form.dateInfoType === 'DATE_TYPE_FIX_TERM'">
-            <el-input-number style="width: 100%" v-model="form.fixedTerm" :min="1" :max="36500" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
+            <el-input-number style="width: 100%" v-model="form.fixedTerm" :min="1" :max="90" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -97,7 +97,7 @@
             <el-date-picker style="width: 100%" v-model="form.endTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"/>
           </el-form-item>
           <el-form-item label="领取后多少天开始生效" prop="fixedBeginTerm" v-if="form.dateInfoType === 'DATE_TYPE_FIX_TERM'">
-            <el-input-number style="width: 100%" v-model="form.fixedBeginTerm" :min="0" :max="36500" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
+            <el-input-number style="width: 100%" v-model="form.fixedBeginTerm" :min="0" :max="90" :step="1" step-strictly @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="6" v-if="form.dateInfoType === 'DATE_TYPE_FIX_TERM'">
@@ -222,6 +222,7 @@
           endTime: [{required: true, message: '必填字段', trigger: 'blur'}],
           fixedTerm: [{required: true, message: '必填字段', trigger: 'blur'}],
           fixedBeginTerm: [{required: true, message: '必填字段', trigger: 'blur'}],
+          fixedEndTime: [{required: true, message: '必填字段', trigger: 'blur'}],
           bindOpenid: [{required: true, message: '必填字段', trigger: 'blur'}],
           useAllLocations: [{required: true, message: '必填字段', trigger: 'blur'}],
           reduceCost: [{required: true, message: '必填字段', trigger: 'blur'}],
