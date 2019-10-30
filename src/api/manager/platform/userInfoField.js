@@ -8,6 +8,13 @@ export function getList(params) {
   })
 }
 
+export function all() {
+  return request({
+    url: 'api/diy_user_info_field/all',
+    method: 'get'
+  })
+}
+
 export function save(data) {
   return request({
     url: 'api/diy_user_info_field/save',

@@ -55,3 +55,11 @@ export function setBirthday(data) {
     data
   })
 }
+
+export function setNeedPay(data) {
+  return request({
+    url: 'api/vip/ticket/set_need_pay',
+    method: 'post',
+    data
+  })
+}

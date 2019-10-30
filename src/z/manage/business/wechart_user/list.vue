@@ -1,9 +1,16 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input class="filter-item" style="width: 200px;" placeholder="微信昵称" @keyup.enter.native="getList" v-model="listQuery.nickName" clearable/>
-      <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">查询</el-button>
-      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
+      <el-input class="filter-item" style="width: 200px;" placeholder="微信昵称" @keyup.enter.native="getList"
+                v-model="listQuery.nickName" clearable/>
+      <el-input placeholder="手机号" clearable v-model.trim="listQuery.mobile" style="width: 200px;" class="filter-item"
+                @keyup.enter.native="getList"/>
+      <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
+        查询
+      </el-button>
+      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning"
+                 plain @click="exportExcel">导出
+      </el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -21,7 +28,7 @@
       </el-table-column>
       <el-table-column label="微信头像" align="center">
         <template slot-scope="scope">
-          <el-image style="width: 50px; height: 50px" :src="scope.row.avatarUrl" fit="fit"/>
+          <el-image style="width: 50px; height: 50px" :src="scope.row.avatarUrl" fit="fit" :preview-src-list="srcAvatarUrlList(scope.row)"/>
         </template>
       </el-table-column>
       <el-table-column label="微信昵称" align="center">
@@ -40,54 +47,19 @@
           {{ scope.row.userNickName }}
         </template>
       </el-table-column>
-      <el-table-column label="自定义1" align="center">
+      <el-table-column label="生日" align="center">
         <template slot-scope="scope">
-          {{ scope.row.diy1 }}
+          {{ scope.row.birthday }}
         </template>
       </el-table-column>
-      <el-table-column label="自定义2" align="center">
+      <el-table-column label="默认手机号" align="center">
         <template slot-scope="scope">
-          {{ scope.row.diy2 }}
+          {{ scope.row.defaultVipMobile }}
         </template>
       </el-table-column>
-      <el-table-column label="自定义3" align="center">
+      <el-table-column v-for="diy in diyConfigList" :label="diy.fieldName" align="center">
         <template slot-scope="scope">
-          {{ scope.row.diy3 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="自定义4" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.diy4 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="自定义5" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.diy5 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="自定义6" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.diy6 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="自定义7" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.diy7 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="自定义8" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.diy8 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="自定义9" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.diy9 }}
-        </template>
-      </el-table-column>
-      <el-table-column label="自定义10" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.diy10 }}
+          <span>{{ scope.row['diy' + diy.fieldIndex] }}</span>
         </template>
       </el-table-column>
       <el-table-column label="员工编号" align="center">
@@ -106,55 +78,70 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
+    <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex"
+                :limit.sync="listQuery.pageSize" @pagination="getList"/>
     <bindEmploy ref="bindEmploy" @getList="getList"/>
   </div>
 </template>
 
 <script>
-  import {getList, exportExcel} from '@/api/user/user'
-  import Pagination from '@/components/Pagination'
-  import bindEmploy from './bind_employ'
+    import {getList, exportExcel} from '@/api/user/user'
+    import {all as diyConfigList} from '@/api/manager/platform/userInfoField'
+    import Pagination from '@/components/Pagination'
+    import bindEmploy from './bind_employ'
 
-  export default {
-    components: {Pagination, bindEmploy},
-    filters: {},
-    directives: {},
-    data() {
-      return {
-        showDiy: true,
-        list: [],
-        total: 0,
-        listLoading: false,
-        selectedIds: [],
-        listQuery: {
-          nickName: '',
-          pageIndex: 1,
-          pageSize: 10
+    export default {
+        components: {Pagination, bindEmploy},
+        filters: {},
+        directives: {},
+        data() {
+            return {
+                diyConfigList: [],
+                showDiy: true,
+                list: [],
+                total: 0,
+                listLoading: false,
+                selectedIds: [],
+                listQuery: {
+                    nickName: '',
+                    pageIndex: 1,
+                    pageSize: 10,
+                    mobile:''
+                }
+            }
+        },
+        mounted() {
+            this.getDiyConfig()
+            this.getList()
+        },
+        methods: {
+            srcAvatarUrlList(row){
+                let list = []
+                list.push(row.avatarUrl)
+                return list
+            },
+            //查询自定义配置
+            async getDiyConfig() {
+                this.listLoading = true
+                await diyConfigList().then(res => this.diyConfigList = res.data).finally(() => this.listLoading = false)
+            },
+            bindEmploy(row) {
+                this.$refs.bindEmploy.onOpen(row)
+            },
+            exportExcel() {
+                this.listLoading = true
+                exportExcel(this.listQuery).then(res => {
+                }).finally(() => this.listLoading = false)
+            },
+            getList() {
+                this.listLoading = true
+                getList(this.listQuery).then(res => {
+                    this.list = res.data.content
+                    this.total = res.data.totalElements
+                }).finally(() => this.listLoading = false)
+            }
         }
-      }
-    },
-    mounted() {
-      this.getList()
-    },
-    methods: {
-      bindEmploy(row) {
-        this.$refs.bindEmploy.onOpen(row)
-      },
-      exportExcel() {
-        this.listLoading = true
-        exportExcel(this.listQuery).then(res => {
-        }).finally(() => this.listLoading = false)
-      },
-      getList() {
-        this.listLoading = true
-        getList(this.listQuery).then(res => {
-          this.list = res.data.content
-          this.total = res.data.totalElements
-        }).finally(() => this.listLoading = false)
-      }
     }
-  }
 </script>
 
 <style scoped>
