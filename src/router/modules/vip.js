@@ -87,6 +87,12 @@ const vipRouter = {
           name: 'ticket_write_off',
           meta: {title: '卡券核销', power: 'vip_ticket_check'}
         },
+        {
+          path: 'we_chat_pay_order',
+          component: () => import('@/z/vip/ticket/pay_order/list'),
+          name: 'we_chat_pay_order',
+          meta: {title: '支付单据', power: 'we_chat_pay_order'}
+        },
         // {
         //   path: 'ticket_log',
         //   component: () => import('@/z/bill/transfer/transfer_list'),

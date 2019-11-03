@@ -63,3 +63,12 @@ export function setNeedPay(data) {
     data
   })
 }
+
+export function deleteEle(data) {
+  return request({
+    url: 'api/vip/ticket/disabled',
+    method: 'post',
+    data
+  })
+}
+
