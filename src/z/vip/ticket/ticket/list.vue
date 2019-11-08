@@ -124,6 +124,12 @@
           <el-tag v-if="!scope.row.needPay">否</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="满额送" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.consumeGive" type="success">是</el-tag>
+          <el-tag v-if="!scope.row.consumeGive">否</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="已删除" align="center">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.disabled" type="success">是</el-tag>
@@ -139,7 +145,7 @@
           <span v-if="scope.row.isChecked == -1">{{scope.row.refuseReason}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" fixed="right" width="160">
+      <el-table-column label="操作" align="center" fixed="right" width="200">
         <template slot-scope="scope">
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isPush" @click="edit(scope.row)">编辑</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isPush" @click="pushToWeChart(scope.row)">推送</el-button>
@@ -147,6 +153,7 @@
                      v-text="scope.row.onShelf ? '下架' :'上架'"></el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setBirthday(scope.row)">生日劵</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setNeedPay(scope.row)">支付劵</el-button>
+          <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setConsumeGive(scope.row)">满额送</el-button>
         </template>
       </el-table-column>
       <el-table-column label="投放二维码" align="center" fixed="right">
@@ -162,6 +169,7 @@
     <birthday ref="birthday" @getList="getList"/>
     <need-pay ref="needPay" @getList="getList"/>
     <on-shelf ref="onShelf" @getList="getList"/>
+    <consume-give ref="consumeGive" @getList="getList"/>
   </div>
 </template>
 
@@ -173,9 +181,10 @@
     import Pagination from '@/components/Pagination'
     import NeedPay from "./needPay";
     import OnShelf from "./onShelf";
+    import ConsumeGive from "./consumeGive";
 
     export default {
-        components: {OnShelf, NeedPay, saveEle, Pagination, qrCode, birthday},
+        components: {ConsumeGive, OnShelf, NeedPay, saveEle, Pagination, qrCode, birthday},
         filters: {},
         directives: {},
         data() {
@@ -213,6 +222,9 @@
             },
             setOnShelf(row) {
                 this.$refs.onShelf.onOpen(row)
+            },
+            setConsumeGive(row){
+                this.$refs.consumeGive.onOpen(row)
             },
             getList() {
                 this.listLoading = true

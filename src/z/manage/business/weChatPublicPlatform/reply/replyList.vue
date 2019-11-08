@@ -21,6 +21,13 @@
           {{ scope.row.keyword }}
         </template>
       </el-table-column>
+      <el-table-column label="类型" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.type == 'WORDS'">文字</span>
+          <span v-if="scope.row.type == 'TICKET'">卡券</span>
+          <span v-if="scope.row.type == 'IMAGE'">图片</span>
+        </template>
+      </el-table-column>
       <el-table-column label="回复内容" align="center">
         <template slot-scope="scope">
           {{ scope.row.reply }}

@@ -7,8 +7,8 @@
     @close="onClose">
     <div>
       <el-form ref="form" :model="form" v-loading="loading" :rules="rules">
-        <el-form-item label="开启">
-          <el-select style="width: 100%" v-model="form.needPay" placeholder="请选择是否开启" prop="needPay">
+        <el-form-item label="开启" prop="needPay">
+          <el-select style="width: 100%" v-model="form.needPay" placeholder="请选择是否开启">
             <el-option label="开启" :value="true"></el-option>
             <el-option label="关闭" :value="false"></el-option>
           </el-select>

@@ -8,6 +8,14 @@ export function getList(params) {
   })
 }
 
+export function getAll(params) {
+  return request({
+    url: 'api/vip/ticket/all',
+    method: 'get',
+    params: params
+  })
+}
+
 export function save(data) {
   return request({
     url: 'api/vip/ticket/save',
@@ -59,6 +67,14 @@ export function setBirthday(data) {
 export function setNeedPay(data) {
   return request({
     url: 'api/vip/ticket/set_need_pay',
+    method: 'post',
+    data
+  })
+}
+
+export function setConsumeGive(data) {
+  return request({
+    url: 'api/vip/ticket/set_consume_give',
     method: 'post',
     data
   })

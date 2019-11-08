@@ -82,8 +82,8 @@
                         }
                         upShelf(this.form).then(res => {
                             this.$message({message: '操作成功', type: 'success'})
-                            this.onClose()
                             this.$emit("getList", {})
+                            this.onClose()
                         }).finally(() => this.loading = false)
                     }
                 })

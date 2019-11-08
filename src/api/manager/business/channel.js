@@ -8,6 +8,13 @@ export function getList(params) {
   })
 }
 
+export function getAll() {
+  return request({
+    url: 'api/channel/all',
+    method: 'get'
+  })
+}
+
 export function saveLocation(data) {
   return request({
     url: 'api/channel/save_location',
