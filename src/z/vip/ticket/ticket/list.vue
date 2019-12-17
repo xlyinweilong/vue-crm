@@ -147,7 +147,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" fixed="right" width="200">
         <template slot-scope="scope">
-          <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isPush" @click="edit(scope.row)">编辑</el-button>
+          <el-button v-if="!scope.row.disabled" type="text" @click="edit(scope.row)">编辑</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isPush" @click="pushToWeChart(scope.row)">推送</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked != 1" @click="setOnShelf(scope.row)"
                      v-text="scope.row.onShelf ? '下架' :'上架'"></el-button>

@@ -8,6 +8,14 @@ export function getList(params) {
   })
 }
 
+export function all(params) {
+  return request({
+    url: 'api/user/all',
+    method: 'get',
+    params: params
+  })
+}
+
 export function info(params) {
   return request({
     url: 'api/user/info',

@@ -1,8 +1,9 @@
 import request from '@/utils/request'
 
-export function all() {
+export function all(params) {
   return request({
     url: 'api/power/all',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }

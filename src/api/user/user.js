@@ -16,6 +16,14 @@ export function bindEmploy(data) {
   })
 }
 
+export function addBalance(data) {
+  return request({
+    url: 'api/wechat_user/add_balance',
+    method: 'post',
+    data
+  })
+}
+
 export function exportExcel(params) {
   return request({
     url: 'api/wechat_user/export',

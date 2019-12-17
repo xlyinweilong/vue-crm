@@ -12,6 +12,7 @@ import manageRouter from './modules/manage'
 import vipRouter from './modules/vip'
 import marketingRouter from './modules/marketing'
 import reportRouter from './modules/report'
+import nursingRouter from './modules/nursing'
 
 
 
@@ -90,6 +91,6 @@ export default new Router({
 export const asyncRouterMap = [
   vipRouter,
   // marketingRouter,
-  transactionRouter,reportRouter,manageRouter,
+  transactionRouter,reportRouter,manageRouter,nursingRouter,
   {path: '*', redirect: '/404', hidden: true}
 ]

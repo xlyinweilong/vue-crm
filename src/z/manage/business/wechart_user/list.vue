@@ -28,7 +28,8 @@
       </el-table-column>
       <el-table-column label="微信头像" align="center">
         <template slot-scope="scope">
-          <el-image style="width: 50px; height: 50px" :src="scope.row.avatarUrl" fit="fit" :preview-src-list="srcAvatarUrlList(scope.row)"/>
+          <el-image style="width: 50px; height: 50px" :src="scope.row.avatarUrl" fit="fit"
+                    :preview-src-list="srcAvatarUrlList(scope.row)"/>
         </template>
       </el-table-column>
       <el-table-column label="微信昵称" align="center">
@@ -72,15 +73,22 @@
           {{ scope.row.employName }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center">
+      <el-table-column label="洗衣币余额" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.washingBalance }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" fixed="right" width="150">
         <template slot-scope="scope">
           <el-button type="text" @click="bindEmploy(scope.row)">绑定员工</el-button>
+          <el-button type="text" @click="addBalance(scope.row)">充值</el-button>
         </template>
       </el-table-column>
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex"
                 :limit.sync="listQuery.pageSize" @pagination="getList"/>
     <bindEmploy ref="bindEmploy" @getList="getList"/>
+    <add_balance ref="addBalance" @getList="getList" />
   </div>
 </template>
 
@@ -89,9 +97,10 @@
     import {all as diyConfigList} from '@/api/manager/platform/userInfoField'
     import Pagination from '@/components/Pagination'
     import bindEmploy from './bind_employ'
+    import Add_balance from "./add_balance";
 
     export default {
-        components: {Pagination, bindEmploy},
+        components: {Add_balance, Pagination, bindEmploy},
         filters: {},
         directives: {},
         data() {
@@ -106,7 +115,7 @@
                     nickName: '',
                     pageIndex: 1,
                     pageSize: 10,
-                    mobile:''
+                    mobile: ''
                 }
             }
         },
@@ -115,7 +124,7 @@
             this.getList()
         },
         methods: {
-            srcAvatarUrlList(row){
+            srcAvatarUrlList(row) {
                 let list = []
                 list.push(row.avatarUrl)
                 return list
@@ -127,6 +136,9 @@
             },
             bindEmploy(row) {
                 this.$refs.bindEmploy.onOpen(row)
+            },
+            addBalance(row){
+                this.$refs.addBalance.onOpen(row)
             },
             exportExcel() {
                 this.listLoading = true

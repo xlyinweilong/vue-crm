@@ -29,9 +29,17 @@ export function deleteEle(data) {
   })
 }
 
-export function save(data) {
+export function users(params) {
   return request({
-    url: 'api/role/save',
+    url: 'api/role/users',
+    method: 'get',
+    params: params
+  })
+}
+
+export function saveUsers(data) {
+  return request({
+    url: 'api/role/save_users',
     method: 'post',
     data
   })

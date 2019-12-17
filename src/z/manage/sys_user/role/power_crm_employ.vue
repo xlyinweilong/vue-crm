@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="权限-CRM后台"
+    title="权限-CRM小程序员工端"
     :close-on-click-modal="false"
     :visible="show"
     @close="onClose"
@@ -54,7 +54,7 @@
       async getPowerList() {
         if (this.powerList.length == 0) {
           this.loading = true
-          await allPower({platform:'CRM_WEB'}).then(res => {
+          await allPower({platform:"CRM_EMPLOY"}).then(res => {
             this.powerList = res.data.filter(d => d.pid == null)
             this.powerList.forEach(p => this.getPowerNode(p, res.data))
           }).finally(() => this.loading = false)
@@ -77,13 +77,13 @@
         this.getPowerList()
         this.roleId = roleId
         this.loading = true
-        getList({platform:"CRM_WEB",roleId: this.roleId}).then(res => {
+        getList({platform:"CRM_EMPLOY",roleId: this.roleId}).then(res => {
           this.$nextTick(() => this.$refs.tree.setCheckedKeys(res.data)).finally(() => this.loading = false)
         }).catch(e => this.loading = false)
       },
       save() {
         this.loading = true
-        save({platform:"CRM_WEB",roleId: this.roleId, powerKeys: this.$refs.tree.getCheckedKeys()}).then(res => {
+        save({platform:"CRM_EMPLOY",roleId: this.roleId, powerKeys: this.$refs.tree.getCheckedKeys()}).then(res => {
           this.$message({message: '保存成功', type: 'success'})
           setTimeout(() => {
             this.onClose()
