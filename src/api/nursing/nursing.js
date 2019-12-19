@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function getList(data) {
   return request({
     url: 'api/nursing/list',
-    method: 'get',
-    params: params
+    method: 'post',
+    data
   })
 }
 

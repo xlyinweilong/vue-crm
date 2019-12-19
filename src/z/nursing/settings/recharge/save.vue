@@ -7,7 +7,7 @@
     width="600px">
     <el-form ref="form" :model="form" v-loading="loading" :rules="rules">
       <el-form-item label="支付金额" prop="payAmount">
-        <el-input-number style="width: 100%" v-model="form.payAmount" :min="1" :max="9999999" :step="1" :controls="false"
+        <el-input-number style="width: 100%" v-model="form.payAmount" :min="0.01" :max="9999999" :step="0.01" :controls="false"
                          step-strictly></el-input-number>
       </el-form-item>
       <el-form-item label="得到换新币" prop="nursingAmount">

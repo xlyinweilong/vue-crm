@@ -44,17 +44,24 @@ const nursingRouter = {
       meta: {title: '查询', power: 'manage_platform'},
       children: [
         {
+          path: 'bill_detail/:id',
+          component: () => import('@/z/nursing/query/bill/detail'),
+          name: 'bill_detail',
+          hidden: true,
+          meta: {title: '单据明细'}
+        },
+        {
           path: 'bill',
           component: () => import('@/z/nursing/query/bill/index'),
           name: 'bill',
           meta: {title: '单据', power: 'manage_platform_company'}
         },
-        {
-          path: 'evaluate',
-          component: () => import('@/z/nursing/query/evaluate/index'),
-          name: 'evaluate',
-          meta: {title: '评价', power: 'manage_platform_company'}
-        },
+        // {
+        //   path: 'evaluate',
+        //   component: () => import('@/z/nursing/query/evaluate/index'),
+        //   name: 'evaluate',
+        //   meta: {title: '评价', power: 'manage_platform_company'}
+        // },
         {
           path: 'log',
           component: () => import('@/z/nursing/query/log/index'),
