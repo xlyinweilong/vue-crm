@@ -56,12 +56,12 @@ const nursingRouter = {
           name: 'bill',
           meta: {title: '单据', power: 'manage_platform_company'}
         },
-        // {
-        //   path: 'evaluate',
-        //   component: () => import('@/z/nursing/query/evaluate/index'),
-        //   name: 'evaluate',
-        //   meta: {title: '评价', power: 'manage_platform_company'}
-        // },
+        {
+          path: 'settle',
+          component: () => import('@/z/nursing/query/settle/index'),
+          name: 'settle',
+          meta: {title: '结算', power: 'manage_platform_company'}
+        },
         {
           path: 'log',
           component: () => import('@/z/nursing/query/log/index'),

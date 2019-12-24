@@ -78,9 +78,9 @@
         <template slot-scope="scope">
           <el-button type="text" @click="$router.push({ path: '/nursing/query/bill_detail/' + scope.row.id})">查看明细
           </el-button>
-          <el-button type="text" @click="print(scope.row)">打印86
+          <el-button type="text" @click="print(scope.row,'80')">打印80
           </el-button>
-          <el-button type="text" @click="print(scope.row)">打印A4
+          <el-button type="text" @click="print(scope.row,'a4')">打印A4
           </el-button>
           <el-button type="text" @click="deleteEle(scope.row)">删除</el-button>
         </template>
@@ -92,81 +92,72 @@
 </template>
 
 <script>
-    import {getList, deleteEle} from '@/api/nursing/nursing'
-    import Pagination from '@/components/Pagination'
-    import PrintJs from 'print-js'
-    import {getToken} from '@/utils/auth'
+  import {getList, deleteEle} from '@/api/nursing/nursing'
+  import Pagination from '@/components/Pagination'
 
-    export default {
-        components: {
-            Pagination,
+  export default {
+    components: {
+      Pagination,
+    },
+    filters: {},
+    directives: {},
+    data() {
+      return {
+        baseUrl: '',
+        listQuery: {
+          pageIndex: 1,
+          pageSize: 10,
+          code: '',
+          statuss: ['INIT', 'WASHING', 'IN_CHANNEL', 'FINISHED', 'SETTLED', 'PROBLEM', 'PROBLEM_REFUSE', 'PROBLEM_AGREE', 'FINISHED_PROBLEM'],
+          customerMobile: ''
         },
-        filters: {},
-        directives: {},
-        data() {
-            return {
-                baseUrl: '',
-                listQuery: {
-                    pageIndex: 1,
-                    pageSize: 10,
-                    code: '',
-                    statuss: ['INIT', 'WASHING', 'IN_CHANNEL', 'FINISHED', 'SETTLED', 'PROBLEM', 'PROBLEM_REFUSE', 'PROBLEM_AGREE', 'FINISHED_PROBLEM'],
-                    customerMobile: ''
-                },
-                list: [],
-                total: 0,
-                listLoading: false,
-                baseApi: process.env.BASE_API,
-            }
-        },
-        mounted() {
+        list: [],
+        total: 0,
+        listLoading: false,
+        baseApi: process.env.BASE_API
+      }
+    },
+    mounted() {
+      this.getList()
+    },
+    methods: {
+      // 获取列表
+      getList() {
+        this.listLoading = true
+        getList(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
+        }).finally(() => {
+          this.listLoading = false
+        })
+      },
+      edit(row) {
+        this.$refs.save.onOpen(row)
+      },
+      add() {
+        this.$refs.save.onOpen({})
+      },
+      deleteEle(row) {
+        this.$confirm('确定要删除选中的记录吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.listLoading = true
+          deleteEle({id: row.id}).then(() => {
+            this.$message({type: 'success', message: '删除成功!'})
             this.getList()
-        },
-        methods: {
-            // 获取列表
-            getList() {
-                this.listLoading = true
-                getList(this.listQuery).then(response => {
-                    this.list = response.data.content
-                    this.total = response.data.totalElements
-                }).finally(() => {
-                    this.listLoading = false
-                })
-            },
-            edit(row) {
-                this.$refs.save.onOpen(row)
-            },
-            add() {
-                this.$refs.save.onOpen({})
-            },
-            deleteEle(row) {
-                this.$confirm('确定要删除选中的记录吗？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.listLoading = true
-                    deleteEle({id: row.id}).then(() => {
-                        this.$message({type: 'success', message: '删除成功!'})
-                        this.getList()
-                    }).catch(() => {
-                        this.listLoading = false
-                    })
-                })
-            },
-            print(row) {
-                let firstUrl = window.location.pathname.split('/')[1]
-                PrintJs({
-                    printable: this.baseApi + '/api/print/nursing_bill?tnId=' + firstUrl + '&code=' + row.code,
-                    type: 'pdf',
-                    header: '收银',
-                    maxWidth: 800,
-                    headerStyle: 'font-weight: 300;',
-                    targetStyles: ['*']
-                })
-            }
-        }
+          }).catch(() => {
+            this.listLoading = false
+          })
+        })
+      },
+      print(row, type) {
+        let firstUrl = window.location.pathname.split('/')[1]
+        document.getElementById("print_iframe").src = this.baseApi + '/api/print/nursing_bill?tnId=' + firstUrl + '&code=' + row.code + '&type=' + type
+      }
     }
+  }
 </script>
 
 <style scoped>
