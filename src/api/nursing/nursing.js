@@ -8,6 +8,14 @@ export function getList(data) {
   })
 }
 
+export function info(params) {
+  return request({
+    url: 'api/nursing/info',
+    method: 'get',
+    params: params
+  })
+}
+
 export function save(data) {
   return request({
     url: 'api/nursing_recharge_config/save',

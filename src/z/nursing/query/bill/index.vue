@@ -74,9 +74,14 @@
           {{ scope.row.customerUserMobile }}
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="160" align="center">
+      <el-table-column fixed="right" label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="$router.push({ path: '/nursing/query/bill_detail/' + scope.row.id})">查看明细</el-button>
+          <el-button type="text" @click="$router.push({ path: '/nursing/query/bill_detail/' + scope.row.id})">查看明细
+          </el-button>
+          <el-button type="text" @click="print(scope.row)">打印86
+          </el-button>
+          <el-button type="text" @click="print(scope.row)">打印A4
+          </el-button>
           <el-button type="text" @click="deleteEle(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -89,6 +94,8 @@
 <script>
     import {getList, deleteEle} from '@/api/nursing/nursing'
     import Pagination from '@/components/Pagination'
+    import PrintJs from 'print-js'
+    import {getToken} from '@/utils/auth'
 
     export default {
         components: {
@@ -108,7 +115,8 @@
                 },
                 list: [],
                 total: 0,
-                listLoading: false
+                listLoading: false,
+                baseApi: process.env.BASE_API,
             }
         },
         mounted() {
@@ -145,11 +153,29 @@
                         this.listLoading = false
                     })
                 })
+            },
+            print(row) {
+                let firstUrl = window.location.pathname.split('/')[1]
+                PrintJs({
+                    printable: this.baseApi + '/api/print/nursing_bill?tnId=' + firstUrl + '&code=' + row.code,
+                    type: 'pdf',
+                    header: '收银',
+                    maxWidth: 800,
+                    headerStyle: 'font-weight: 300;',
+                    targetStyles: ['*']
+                })
             }
         }
     }
 </script>
 
 <style scoped>
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
 
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
 </style>

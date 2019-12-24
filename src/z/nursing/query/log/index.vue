@@ -1,14 +1,10 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="品类名称" clearable v-model.trim="listQuery.searchKey" style="width: 200px;"
+      <el-input placeholder="用户默认手机" clearable v-model.trim="listQuery.mobile" style="width: 200px;"
                 class="filter-item" @keyup.enter.native="getList"/>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
-      </el-button>
-    </div>
-    <div class="filter-container">
-      <el-button :loading="listLoading" class="filter-item" type="primary" icon="el-icon-plus" @click="add">新增
       </el-button>
     </div>
     <el-table
@@ -20,25 +16,39 @@
       fit
       border
     >
-      <el-table-column label="品类名称" align="center">
+      <el-table-column label="时间" align="center">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          {{ scope.row.createDate }}
         </template>
       </el-table-column>
-      <el-table-column label="销售价" align="center">
+      <el-table-column label="用户昵称" align="center">
         <template slot-scope="scope">
-          {{ scope.row.price }}
+          {{ scope.row.userNickName }}
         </template>
       </el-table-column>
-      <el-table-column label="结算价" align="center">
+      <el-table-column label="用户手机" align="center">
         <template slot-scope="scope">
-          {{ scope.row.settlePrice }}
+          {{ scope.row.userMobile }}
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="320" align="center">
+      <el-table-column label="焕新币" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="edit(scope.row)">编辑</el-button>
-          <el-button type="text" @click="deleteEle(scope.row)">删除</el-button>
+          {{ scope.row.washingAmount }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.operation }}
+        </template>
+      </el-table-column>
+      <el-table-column label="单据编号" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.billCode }}
+        </template>
+      </el-table-column>
+      <el-table-column label="充值单号" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.rechargeCode }}
         </template>
       </el-table-column>
     </el-table>
@@ -48,12 +58,11 @@
 </template>
 
 <script>
-    import {getList, deleteEle} from '@/api/nursing/nursingCategoryConfig'
+    import {getList} from '@/api/nursing/nursingBalanceLog'
     import Pagination from '@/components/Pagination'
 
     export default {
         components: {
-            Save,
             Pagination,
         },
         filters: {},
@@ -64,7 +73,8 @@
                 listQuery: {
                     pageIndex: 1,
                     pageSize: 10,
-                    searchKey: ''
+                    mobile: '',
+                    operationList:[]
                 },
                 list: [],
                 total: 0,
@@ -83,27 +93,6 @@
                     this.total = response.data.totalElements
                 }).finally(() => {
                     this.listLoading = false
-                })
-            },
-            edit(row) {
-                this.$refs.save.onOpen(row)
-            },
-            add() {
-                this.$refs.save.onOpen({})
-            },
-            deleteEle(row) {
-                this.$confirm('确定要删除选中的记录吗？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.listLoading = true
-                    deleteEle({id: row.id}).then(() => {
-                        this.$message({type: 'success', message: '删除成功!'})
-                        this.getList()
-                    }).catch(() => {
-                        this.listLoading = false
-                    })
                 })
             }
         }
