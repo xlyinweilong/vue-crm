@@ -145,12 +145,13 @@
           <span v-if="scope.row.isChecked == -1">{{scope.row.refuseReason}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" fixed="right" width="200">
+      <el-table-column label="操作" align="center" fixed="right" width="300">
         <template slot-scope="scope">
           <el-button v-if="!scope.row.disabled" type="text" @click="edit(scope.row)">编辑</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isPush" @click="pushToWeChart(scope.row)">推送</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked != 1" @click="setOnShelf(scope.row)"
                      v-text="scope.row.onShelf ? '下架' :'上架'"></el-button>
+          <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="uploadUser(scope.row)">指定用户</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setBirthday(scope.row)">生日劵</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setNeedPay(scope.row)">支付劵</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setConsumeGive(scope.row)">满额送</el-button>
@@ -170,103 +171,110 @@
     <need-pay ref="needPay" @getList="getList"/>
     <on-shelf ref="onShelf" @getList="getList"/>
     <consume-give ref="consumeGive" @getList="getList"/>
+    <upload-user ref="uploadUser" @getList="getList"/>
   </div>
 </template>
 
 <script>
-    import {getList, pushToWeChart, createQrCode, deleteEle, upShelf} from '@/api/vip/ticket/ticket'
-    import saveEle from './save'
-    import qrCode from './qrCode'
-    import birthday from './birthday'
-    import Pagination from '@/components/Pagination'
-    import NeedPay from "./needPay";
-    import OnShelf from "./onShelf";
-    import ConsumeGive from "./consumeGive";
+  import {getList, pushToWeChart, createQrCode, deleteEle, upShelf} from '@/api/vip/ticket/ticket'
+  import saveEle from './save'
+  import qrCode from './qrCode'
+  import birthday from './birthday'
+  import Pagination from '@/components/Pagination'
+  import NeedPay from "./needPay";
+  import OnShelf from "./onShelf";
+  import ConsumeGive from "./consumeGive";
+  import UploadUser from "./uploadUser";
 
-    export default {
-        components: {ConsumeGive, OnShelf, NeedPay, saveEle, Pagination, qrCode, birthday},
-        filters: {},
-        directives: {},
-        data() {
-            return {
-                list: [],
-                total: 0,
-                listLoading: false,
-                selectedIds: [],
-                listQuery: {
-                    code: '',
-                    title: '',
-                    cardType: '',
-                    disabled: false,
-                    unUse: false,
-                    pageIndex: 1,
-                    pageSize: 10
-                }
-            }
-        },
-        mounted() {
-            this.getList()
-        },
-        methods: {
-            add() {
-                this.$refs.saveEle.onOpen({id: ''})
-            },
-            edit(row) {
-                this.$refs.saveEle.onOpen(row)
-            },
-            setBirthday(row) {
-                this.$refs.birthday.onOpen(row)
-            },
-            setNeedPay(row) {
-                this.$refs.needPay.onOpen(row)
-            },
-            setOnShelf(row) {
-                this.$refs.onShelf.onOpen(row)
-            },
-            setConsumeGive(row){
-                this.$refs.consumeGive.onOpen(row)
-            },
-            getList() {
-                this.listLoading = true
-                getList(this.listQuery).then(res => {
-                    this.list = res.data.content
-                    this.total = res.data.totalElements
-                }).finally(() => this.listLoading = false)
-            },
-            //选择
-            selectionChange(val) {
-                this.selectedIds = val
-            },
-            pushToWeChart(row) {
-                this.$confirm('确定要推送到腾讯吗?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    pushToWeChart({id: row.id}).then(response => {
-                        this.$message({message: response.message, type: 'success'});
-                        this.getList()
-                    })
-                })
-            },
-            createQrCode(row) {
-                this.$refs.qrCode.onOpen(row)
-            },
-            //删除
-            deleteElement() {
-                this.$confirm('没有推送的数据会直接删除;已经推送的数据会永久删除微信服务器的券,crm中券会标记已删除,已经领取的劵还能继续使用,确定要删除选中的数据吗?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    deleteEle({ids: this.selectedIds.map(s => s.id)}).then(response => {
-                        this.$message({message: response.message, type: 'success'});
-                        this.getList()
-                    })
-                })
-            }
+  export default {
+    components: {
+      UploadUser,
+      ConsumeGive, OnShelf, NeedPay, saveEle, Pagination, qrCode, birthday},
+    filters: {},
+    directives: {},
+    data() {
+      return {
+        list: [],
+        total: 0,
+        listLoading: false,
+        selectedIds: [],
+        listQuery: {
+          code: '',
+          title: '',
+          cardType: '',
+          disabled: false,
+          unUse: false,
+          pageIndex: 1,
+          pageSize: 10
         }
+      }
+    },
+    mounted() {
+      this.getList()
+    },
+    methods: {
+      add() {
+        this.$refs.saveEle.onOpen({id: ''})
+      },
+      edit(row) {
+        this.$refs.saveEle.onOpen(row)
+      },
+      setBirthday(row) {
+        this.$refs.birthday.onOpen(row)
+      },
+      uploadUser(row) {
+        this.$refs.uploadUser.onOpen(row)
+      },
+      setNeedPay(row) {
+        this.$refs.needPay.onOpen(row)
+      },
+      setOnShelf(row) {
+        this.$refs.onShelf.onOpen(row)
+      },
+      setConsumeGive(row) {
+        this.$refs.consumeGive.onOpen(row)
+      },
+      getList() {
+        this.listLoading = true
+        getList(this.listQuery).then(res => {
+          this.list = res.data.content
+          this.total = res.data.totalElements
+        }).finally(() => this.listLoading = false)
+      },
+      //选择
+      selectionChange(val) {
+        this.selectedIds = val
+      },
+      pushToWeChart(row) {
+        this.$confirm('确定要推送到腾讯吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          pushToWeChart({id: row.id}).then(response => {
+            this.$message({message: response.message, type: 'success'});
+            this.getList()
+          })
+        })
+      },
+      createQrCode(row) {
+        this.$refs.qrCode.onOpen(row)
+      },
+      //删除
+      deleteElement() {
+        this.$confirm('没有推送的数据会直接删除;已经推送的数据会永久删除微信服务器的券,crm中券会标记已删除,已经领取的劵还能继续使用,确定要删除选中的数据吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteEle({ids: this.selectedIds.map(s => s.id)}).then(response => {
+            this.$message({message: response.message, type: 'success'});
+            this.getList()
+          })
+        })
+      }
     }
+  }
 </script>
 
 <style scoped>
