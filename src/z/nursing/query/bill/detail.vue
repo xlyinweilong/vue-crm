@@ -81,6 +81,47 @@
               </el-card>
             </div>
           </el-tab-pane>
+          <el-tab-pane label="操作记录" name="OPERATION">
+            <el-table
+              :data="detail.operationLogList"
+              tooltip-effect="dark"
+              style="width: 100%"
+              highlight-current-row
+              fit
+              border
+            >
+              <el-table-column label="操作时间" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.createDate }}
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.operation }}
+                </template>
+              </el-table-column>
+              <el-table-column label="操作前状态" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.beforeStatusMean }}
+                </template>
+              </el-table-column>
+              <el-table-column label="操作后状态" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.afterStatusMean }}
+                </template>
+              </el-table-column>
+              <el-table-column label="操作人昵称" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.operationUserName }}
+                </template>
+              </el-table-column>
+              <el-table-column label="被扫码人昵称" align="center">
+                <template slot-scope="scope">
+                  {{ scope.row.sweptCodeUserName }}
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
           <el-tab-pane label="洗衣坊问题" name="DIFF">
             <el-image v-for="goodsUrl in detail.problemGoodsUrlList"
                       style="width: 100px; height: 100px"
@@ -102,43 +143,43 @@
 </template>
 
 <script>
-    import {info} from '@/api/nursing/nursing'
+  import {info} from '@/api/nursing/nursing'
 
-    export default {
-        components: {},
-        data() {
-            return {
-                detail: {
-                    id: ''
-                },
-                loading: false,
-                activeName: 'BASE'
-            }
+  export default {
+    components: {},
+    data() {
+      return {
+        detail: {
+          id: ''
         },
-        created() {
-            const id = this.$route.params && this.$route.params.id
-            if (id != null) {
-                this.detail.id = id
-                this.info()
-            }
-        },
-        methods: {
-            info() {
-                this.loading = true
-                info({id: this.detail.id}).then(res => {
-                    this.detail = JSON.parse(JSON.stringify(res.data))
-                }).finally(() => this.loading = false)
-            },
-            //修改tag pane
-            handleTagPaneClick(tab, event) {
-                if (tab.name === 'GOODS') {
-                    this.$refs.detailGoods.initFocus()
-                } else if (tab.name === 'DIFF') {
-                    this.$refs.diffGoods.init()
-                }
-            }
+        loading: false,
+        activeName: 'BASE'
+      }
+    },
+    created() {
+      const id = this.$route.params && this.$route.params.id
+      if (id != null) {
+        this.detail.id = id
+        this.info()
+      }
+    },
+    methods: {
+      info() {
+        this.loading = true
+        info({id: this.detail.id}).then(res => {
+          this.detail = JSON.parse(JSON.stringify(res.data))
+        }).finally(() => this.loading = false)
+      },
+      //修改tag pane
+      handleTagPaneClick(tab, event) {
+        if (tab.name === 'GOODS') {
+          this.$refs.detailGoods.initFocus()
+        } else if (tab.name === 'DIFF') {
+          this.$refs.diffGoods.init()
         }
+      }
     }
+  }
 </script>
 
 <style>

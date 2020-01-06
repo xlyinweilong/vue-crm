@@ -18,7 +18,7 @@ export function info(params) {
 
 export function save(data) {
   return request({
-    url: 'api/nursing_recharge_config/save',
+    url: 'api/nursing/save',
     method: 'post',
     data
   })
@@ -26,7 +26,7 @@ export function save(data) {
 
 export function deleteEle(data) {
   return request({
-    url: 'api/nursing_recharge_config/delete',
+    url: 'api/nursing/delete',
     method: 'post',
     data
   })
