@@ -69,6 +69,26 @@ const nursingRouter = {
           meta: {title: '焕新币交易', power: 'manage_platform_company'}
         }
       ]
+    },
+    {
+      path: 'report',
+      component: () => import('@/z/SubLayout'),
+      name: 'report',
+      meta: {title: '报表', power: 'manage_platform'},
+      children: [
+        {
+          path: 'employ_pk_report',
+          component: () => import('@/z/nursing/report/employ_pk_report/index'),
+          name: 'employ_pk_report',
+          meta: {title: '员工PK报表'}
+        },
+        {
+          path: 'vip_nursing_detail_report',
+          component: () => import('@/z/nursing/report/vip_nursing_detail_report/index'),
+          name: 'vip_nursing_detail_report',
+          meta: {title: '会员焕新明细报表', power: 'manage_platform_company'}
+        }
+      ]
     }
   ]
 }

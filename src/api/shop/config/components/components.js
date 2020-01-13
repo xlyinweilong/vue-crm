@@ -7,9 +7,9 @@ export function all() {
   })
 }
 
-export function getList(params) {
+export function info(params) {
   return request({
-    url: 'api/shop/index_components/list',
+    url: 'api/shop/theme_components/info',
     method: 'get',
     params: params
   })
@@ -17,7 +17,7 @@ export function getList(params) {
 
 export function save(data) {
   return request({
-    url: 'api/shop/index_components/save',
+    url: 'api/shop/theme_components/save',
     method: 'post',
     data
   })

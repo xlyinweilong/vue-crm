@@ -26,6 +26,7 @@
           <span v-if="scope.row.type == 'WORDS'">文字</span>
           <span v-if="scope.row.type == 'TICKET'">卡券</span>
           <span v-if="scope.row.type == 'IMAGE'">图片</span>
+          <span v-if="scope.row.type == 'NEWS'">图文</span>
         </template>
       </el-table-column>
       <el-table-column label="回复内容" align="center">

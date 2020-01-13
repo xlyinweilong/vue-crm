@@ -10,14 +10,21 @@
         <el-input style="width: 100%" v-model="form.keyword" :maxlength="250" @keyup.enter.native="save"
                   placeholder="请输入识别的关键字"></el-input>
       </el-form-item>
+      <el-form-item label="识别方式" prop="mode">
+        <el-select style="width: 100%" v-model="form.mode" placeholder="请选择识别方式">
+          <el-option key="ALL" label="完全" value="ALL"/>
+          <el-option key="IN" label="包含" value="IN"/>
+        </el-select>
+      </el-form-item>
       <el-form-item label="类型" prop="type">
         <el-select style="width: 100%" v-model="form.type" placeholder="请选择类型">
           <el-option key="WORDS" label="文字" value="WORDS"/>
           <el-option key="TICKET" label="卡券" value="TICKET"/>
           <el-option key="IMAGE" label="图片" value="IMAGE"/>
+          <el-option key="NEWS" label="图文" value="NEWS"/>
         </el-select>
       </el-form-item>
-      <el-form-item v-show="form.type != 'IMAGE'" label="回复内容" prop="reply">
+      <el-form-item v-show="form.type == 'WORDS' || form.type == 'TICKET'" label="回复内容" prop="reply">
         <el-input v-model="form.reply" type="textarea" :rows="2" placeholder="请输入要回复的内容" :maxlength="2000"></el-input>
       </el-form-item>
       <el-form-item v-show="form.type == 'TICKET'" label="没有库存" prop="replyTicketNoStock">
@@ -34,6 +41,20 @@
       <el-form-item v-show="form.type == 'IMAGE'" label="素材ID" prop="mediaId">
         <el-input v-model="form.mediaId" placeholder="素材ID" :maxlength="100"></el-input>
       </el-form-item>
+      <el-form-item v-show="form.type == 'NEWS'" label="标题" prop="title">
+        <el-input v-model="form.title" placeholder="素材ID" :maxlength="50"></el-input>
+      </el-form-item>
+      <el-form-item v-show="form.type == 'NEWS'" label="描述" prop="description">
+        <el-input v-model="form.description" placeholder="素材ID" :maxlength="100"></el-input>
+      </el-form-item>
+      <el-form-item v-show="form.type == 'NEWS'" label="图片链接" prop="picUrl">
+        <el-tooltip class="item" effect="dark" content=" 支持JPG、PNG格式，较好的效果为大图360*200，小图200*200" placement="top">
+          <el-input v-model="form.picUrl" placeholder="图片链接" :maxlength="255"></el-input>
+        </el-tooltip>
+      </el-form-item>
+      <el-form-item v-show="form.type == 'NEWS'" label="点击图文消息跳转链接" prop="url">
+        <el-input v-model="form.url" placeholder="点击图文消息跳转链接" :maxlength="255"></el-input>
+      </el-form-item>
       <el-form-item label="禁用" prop="disabled">
         <el-select style="width: 100%" v-model="form.disabled" placeholder="请选择">
           <el-option :key="false" label="启用" :value="false"/>
@@ -49,62 +70,63 @@
 </template>
 
 <script>
-    import {save} from '@/api/manager/wechat/reply'
-    import {getAll} from '@/api/vip/ticket/ticket'
+  import {save} from '@/api/manager/wechat/reply'
+  import {getAll} from '@/api/vip/ticket/ticket'
 
-    export default {
-        components: {},
-        filters: {},
-        directives: {},
-        props: {},
-        computed: {},
-        data() {
-            return {
-                tickets: [],
-                show: false,
-                loading: false,
-                title: '',
-                form: {},
-                rules: {
-                    keyword: [{required: true, message: '必填字段', trigger: 'blur'}],
-                    type: [{required: true, message: '必填字段', trigger: 'blur'}]
-                }
-            }
-        },
-        mounted() {
-        },
-        methods: {
-            async getAllTickets() {
-                this.loading = true
-                await getAll({disabled: false}).then(res => {
-                    this.tickets = res.data
-                }).finally(() => this.loading = false)
-            },
-            onClose() {
-                this.show = false
-            },
-            onOpen(ele) {
-                this.form = JSON.parse(JSON.stringify(ele))
-                this.show = true
-                this.getAllTickets()
-                if (this.$refs['form'] != null) {
-                    this.$refs['form'].resetFields()
-                }
-            },
-            save() {
-                this.$refs['form'].validate((valid) => {
-                    if (valid) {
-                        this.loading = true
-                        save(this.form).then(res => {
-                            this.$message({message: '保存成功', type: 'success'})
-                            this.$emit("getList", {})
-                            this.onClose()
-                        }).finally(() => this.loading = false)
-                    }
-                })
-            }
+  export default {
+    components: {},
+    filters: {},
+    directives: {},
+    props: {},
+    computed: {},
+    data() {
+      return {
+        tickets: [],
+        show: false,
+        loading: false,
+        title: '',
+        form: {},
+        rules: {
+          keyword: [{required: true, message: '必填字段', trigger: 'blur'}],
+          type: [{required: true, message: '必填字段', trigger: 'blur'}],
+          mode: [{required: true, message: '必填字段', trigger: 'blur'}]
         }
+      }
+    },
+    mounted() {
+    },
+    methods: {
+      async getAllTickets() {
+        this.loading = true
+        await getAll({disabled: false}).then(res => {
+          this.tickets = res.data
+        }).finally(() => this.loading = false)
+      },
+      onClose() {
+        this.show = false
+      },
+      onOpen(ele) {
+        this.form = JSON.parse(JSON.stringify(ele))
+        this.show = true
+        this.getAllTickets()
+        if (this.$refs['form'] != null) {
+          this.$refs['form'].resetFields()
+        }
+      },
+      save() {
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.loading = true
+            save(this.form).then(res => {
+              this.$message({message: '保存成功', type: 'success'})
+              this.$emit("getList", {})
+              this.onClose()
+            }).finally(() => this.loading = false)
+          }
+        })
+      }
     }
+  }
 </script>
 
 <style scoped>

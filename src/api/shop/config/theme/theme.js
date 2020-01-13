@@ -14,3 +14,11 @@ export function save(data) {
     data
   })
 }
+
+export function deleteEle(data) {
+  return request({
+    url: 'api/shop/theme/delete',
+    method: 'post',
+    data
+  })
+}

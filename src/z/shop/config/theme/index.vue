@@ -5,7 +5,7 @@
         <el-button :loading="listLoading" :disabled="list.length >= 5" class="filter-item" type="primary" icon="el-icon-plus" @click="add">新增
         </el-button>
       </el-tooltip>
-      <el-button :loading="listLoading" class="filter-item" type="warning" icon="el-icon-s-tools" @click="$router.push({ path: '/shop/config/components'})">组件定义</el-button>
+      <!--<el-button :loading="listLoading" class="filter-item" type="warning" icon="el-icon-s-tools" @click="$router.push({ path: '/shop/config/components'})">组件定义</el-button>-->
     </div>
     <el-table
       v-loading="listLoading"
@@ -37,6 +37,7 @@
           <el-button type="text" @click="edit(scope.row)">编辑</el-button>
           <el-button type="text" @click="color(scope.row)">颜色配置</el-button>
           <el-button type="text" @click="indexPage(scope.row)">首页设计</el-button>
+          <el-button type="text" @click="deleteEle(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,7 +49,7 @@
 
 <script>
 
-  import {all} from '@/api/shop/config/theme/theme'
+  import {all,deleteEle} from '@/api/shop/config/theme/theme'
   import Save from "./save";
   import Color from "./color";
   import design from "./index/design";
@@ -87,6 +88,21 @@
         all().then(response => {
           this.list = response.data
         }).finally(() => this.listLoading = false)
+      },
+      deleteEle(row){
+        this.$confirm('确定要删除选中的记录吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.listLoading = true
+          deleteEle({id: row.id}).then(() => {
+            this.$message({type: 'success', message: '删除成功!'})
+            this.getList()
+          }).catch(() => {
+            this.listLoading = false
+          })
+        })
       }
     }
   }
