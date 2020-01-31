@@ -7,3 +7,12 @@ export function getList(data) {
     data
   })
 }
+
+export function exportExcel(data) {
+  return request({
+    url: 'api/nursing_balance_log/export',
+    method: 'post',
+    data,
+    responseType: 'blob'
+  })
+}

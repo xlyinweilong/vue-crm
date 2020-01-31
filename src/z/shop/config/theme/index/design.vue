@@ -155,6 +155,11 @@
                     <el-option v-for="item in imageTypeList" :key="item.key" :label="item.name" :value="item.key"/>
                   </el-select>
                 </el-form-item>
+                <el-form-item :label="'图片地址'+(c.index+1)">
+                  <el-tooltip class="item" effect="dark" content="类型是商品时，不填使用默认商品图片" placement="top">
+                    <el-input v-model.trim="c.imageUrl" placeholder="https://" :maxlength="255"></el-input>
+                  </el-tooltip>
+                </el-form-item>
                 <el-form-item v-show="c.imageType == 'PAGE' " :label="'小程序页面地址'+(c.index+1)">
                   <el-input v-model.trim="c.pageUrl" placeholder="地址" :maxlength="100"></el-input>
                 </el-form-item>
@@ -181,11 +186,16 @@
               <el-form-item label="图片宽度rpx">
                 <el-input-number style="width: 100%" v-model="ele.imageWidth" step-strictly :step="1" :min="1" :max="750"></el-input-number>
               </el-form-item>
-              <div v-for="c in ele.imageList">
+              <div v-for="c in ele.imageList" :key="c.index">
                 <el-form-item :label="'图片类型'+(c.index+1)">
                   <el-select v-model="c.imageType" style="width: 100%" placeholder="请选择图片类型">
                     <el-option v-for="item in imageTypeList" :key="item.key" :label="item.name" :value="item.key"/>
                   </el-select>
+                </el-form-item>
+                <el-form-item :label="'图片地址'+(c.index+1)">
+                  <el-tooltip class="item" effect="dark" content="类型是商品时，不填使用默认商品图片" placement="top">
+                    <el-input v-model.trim="c.imageUrl" placeholder="https://" :maxlength="255"></el-input>
+                  </el-tooltip>
                 </el-form-item>
                 <el-form-item v-show="c.imageType == 'PAGE' " :label="'小程序页面地址'+(c.index+1)">
                   <el-input v-model.trim="c.pageUrl" placeholder="地址" :maxlength="100"></el-input>
@@ -216,7 +226,7 @@
 
 <script>
 
-  import {save,info} from '@/api/shop/config/components/components'
+  import {save, info} from '@/api/shop/config/components/components'
   import vuedraggable from 'vuedraggable'
 
   export default {
@@ -245,7 +255,7 @@
         drawer: false,
         screenHeight: 0,
         selectIndex: -1,
-        imageTypeList: [{key: 'NO', name: '无事件'},{key: 'H5', name: 'H5链接'}, {key: 'GOODS', name: '商品'}, {key: 'PAGE', name: '小程序页面'}]
+        imageTypeList: [{key: 'NO', name: '无事件'}, {key: 'H5', name: 'H5链接'}, {key: 'GOODS', name: '商品'}, {key: 'PAGE', name: '小程序页面'}]
       }
     },
     computed: {},
@@ -277,9 +287,11 @@
         this.setImageQuantity()
       },
       setImageQuantity() {
-        this.ele.imageList = []
-        for (let i = 0; i < this.ele.imageQuantity; i++) {
-          this.ele.imageList.push({index: i, imageType: 'NO', pageUrl: '', pageParam: '', goodsCode: '', htmlUrl: ''})
+        if (this.ele.imageList.length != this.ele.imageQuantity) {
+          this.ele.imageList = []
+          for (let i = 0; i < this.ele.imageQuantity; i++) {
+            this.ele.imageList.push({index: i, imageType: 'NO', pageUrl: '', pageParam: '', goodsCode: '', htmlUrl: '', imageUrl: ''})
+          }
         }
       },
       showDrawer(ele, i) {
@@ -313,7 +325,7 @@
         this.show = true
         this.loadInfo()
       },
-      loadInfo(){
+      loadInfo() {
         this.loading = true
         info({themeId: this.form.id}).then(res => {
           this.list = res.data

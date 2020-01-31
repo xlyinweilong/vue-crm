@@ -18,12 +18,6 @@ const transactionRouter = {
       meta: {title: '全部交易', power: 'transaction_all'},
       children: [
         {
-          path: 'goods_manager',
-          component: () => import('@/z/transfer/goods/index'),
-          name: 'goods_manager',
-          meta: {title: '商品管理', power: 'transaction_all_goods'}
-        },
-        {
           path: 'sale_bill_manager',
           component: () => import('@/z/transfer/sale_bill_list'),
           name: 'sale_bill_manager',

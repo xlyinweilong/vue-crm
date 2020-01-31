@@ -101,7 +101,7 @@
 </template>
 
 <script>
-  import {getList} from '@/api/nursing/nursing'
+  import {employPk} from '@/api/report/nursing/nursing'
   import Pagination from '@/components/Pagination'
 
   export default {
@@ -132,7 +132,7 @@
       // 获取列表
       getList() {
         this.listLoading = true
-        getList(this.listQuery).then(res => {
+        employPk(this.listQuery).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
         }).finally(() => this.listLoading = false)

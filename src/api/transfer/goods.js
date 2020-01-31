@@ -8,6 +8,22 @@ export function getList(params) {
   })
 }
 
+export function info(params) {
+  return request({
+    url: 'api/erp_goods/info',
+    method: 'get',
+    params: params
+  })
+}
+
+export function save(data) {
+  return request({
+    url: 'api/erp_goods/save',
+    method: 'post',
+    data
+  })
+}
+
 export function allBrand() {
   return request({
     url: 'api/erp_goods/all_brand',
@@ -19,6 +35,29 @@ export function allCategory() {
   return request({
     url: 'api/erp_goods/all_category',
     method: 'get'
+  })
+}
+
+export function saveCategory(data) {
+  return request({
+    url: 'api/erp_goods/save_category',
+    method: 'post',
+    data: data
+  })
+}
+
+export function allCategory2() {
+  return request({
+    url: 'api/erp_goods/all_category2',
+    method: 'get'
+  })
+}
+
+export function saveCategory2(data) {
+  return request({
+    url: 'api/erp_goods/save_category2',
+    method: 'post',
+    data: data
   })
 }
 
@@ -36,9 +75,9 @@ export function allYear() {
   })
 }
 
-export function save(data) {
+export function onShelf(data) {
   return request({
-    url: 'api/erp_goods/save',
+    url: 'api/erp_goods/on_shelf',
     method: 'post',
     data: data
   })

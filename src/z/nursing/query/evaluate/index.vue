@@ -48,66 +48,68 @@
 </template>
 
 <script>
-    import {getList, deleteEle} from '@/api/nursing/nursingCategoryConfig'
-    import Pagination from '@/components/Pagination'
+  import {getList, deleteEle, exportExcel} from '@/api/nursing/nursingCategoryConfig'
+  import Pagination from '@/components/Pagination'
 
-    export default {
-        components: {
-            Save,
-            Pagination,
+  export default {
+    components: {
+      Save,
+      Pagination,
+    },
+    filters: {},
+    directives: {},
+    data() {
+      return {
+        baseUrl: '',
+        listQuery: {
+          pageIndex: 1,
+          pageSize: 10,
+          searchKey: '',
+          startDateTime: '',
+          endDateTime: ''
         },
-        filters: {},
-        directives: {},
-        data() {
-            return {
-                baseUrl: '',
-                listQuery: {
-                    pageIndex: 1,
-                    pageSize: 10,
-                    searchKey: ''
-                },
-                list: [],
-                total: 0,
-                listLoading: false
-            }
-        },
-        mounted() {
+        list: [],
+        total: 0,
+        listLoading: false
+      }
+    },
+    mounted() {
+      this.getList()
+    },
+    methods: {
+      // 获取列表
+      getList() {
+        this.listLoading = true
+        getList(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
+        }).finally(() => {
+          this.listLoading = false
+        })
+      },
+      edit(row) {
+        this.$refs.save.onOpen(row)
+      },
+      add() {
+        this.$refs.save.onOpen({})
+      },
+      deleteEle(row) {
+        this.$confirm('确定要删除选中的记录吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.listLoading = true
+          deleteEle({id: row.id}).then(() => {
+            this.$message({type: 'success', message: '删除成功!'})
             this.getList()
-        },
-        methods: {
-            // 获取列表
-            getList() {
-                this.listLoading = true
-                getList(this.listQuery).then(response => {
-                    this.list = response.data.content
-                    this.total = response.data.totalElements
-                }).finally(() => {
-                    this.listLoading = false
-                })
-            },
-            edit(row) {
-                this.$refs.save.onOpen(row)
-            },
-            add() {
-                this.$refs.save.onOpen({})
-            },
-            deleteEle(row) {
-                this.$confirm('确定要删除选中的记录吗？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.listLoading = true
-                    deleteEle({id: row.id}).then(() => {
-                        this.$message({type: 'success', message: '删除成功!'})
-                        this.getList()
-                    }).catch(() => {
-                        this.listLoading = false
-                    })
-                })
-            }
-        }
+          }).catch(() => {
+            this.listLoading = false
+          })
+        })
+      }
     }
+  }
 </script>
 
 <style scoped>

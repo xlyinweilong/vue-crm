@@ -23,3 +23,12 @@ export function deleteEle(data) {
     data
   })
 }
+
+export function exportExcel(data) {
+  return request({
+    url: 'api/nursing_settle/export',
+    method: 'post',
+    data,
+    responseType: 'blob'
+  })
+}

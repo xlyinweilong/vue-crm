@@ -7,14 +7,23 @@
     width="600px">
     <el-form ref="form" :model="form" v-loading="loading" :rules="rules">
       <el-form-item label="名称" prop="name">
-        <el-input v-model.trim="form.name" placeholder="请输入名称" @keyup.enter.native="save" :maxlength="50"></el-input>
+        <el-input :disabled="form.erpId != null" v-model.trim="form.name" placeholder="请输入名称" @keyup.enter.native="save" :maxlength="50"></el-input>
       </el-form-item>
-      <el-form-item label="激活" prop="active">
-        <el-select style="width: 100%" v-model="form.active" placeholder="请选择是否激活">
-          <el-option key="true" label="激活" :value="true"/>
-          <el-option key="false" label="不激活" :value="false"/>
+      <el-form-item label="是否显示" prop="isShow">
+        <el-select style="width: 100%" v-model="form.isShow" placeholder="是否在商城分类页面上显示">
+          <el-option key="true" label="显示" :value="true"/>
+          <el-option key="false" label="不显示" :value="false"/>
         </el-select>
       </el-form-item>
+      <el-form-item v-show="form.isShow" label="排序" prop="sortIndex">
+        <el-tooltip class="item" effect="dark" content="数字越小越排在前面" placement="top">
+          <el-input-number style="width: 100%" v-model="form.sortIndex" :min="0" :max="9999" :step="1" :controls="false"
+                           step-strictly></el-input-number>
+        </el-tooltip>
+      </el-form-item>
+      <!--<el-form-item v-show="form.isShow" label="图片URL" prop="imageUrl">-->
+        <!--<el-input v-model.trim="form.imageUrl" placeholder="请输入图片URL" @keyup.enter.native="save" :maxlength="255"></el-input>-->
+      <!--</el-form-item>-->
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button :loading="loading" @click="onClose">取消</el-button>
@@ -25,7 +34,7 @@
 
 <script>
 
-  import {save} from '@/api/shop/config/theme/theme'
+  import {saveCategory} from '@/api/transfer/goods'
 
   export default {
     components: {},
@@ -38,7 +47,7 @@
         form: {},
         rules: {
           name: [{required: true, trigger: 'blur', message: '必填字段'}],
-          active: [{required: true, trigger: 'blur', message: '必填字段'}]
+          isShow: [{required: true, trigger: 'blur', message: '必填字段'}]
         }
       }
     },
@@ -59,7 +68,7 @@
         this.$refs['form'].validate((valid) => {
           if (valid) {
             this.loading = true
-            save(this.form).then(res => {
+            saveCategory(this.form).then(res => {
               this.$message({message: '保存成功', type: 'success'})
               this.onClose()
               this.$emit("getList", {})

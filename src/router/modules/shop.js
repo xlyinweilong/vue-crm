@@ -24,11 +24,35 @@ const shopRouter = {
           meta: {title: '主题设计'}
         },
         {
-          path: 'components',
-          component: () => import('@/z/shop/config/components/index'),
-          name: 'components',
+          path: 'goods',
+          component: () => import('@/z/shop/config/goods/index'),
+          name: 'goods',
+          meta: {title: '商品管理', power: 'transaction_all_goods'}
+        },
+        {
+          path: 'goods_detail/:id',
+          component: () => import('@/z/shop/config/goods/detail'),
+          name: 'goods_detail',
           hidden: true,
-          meta: {title: '组件设计', power: 'manage_platform_company'}
+          meta: {title: '商品管理', power: 'transaction_all_goods'}
+        },
+        {
+          path: 'goods_category',
+          component: () => import('@/z/shop/config/goods_category/index'),
+          name: 'goods_category',
+          meta: {title: '商品分类', power: 'manage_platform_company'}
+        },
+        {
+          path: 'goods_category2',
+          component: () => import('@/z/shop/config/goods_category2/index'),
+          name: 'goods_category2',
+          meta: {title: '商品二级分类', power: 'manage_platform_company'}
+        },
+        {
+          path: 'recommend_search',
+          component: () => import('@/z/shop/config/recommend_search/index'),
+          name: 'recommend_search',
+          meta: {title: '推荐搜索', power: 'manage_platform_company'}
         }
       ]
     },

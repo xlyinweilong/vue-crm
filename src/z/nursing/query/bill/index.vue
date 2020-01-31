@@ -17,9 +17,22 @@
         <el-option key="IN_CHANNEL" label="等待客户取走" value="IN_CHANNEL"/>
         <el-option key="DELETED" label="已经删除" value="DELETED"/>
       </el-select>
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+                                       class="filter-item"
+                                       v-model="listQuery.startDateTime"
+                                       type="datetime"
+                                       placeholder="创建开始时间">
+    </el-date-picker>
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+                      class="filter-item"
+                      v-model="listQuery.endDateTime"
+                      type="datetime"
+                      placeholder="创建结束时间">
+      </el-date-picker>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
       </el-button>
+      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -92,7 +105,7 @@
 </template>
 
 <script>
-  import {getList, deleteEle} from '@/api/nursing/nursing'
+  import {getList, deleteEle,exportExcel} from '@/api/nursing/nursing'
   import Pagination from '@/components/Pagination'
 
   export default {
@@ -109,7 +122,9 @@
           pageSize: 10,
           code: '',
           statuss: ['INIT', 'WASHING', 'IN_CHANNEL', 'FINISHED', 'SETTLED', 'PROBLEM', 'PROBLEM_REFUSE', 'PROBLEM_AGREE', 'FINISHED_PROBLEM'],
-          customerMobile: ''
+          customerMobile: '',
+          startDateTime:'',
+          endDateTime:''
         },
         list: [],
         total: 0,
@@ -130,6 +145,11 @@
         }).finally(() => {
           this.listLoading = false
         })
+      },
+      exportExcel(){
+        this.listLoading = true
+        exportExcel(this.listQuery).then(res => {
+        }).finally(() => this.listLoading = false)
       },
       edit(row) {
         this.$refs.save.onOpen(row)

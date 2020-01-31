@@ -5,9 +5,22 @@
                 class="filter-item" @keyup.enter.native="getList"/>
       <el-input placeholder="客户手机号" clearable v-model.trim="listQuery.customerMobile" style="width: 200px;"
                 class="filter-item" @keyup.enter.native="getList"/>
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+                      class="filter-item"
+                      v-model="listQuery.startDateTime"
+                      type="datetime"
+                      placeholder="创建开始时间">
+      </el-date-picker>
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+                      class="filter-item"
+                      v-model="listQuery.endDateTime"
+                      type="datetime"
+                      placeholder="创建结束时间">
+      </el-date-picker>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
       </el-button>
+      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
       <el-button :loading="listLoading" :disabled="selectedIds.length == 0" class="filter-item" type="primary" icon="el-icon-plus" @click="dialogVisible = true">生成结算单</el-button>
     </div>
     <div class="filter-container">已选择总结算金额：{{totalAmount}}</div>
@@ -83,7 +96,7 @@
 </template>
 
 <script>
-  import {getList} from '@/api/nursing/nursing'
+  import {getList,exportExcel} from '@/api/nursing/nursing'
   import {create} from '@/api/nursing/nursingSettle'
   import Pagination from '@/components/Pagination'
 
@@ -101,7 +114,9 @@
           pageSize: 10,
           code: '',
           statuss: ['FINISHED'],
-          customerMobile: ''
+          customerMobile: '',
+          startDateTime:'',
+          endDateTime:''
         },
         list: [],
         total: 0,
@@ -120,6 +135,11 @@
       }
     },
     methods: {
+      exportExcel(){
+        this.listLoading = true
+        exportExcel(this.listQuery).then(res => {
+        }).finally(() => this.listLoading = false)
+      },
       // 获取列表
       getList() {
         this.listLoading = true

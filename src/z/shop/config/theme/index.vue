@@ -5,7 +5,6 @@
         <el-button :loading="listLoading" :disabled="list.length >= 5" class="filter-item" type="primary" icon="el-icon-plus" @click="add">新增
         </el-button>
       </el-tooltip>
-      <!--<el-button :loading="listLoading" class="filter-item" type="warning" icon="el-icon-s-tools" @click="$router.push({ path: '/shop/config/components'})">组件定义</el-button>-->
     </div>
     <el-table
       v-loading="listLoading"

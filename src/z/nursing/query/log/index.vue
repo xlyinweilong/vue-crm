@@ -3,9 +3,22 @@
     <div class="filter-container">
       <el-input placeholder="用户默认手机" clearable v-model.trim="listQuery.mobile" style="width: 200px;"
                 class="filter-item" @keyup.enter.native="getList"/>
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+                      class="filter-item"
+                      v-model="listQuery.startDateTime"
+                      type="datetime"
+                      placeholder="创建开始时间">
+      </el-date-picker>
+      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+                      class="filter-item"
+                      v-model="listQuery.endDateTime"
+                      type="datetime"
+                      placeholder="创建结束时间">
+      </el-date-picker>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
       </el-button>
+      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -58,45 +71,52 @@
 </template>
 
 <script>
-    import {getList} from '@/api/nursing/nursingBalanceLog'
-    import Pagination from '@/components/Pagination'
+  import {getList, exportExcel} from '@/api/nursing/nursingBalanceLog'
+  import Pagination from '@/components/Pagination'
 
-    export default {
-        components: {
-            Pagination,
+  export default {
+    components: {
+      Pagination,
+    },
+    filters: {},
+    directives: {},
+    data() {
+      return {
+        baseUrl: '',
+        listQuery: {
+          pageIndex: 1,
+          pageSize: 10,
+          mobile: '',
+          operationList: [],
+          startDateTime: '',
+          endDateTime: ''
         },
-        filters: {},
-        directives: {},
-        data() {
-            return {
-                baseUrl: '',
-                listQuery: {
-                    pageIndex: 1,
-                    pageSize: 10,
-                    mobile: '',
-                    operationList:[]
-                },
-                list: [],
-                total: 0,
-                listLoading: false
-            }
-        },
-        mounted() {
-            this.getList()
-        },
-        methods: {
-            // 获取列表
-            getList() {
-                this.listLoading = true
-                getList(this.listQuery).then(response => {
-                    this.list = response.data.content
-                    this.total = response.data.totalElements
-                }).finally(() => {
-                    this.listLoading = false
-                })
-            }
-        }
+        list: [],
+        total: 0,
+        listLoading: false
+      }
+    },
+    mounted() {
+      this.getList()
+    },
+    methods: {
+      exportExcel() {
+        this.listLoading = true
+        exportExcel(this.listQuery).then(res => {
+        }).finally(() => this.listLoading = false)
+      },
+      // 获取列表
+      getList() {
+        this.listLoading = true
+        getList(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
+        }).finally(() => {
+          this.listLoading = false
+        })
+      }
     }
+  }
 </script>
 
 <style scoped>
