@@ -30,6 +30,12 @@ const shopRouter = {
           meta: {title: '商品管理', power: 'transaction_all_goods'}
         },
         {
+          path: 'size',
+          component: () => import('@/z/shop/config/size/index'),
+          name: 'size',
+          meta: {title: '尺码排序', power: 'transaction_all_goods'}
+        },
+        {
           path: 'goods_detail/:id',
           component: () => import('@/z/shop/config/goods/detail'),
           name: 'goods_detail',
@@ -43,10 +49,16 @@ const shopRouter = {
           meta: {title: '商品分类', power: 'manage_platform_company'}
         },
         {
-          path: 'goods_category2',
-          component: () => import('@/z/shop/config/goods_category2/index'),
-          name: 'goods_category2',
-          meta: {title: '商品二级分类', power: 'manage_platform_company'}
+          path: 'goods_brand',
+          component: () => import('@/z/shop/config/goods_brand/index'),
+          name: 'goods_brand',
+          meta: {title: '商品品牌', power: 'manage_platform_company'}
+        },
+        {
+          path: 'goods_category',
+          component: () => import('@/z/shop/config/goods_category/index'),
+          name: 'goods_category',
+          meta: {title: '商品分类', power: 'manage_platform_company'}
         },
         {
           path: 'recommend_search',
@@ -57,16 +69,16 @@ const shopRouter = {
       ]
     },
     {
-      path: 'settings',
+      path: 'business',
       component: () => import('@/z/SubLayout'),
-      name: 'settings',
-      meta: {title: '首页设计', power: 'manage_platform'},
+      name: 'business',
+      meta: {title: '业务处理', power: 'manage_platform'},
       children: [
         {
-          path: 'sale',
-          component: () => import('@/z/nursing/settings/sale/index'),
-          name: 'sale',
-          meta: {title: '组件定义', power: 'manage_platform_company'}
+          path: 'order_send',
+          component: () => import('@/z/shop/business/order/index'),
+          name: 'order_send',
+          meta: {title: '订单发货', power: 'manage_platform_company'}
         },
         {
           path: 'recharge',

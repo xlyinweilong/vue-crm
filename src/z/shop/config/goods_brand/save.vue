@@ -21,9 +21,12 @@
                            step-strictly></el-input-number>
         </el-tooltip>
       </el-form-item>
-      <!--<el-form-item v-show="form.isShow" label="图片URL" prop="imageUrl">-->
-        <!--<el-input v-model.trim="form.imageUrl" placeholder="请输入图片URL" @keyup.enter.native="save" :maxlength="255"></el-input>-->
-      <!--</el-form-item>-->
+      <el-form-item v-show="form.isShow" label="标语" prop="slogan">
+        <el-input v-model.trim="form.slogan" placeholder="请输入标语" @keyup.enter.native="save" :maxlength="255"></el-input>
+      </el-form-item>
+      <el-form-item v-show="form.isShow" label="图片URL" prop="logoUrl">
+        <el-input v-model.trim="form.logoUrl" placeholder="请输入图片URL" @keyup.enter.native="save" :maxlength="255"></el-input>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button :loading="loading" @click="onClose">取消</el-button>
@@ -34,7 +37,7 @@
 
 <script>
 
-  import {saveCategory} from '@/api/transfer/goods'
+  import {saveBrand} from '@/api/transfer/goods'
 
   export default {
     components: {},
@@ -68,7 +71,7 @@
         this.$refs['form'].validate((valid) => {
           if (valid) {
             this.loading = true
-            saveCategory(this.form).then(res => {
+            saveBrand(this.form).then(res => {
               this.$message({message: '保存成功', type: 'success'})
               this.onClose()
               this.$emit("getList", {})

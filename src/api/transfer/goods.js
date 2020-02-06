@@ -31,6 +31,14 @@ export function allBrand() {
   })
 }
 
+export function saveBrand(data) {
+  return request({
+    url: 'api/erp_goods/save_brand',
+    method: 'post',
+    data: data
+  })
+}
+
 export function allCategory() {
   return request({
     url: 'api/erp_goods/all_category',

@@ -7,9 +7,6 @@
       </el-select>
       <el-input placeholder="名称" clearable v-model.trim="listQuery.searchKey" style="width: 450px;" class="filter-item" suffix-icon="el-icon-search"/>
     </div>
-    <!--<div class="filter-container">-->
-      <!--<el-button :loading="listLoading" :disabled="total >= 30" class="filter-item" type="primary" icon="el-icon-plus" @click="add">新增</el-button>-->
-    <!--</div>-->
     <el-table
       v-loading="listLoading"
       :data="pageList"
@@ -19,22 +16,11 @@
       fit
       border
     >
-      <!--<el-table-column label="创建时间" align="center">-->
-        <!--<template slot-scope="scope">-->
-          <!--{{ scope.row.createDate }}-->
-        <!--</template>-->
-      <!--</el-table-column>-->
       <el-table-column label="名称" align="center">
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <!--<el-table-column label="来源" align="center">-->
-        <!--<template slot-scope="scope">-->
-          <!--<el-tag v-if="scope.row.erpId" type="success">同步</el-tag>-->
-          <!--<el-tag v-if="!scope.row.erpId">自建</el-tag>-->
-        <!--</template>-->
-      <!--</el-table-column>-->
       <el-table-column label="是否显示" align="center">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.isShow" type="success">显示</el-tag>
@@ -46,11 +32,22 @@
           {{scope.row.sortIndex}}
         </template>
       </el-table-column>
-
+      <el-table-column label="标语" align="center">
+        <template slot-scope="scope">
+          {{scope.row.slogan}}
+        </template>
+      </el-table-column>
+      <el-table-column label="logo" align="center">
+        <template slot-scope="scope">
+          <el-image v-if="scope.row.logoUrl != null"
+            style="width: 100px; height: 100px"
+            :src="scope.row.logoUrl"
+            fit="fit"></el-image>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="120" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="edit(scope.row)">编辑</el-button>
-          <!--<el-button :disabled="scope.row.erpId != null" type="text" @click="deleteEle(scope.row)">删除</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -61,7 +58,7 @@
 
 <script>
 
-  import {allCategory} from '@/api/transfer/goods'
+  import {allBrand} from '@/api/transfer/goods'
   import Pagination from '@/components/Pagination'
   import Save from "./save"
 
@@ -116,7 +113,7 @@
       },
       loadData() {
         this.listLoading = true
-        allCategory().then(response => {
+        allBrand().then(response => {
           this.list = response.data.sort((a, b) => a.sortIndex > b.sortIndex ? 1 : -1)
         }).finally(() => this.listLoading = false)
       },

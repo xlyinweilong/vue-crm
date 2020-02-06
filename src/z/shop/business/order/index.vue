@@ -1,27 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select v-model="listQuery.onShelf" filterable class="filter-item" clearable placeholder="上下架商品">
-        <el-option :key="true" label="已上架" :value="true"/>
-        <el-option :key="false" label="未上架" :value="false"/>
-      </el-select>
       <el-input placeholder="货号" clearable v-model.trim="listQuery.code" style="width: 250px;" class="filter-item"
                 @keyup.enter.native="getList"/>
-      <el-select v-model="listQuery.brandId" filterable class="filter-item" clearable placeholder="品牌">
-        <el-option v-for="ele in allBrandList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
-      </el-select>
-      <el-select v-model="listQuery.categoryId" filterable class="filter-item" clearable placeholder="品类">
-        <el-option v-for="ele in allCategoryList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
-      </el-select>
-      <el-select v-model="listQuery.category2Id" filterable class="filter-item" clearable placeholder="二级品类">
-        <el-option v-for="ele in allCategory2List" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
-      </el-select>
-      <el-select v-model="listQuery.seasonId" filterable class="filter-item" clearable placeholder="年份">
-        <el-option v-for="ele in allSeasonList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
-      </el-select>
-      <el-select v-model="listQuery.yearId" filterable class="filter-item" clearable placeholder="季节">
-        <el-option v-for="ele in allYearList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
-      </el-select>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
       </el-button>
@@ -113,28 +94,16 @@
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex"
                 :limit.sync="listQuery.pageSize" @pagination="getList"/>
-    <onShelf ref="onShelf" @getList="getList"/>
-    <uploadCrmInfo ref="uploadCrmInfo" @getList="getList"/>
-    <uploadStock ref="uploadStock" @getList="getList"/>
-    <uploadGoodsImage ref="uploadGoodsImage" @getList="getList"/>
   </div>
 </template>
 
 <script>
-  import {getList, allBrand, allCategory, allCategory2, allSeason, allYear} from '@/api/transfer/goods'
+  import {getList} from '@/api/transfer/goods'
   import Pagination from '@/components/Pagination'
-  import onShelf from "./onShelf"
-  import uploadCrmInfo from "./uploadCrmInfo"
-  import uploadStock from "./uploadStock"
-  import uploadGoodsImage from "./uploadGoodsImage"
 
   export default {
     components: {
-      onShelf,
-      Pagination,
-      uploadCrmInfo,
-      uploadStock,
-      uploadGoodsImage
+      Pagination
     },
     filters: {},
     directives: {},
@@ -164,11 +133,6 @@
       }
     },
     mounted() {
-      this.allBrand()
-      this.allCategory()
-      this.allCategory2()
-      this.allSeason()
-      this.allYear()
       this.getList()
     },
     methods: {
@@ -191,21 +155,6 @@
       },
       edit(ele) {
         this.$router.push({path: '/shop/config/goods_detail/' + ele.id})
-      },
-      async allBrand() {
-        await allBrand().then(res => this.allBrandList = res.data)
-      },
-      async allCategory() {
-        await allCategory().then(res => this.allCategoryList = res.data)
-      },
-      async allCategory2() {
-        await allCategory2().then(res => this.allCategory2List = res.data)
-      },
-      async allSeason() {
-        await allSeason().then(res => this.allSeasonList = res.data)
-      },
-      async allYear() {
-        await allYear().then(res => this.allYearList = res.data)
       }
     }
   }
