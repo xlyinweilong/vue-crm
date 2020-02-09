@@ -49,16 +49,16 @@ const shopRouter = {
           meta: {title: '商品分类', power: 'manage_platform_company'}
         },
         {
+          path: 'goods_category2',
+          component: () => import('@/z/shop/config/goods_category2/index'),
+          name: 'goods_category2',
+          meta: {title: '商品二级分类', power: 'manage_platform_company'}
+        },
+        {
           path: 'goods_brand',
           component: () => import('@/z/shop/config/goods_brand/index'),
           name: 'goods_brand',
           meta: {title: '商品品牌', power: 'manage_platform_company'}
-        },
-        {
-          path: 'goods_category',
-          component: () => import('@/z/shop/config/goods_category/index'),
-          name: 'goods_category',
-          meta: {title: '商品分类', power: 'manage_platform_company'}
         },
         {
           path: 'recommend_search',
@@ -81,10 +81,10 @@ const shopRouter = {
           meta: {title: '订单发货', power: 'manage_platform_company'}
         },
         {
-          path: 'recharge',
-          component: () => import('@/z/nursing/settings/recharge/index'),
-          name: 'recharge',
-          meta: {title: '首页排版', power: 'manage_platform_ui'}
+          path: 'stock',
+          component: () => import('@/z/shop/business/stock/index'),
+          name: 'stock',
+          meta: {title: '实时库存', power: 'manage_platform_ui'}
         }
       ]
     }

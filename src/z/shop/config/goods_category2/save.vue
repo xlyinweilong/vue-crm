@@ -53,7 +53,8 @@
         rules: {
           name: [{required: true, trigger: 'blur', message: '必填字段'}],
           isShow: [{required: true, trigger: 'blur', message: '必填字段'}]
-        }
+        },
+        allCategoryList:[]
       }
     },
     mounted() {
