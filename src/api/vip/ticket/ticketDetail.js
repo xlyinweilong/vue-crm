@@ -8,6 +8,22 @@ export function getList(params) {
   })
 }
 
+export function totalAll(params) {
+  return request({
+    url: 'api/vip/ticket_detail/total',
+    method: 'get',
+    params: params
+  })
+}
+
+export function all(params) {
+  return request({
+    url: 'api/vip/ticket_detail/all',
+    method: 'get',
+    params: params
+  })
+}
+
 export function exportExcel(params) {
   return request({
     url: 'api/vip/ticket_detail/export',

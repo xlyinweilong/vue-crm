@@ -32,3 +32,19 @@ export function exportExcel(data) {
     responseType: 'blob'
   })
 }
+
+export function changeLocation(data) {
+  return request({
+    url: 'api/shop/order/change_location',
+    method: 'post',
+    data
+  })
+}
+
+export function createRefundOrder(data) {
+  return request({
+    url: 'api/shop/refund_order/create_refund_order',
+    method: 'post',
+    data
+  })
+}

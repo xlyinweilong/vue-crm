@@ -84,8 +84,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="库存数量">
-                  <el-input-number style="width: 100%" v-model="goods.stockVolume" :precision="0" :step="1" :min="0" :max="9999999999" :controls="false"></el-input-number>
+                <el-form-item label="限制购买数量">
+                  <el-input-number style="width: 100%" v-model="goods.limitBuyCount" :precision="0" :step="1" :min="0" :max="9999999999" :controls="false"></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -200,7 +200,7 @@
               :data="goods.colorList"
               border
               style="width: 100%">
-              <el-table-column fixed label="颜色">
+              <el-table-column label="颜色">
                 <template slot-scope="scope">
                   {{scope.row.name}}
                 </template>
@@ -309,13 +309,17 @@
         info({id: this.goods.id}).then(res => {
           this.goods = JSON.parse(JSON.stringify(res.data))
           this.imageDetailList = this.goods.imageDetailList
-          this.goods.sizeList.forEach(s => s.stockCount = 0)
+          this.goods.sizeList.forEach(s => {
+            s.stockCount = 0
+            s.oldStockCount = 0
+          })
           this.goods.colorList.forEach(c => {
             c.sizeList = JSON.parse(JSON.stringify(this.goods.sizeList))
             c.sizeList.forEach(s => {
               let st = this.goods.stockList.find(stock => stock.colorId === c.id && stock.sizeId === s.id)
               if (st != null) {
                 s.stockCount = st.stockCount
+                s.oldStockCount = st.stockCount
               }
             })
           })

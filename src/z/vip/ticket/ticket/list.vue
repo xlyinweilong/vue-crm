@@ -155,6 +155,8 @@
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setBirthday(scope.row)">生日劵</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setNeedPay(scope.row)">支付劵</el-button>
           <el-button v-if="!scope.row.disabled" type="text" :disabled="scope.row.isChecked == 0" @click="setConsumeGive(scope.row)">满额送</el-button>
+          <el-button v-if="!scope.row.disabled" type="text" @click="$router.push({ path: '/vip/ticket_manager/ticket_detail/' + scope.row.id})">明细</el-button>
+
         </template>
       </el-table-column>
       <el-table-column label="投放二维码" align="center" fixed="right">
@@ -209,6 +211,11 @@
         }
       }
     },
+    created() {
+      if (sessionStorage.ticket_listQuery != null) {
+        this.listQuery = JSON.parse(sessionStorage.ticket_listQuery)
+      }
+    },
     mounted() {
       this.getList()
     },
@@ -237,6 +244,7 @@
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(res => {
+          sessionStorage.ticket_listQuery = JSON.stringify(this.listQuery)
           this.list = res.data.content
           this.total = res.data.totalElements
         }).finally(() => this.listLoading = false)

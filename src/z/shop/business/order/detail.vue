@@ -35,6 +35,11 @@
               {{ scope.row.quantity }}
             </template>
           </el-table-column>
+          <el-table-column label="退货数量" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.totalRefundQuantity }}
+            </template>
+          </el-table-column>
         </el-table>
     </div>
     <div slot="footer" class="dialog-footer">

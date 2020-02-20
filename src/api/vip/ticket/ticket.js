@@ -88,3 +88,10 @@ export function deleteEle(data) {
   })
 }
 
+export function info(params) {
+  return request({
+    url: 'api/vip/ticket/info',
+    method: 'get',
+    params: params
+  })
+}

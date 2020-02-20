@@ -81,7 +81,7 @@
             this.$emit('getList', {})
           } else if (data.status === -1) {
             this.importUseTime.useTime = (new Date().getTime() - this.importUseTime.start.getTime()) / 1000
-            this.$message.error("操作失败，请查看错误文件")
+            this.$message.error(data.message)
           } else {
             data.status === -1
             this.$message.error("系统异常")

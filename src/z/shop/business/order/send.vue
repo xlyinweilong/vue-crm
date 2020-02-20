@@ -37,6 +37,16 @@
               {{ scope.row.quantity }}
             </template>
           </el-table-column>
+          <el-table-column label="退货数量" align="center">
+            <template slot-scope="scope">
+              <span :style="{'color':scope.row.totalRefundQuantity > 0 ? '#F56C6C':''}">{{ scope.row.totalRefundQuantity }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="净数量" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.quantity - scope.row.totalRefundQuantity }}
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);padding: 10px;margin-top:10px;">

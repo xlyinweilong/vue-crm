@@ -22,8 +22,18 @@
       <el-select v-model="listQuery.yearId" filterable class="filter-item" clearable placeholder="季节">
         <el-option v-for="ele in allYearList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
       </el-select>
+      <el-input placeholder="零售价" clearable v-model.trim="listQuery.price" style="width: 100px;" class="filter-item"
+                @keyup.enter.native="getList"/>
+      <el-input placeholder="吊牌价" clearable v-model.trim="listQuery.tagPrice" style="width: 100px;" class="filter-item"
+                @keyup.enter.native="getList"/>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
+      </el-button>
+      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning"
+                 plain @click="exportExcel">导出
+      </el-button>
+      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning"
+                 plain @click="exportExcelAll">导出带有颜色和尺码
       </el-button>
     </div>
     <div class="filter-container">
@@ -36,7 +46,9 @@
         <el-button slot="reference" :disabled="selectedIds.length == 0" :loading="listLoading" class="filter-item" type="warning" icon="el-icon-sort" plain @click="onShelf">批量上/下架</el-button>
       </el-popover>
       <el-button :disabled="total == 0" :loading="listLoading" class="filter-item" type="warning" icon="el-icon-upload2" plain @click="showUpload('uploadCrmInfo')">上传修改CRM资料</el-button>
-      <el-button :disabled="total == 0" :loading="listLoading" class="filter-item" type="warning" icon="el-icon-upload2" plain @click="showUpload('uploadStock')">上传修改库存</el-button>
+      <el-tooltip class="item" effect="dark" content="批量修改需要先让商品下架" placement="top">
+        <el-button :disabled="total == 0" :loading="listLoading" class="filter-item" type="warning" icon="el-icon-upload2" plain @click="showUpload('uploadStock')">上传修改库存</el-button>
+      </el-tooltip>
       <el-button :disabled="total == 0" :loading="listLoading" class="filter-item" type="warning" icon="el-icon-upload2" plain @click="showUpload('uploadGoodsImage')">批量上传商品图片</el-button>
     </div>
     <el-table
@@ -121,12 +133,13 @@
 </template>
 
 <script>
-  import {getList, allBrand, allCategory, allCategory2, allSeason, allYear} from '@/api/transfer/goods'
+  import {getList, allBrand, allCategory, allCategory2, allSeason, allYear, exportExcel, exportExcelAll} from '@/api/transfer/goods'
   import Pagination from '@/components/Pagination'
   import onShelf from "./onShelf"
   import uploadCrmInfo from "./uploadCrmInfo"
   import uploadStock from "./uploadStock"
   import uploadGoodsImage from "./uploadGoodsImage"
+  import store from '@/store'
 
   export default {
     components: {
@@ -151,7 +164,9 @@
           categoryId: '',
           category2Id: '',
           seasonId: '',
-          yearId: ''
+          yearId: '',
+          price: '',
+          tagPrice: ''
         },
         list: [],
         total: 0,
@@ -163,6 +178,11 @@
         allYearList: []
       }
     },
+    created() {
+      if (sessionStorage.pay_order_listQuery != null) {
+        this.listQuery = JSON.parse(sessionStorage.pay_order_listQuery)
+      }
+    },
     mounted() {
       this.allBrand()
       this.allCategory()
@@ -172,19 +192,30 @@
       this.getList()
     },
     methods: {
+      exportExcel() {
+        this.listLoading = true
+        exportExcel(this.listQuery).then(res => {
+        }).finally(() => this.listLoading = false)
+      },
+      exportExcelAll() {
+        this.listLoading = true
+        exportExcelAll(this.listQuery).then(res => {
+        }).finally(() => this.listLoading = false)
+      },
       selectionChange(val) {
         this.selectedIds = val
       },
       onShelf() {
         this.$refs.onShelf.onOpen(this.selectedIds)
       },
-      showUpload(e){
+      showUpload(e) {
         this.$refs[e].onOpen()
       },
       // 获取列表
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(response => {
+          sessionStorage.pay_order_listQuery = JSON.stringify(this.listQuery)
           this.list = response.data.content
           this.total = response.data.totalElements
         }).finally(() => this.listLoading = false)

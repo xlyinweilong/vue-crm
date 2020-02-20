@@ -106,7 +106,7 @@
         this.uploadStatus()
       },
       downloadImportErrorFile() {
-        window.open(process.env.BASE_API + "/download/" + getToken() + ".xlsx")
+        window.open("/download/temp/" + getToken() + ".xlsx")
       },
       onClose() {
         this.show = false

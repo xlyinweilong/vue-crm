@@ -10,14 +10,15 @@
           <el-option key="PENDING_SEND" label="待发货" value="PENDING_SEND"/>
           <el-option key="PENDING_RECEIVE" label="待收货" value="PENDING_RECEIVE"/>
         </el-option-group>
-        <el-option-group  label="自提">
+        <el-option-group label="自提">
           <el-option key="PENDING_DELIVERY" label="待提货" value="PENDING_DELIVERY"/>
         </el-option-group>
-        <el-option-group  label="其他">
+        <el-option-group label="其他">
           <el-option key="PENDING_EVALUATE" label="待评价" value="PENDING_EVALUATE"/>
           <el-option key="EVALUATED" label="已评价" value="EVALUATED"/>
           <el-option key="PENDING_PAYMENT" label="待支付" value="PENDING_PAYMENT"/>
           <el-option key="INVALID" label="已失效" value="INVALID"/>
+          <el-option key="REFUND_ALL" label="全退款" value="REFUND_ALL"/>
         </el-option-group>
       </el-select>
       <el-input placeholder="订单号" clearable v-model.trim="listQuery.code" style="width: 150px;" class="filter-item"
@@ -127,10 +128,12 @@
           {{ scope.row.locationAddress }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" fixed="right" width="220">>
+      <el-table-column label="操作" align="center" fixed="right" width="260">>
         <template slot-scope="scope">
           <el-button type="text" @click="detail(scope.row)">单据商品</el-button>
+          <el-button v-if="scope.row.status == 'PENDING_SEND' || (scope.row.expressCode == null && scope.row.status == 'REFUND_PART')" type="text" @click="showRefund(scope.row)">退款</el-button>
           <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="send(scope.row)">发货</el-button>
+          <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="editAdress(scope.row)">修改地址</el-button>
           <el-button v-if="scope.row.receiveType == 'express' && (scope.row.status == 'PENDING_RECEIVE' || scope.row.status == 'PENDING_EVALUATE' || scope.row.status == 'EVALUATED')" type="text" @click="send(scope.row)">发货信息</el-button>
         </template>
       </el-table-column>
@@ -141,6 +144,8 @@
     <detail ref="detail" @getList="getList"/>
     <exportExcel ref="exportExcel" @getList="getList"/>
     <updateExpress ref="updateExpress" @getList="getList"/>
+    <editAdress ref="editAdress" @getList="getList" />
+    <refund ref="refund" @getList="getList"/>
   </div>
 </template>
 
@@ -149,9 +154,10 @@
   import Pagination from '@/components/Pagination'
   import send from "./send"
   import detail from "./detail"
+  import refund from "./refund"
   import exportExcel from "./exportExcel"
   import updateExpress from "./updateExpress"
-
+  import editAdress from "./editAdress"
 
   export default {
     components: {
@@ -159,7 +165,9 @@
       send,
       detail,
       exportExcel,
-      updateExpress
+      updateExpress,
+      editAdress,
+      refund
     },
     filters: {},
     directives: {},
@@ -182,6 +190,11 @@
         listLoading: false
       }
     },
+    created() {
+      if (sessionStorage.shop_order_listQuery != null) {
+        this.listQuery = JSON.parse(sessionStorage.shop_order_listQuery)
+      }
+    },
     mounted() {
       this.getList()
     },
@@ -193,6 +206,7 @@
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(response => {
+          sessionStorage.shop_order_listQuery = JSON.stringify(this.listQuery)
           this.list = response.data.content
           this.total = response.data.totalElements
         }).finally(() => this.listLoading = false)
@@ -203,8 +217,14 @@
       exportExcel() {
         this.$refs.exportExcel.onOpen(this.listQuery)
       },
-      updateExpress(){
+      updateExpress() {
         this.$refs.updateExpress.onOpen()
+      },
+      editAdress(ele){
+        this.$refs.editAdress.onOpen(ele)
+      },
+      showRefund(ele){
+        this.$refs.refund.onOpen(ele)
       }
     }
   }

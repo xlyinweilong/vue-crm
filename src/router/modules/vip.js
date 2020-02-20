@@ -70,6 +70,13 @@ const vipRouter = {
           meta: {title: '卡券列表', power: 'vip_ticket_list'}
         },
         {
+          path: 'ticket_detail/:id',
+          component: () => import('@/z/vip/ticket/ticket/detail'),
+          name: 'ticket_list',
+          hidden: true,
+          meta: {title: '卡券明细', power: 'vip_ticket_list'}
+        },
+        {
           path: 'give_ticket',
           component: () => import('@/z/vip/ticket/give_user/index'),
           name: 'give_ticket',
@@ -79,7 +86,7 @@ const vipRouter = {
           path: 'receive_list',
           component: () => import('@/z/vip/ticket/receive/list'),
           name: 'receive_list',
-          meta: { title: '领取列表', power: 'vip_ticket_receive' }
+          meta: {title: '领取列表', power: 'vip_ticket_receive'}
         },
         {
           path: 'ticket_write_off',

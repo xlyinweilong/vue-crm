@@ -18,6 +18,12 @@ const shopRouter = {
       meta: {title: '商城配置', power: 'manage_platform'},
       children: [
         {
+          path: 'parameter',
+          component: () => import('@/z/shop/config/parameter/index'),
+          name: 'parameter',
+          meta: {title: '参数配置'}
+        },
+        {
           path: 'theme',
           component: () => import('@/z/shop/config/theme/index'),
           name: 'theme',
@@ -27,7 +33,7 @@ const shopRouter = {
           path: 'goods',
           component: () => import('@/z/shop/config/goods/index'),
           name: 'goods',
-          meta: {title: '商品管理', power: 'transaction_all_goods'}
+          meta: {title: '商品管理', noCache: false, power: 'transaction_all_goods'}
         },
         {
           path: 'size',
@@ -40,7 +46,7 @@ const shopRouter = {
           component: () => import('@/z/shop/config/goods/detail'),
           name: 'goods_detail',
           hidden: true,
-          meta: {title: '商品管理', power: 'transaction_all_goods'}
+          meta: {title: '商品明细', power: 'transaction_all_goods'}
         },
         {
           path: 'goods_category',

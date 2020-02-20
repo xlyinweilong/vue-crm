@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="货号" clearable v-model.trim="listQuery.code" style="width: 150px;" class="filter-item"
+      <el-input placeholder="货号" clearable v-model.trim="listQuery.goodsCode" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="getList"/>
-      <el-input placeholder="颜色" clearable v-model.trim="listQuery.locationReceiver" style="width: 150px;" class="filter-item"
+      <el-input placeholder="颜色" clearable v-model.trim="listQuery.colorName" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="getList"/>
-      <el-input placeholder="尺码" clearable v-model.trim="listQuery.locationMobile" style="width: 150px;" class="filter-item"
+      <el-input placeholder="尺码" clearable v-model.trim="listQuery.sizeName" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="getList"/>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
@@ -77,6 +77,11 @@
         listLoading: false
       }
     },
+    created() {
+      if (sessionStorage.shop_stock_listQuery != null) {
+        this.listQuery = JSON.parse(sessionStorage.shop_stock_listQuery)
+      }
+    },
     mounted() {
       this.getList()
     },
@@ -85,6 +90,7 @@
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(response => {
+          sessionStorage.shop_stock_listQuery = JSON.stringify(this.listQuery)
           this.list = response.data.content
           this.total = response.data.totalElements
         }).finally(() => this.listLoading = false)

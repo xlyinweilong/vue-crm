@@ -90,3 +90,22 @@ export function onShelf(data) {
     data: data
   })
 }
+
+export function exportExcel(data) {
+  return request({
+    url: 'api/erp_goods/export',
+    method: 'post',
+    data,
+    responseType: 'blob'
+  })
+}
+
+
+export function exportExcelAll(data) {
+  return request({
+    url: 'api/erp_goods/export_all',
+    method: 'post',
+    data,
+    responseType: 'blob'
+  })
+}

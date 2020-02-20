@@ -5,7 +5,7 @@
     :visible="show"
     @close="onClose"
     width="800px">
-    <div>
+    <div v-loading="loading">
       <span>导出内容：</span>
       <el-select style="margin-top: 5px" v-model="type" placeholder="请选择">
         <el-option key="BILL" label="仅订单" value="BILL"/>
@@ -46,9 +46,9 @@
         this.show = true
       },
       exportExcel() {
-        this.listLoading = true
+        this.loading = true
         exportExcel(this.listQuery).then(res => {
-        }).finally(() => this.listLoading = false)
+        }).finally(() => this.loading = false)
       }
     }
   }
