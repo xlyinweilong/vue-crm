@@ -24,6 +24,38 @@ export function save(data) {
   })
 }
 
+export function saveGoods(data) {
+  return request({
+    url: 'api/erp_goods/save_goods',
+    method: 'post',
+    data
+  })
+}
+
+export function saveColor(data) {
+  return request({
+    url: 'api/erp_goods/save_goods_color',
+    method: 'post',
+    data
+  })
+}
+
+export function saveSize(data) {
+  return request({
+    url: 'api/erp_goods/save_goods_size',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteEle(data) {
+  return request({
+    url: 'api/erp_goods/delete_goods',
+    method: 'post',
+    data
+  })
+}
+
 export function allBrand() {
   return request({
     url: 'api/erp_goods/all_brand',
@@ -34,6 +66,14 @@ export function allBrand() {
 export function saveBrand(data) {
   return request({
     url: 'api/erp_goods/save_brand',
+    method: 'post',
+    data: data
+  })
+}
+
+export function deleteBrand(data) {
+  return request({
+    url: 'api/erp_goods/delete_brand',
     method: 'post',
     data: data
   })
@@ -54,6 +94,14 @@ export function saveCategory(data) {
   })
 }
 
+export function deleteCategory(data) {
+  return request({
+    url: 'api/erp_goods/delete_category',
+    method: 'post',
+    data: data
+  })
+}
+
 export function allCategory2() {
   return request({
     url: 'api/erp_goods/all_category2',
@@ -69,6 +117,14 @@ export function saveCategory2(data) {
   })
 }
 
+export function deleteCategory2(data) {
+  return request({
+    url: 'api/erp_goods/delete_category2',
+    method: 'post',
+    data: data
+  })
+}
+
 export function allSeason() {
   return request({
     url: 'api/erp_goods/all_season',
@@ -76,10 +132,42 @@ export function allSeason() {
   })
 }
 
+export function saveSeason(data) {
+  return request({
+    url: 'api/erp_goods/save_season',
+    method: 'post',
+    data: data
+  })
+}
+
+export function deleteSeason(data) {
+  return request({
+    url: 'api/erp_goods/delete_season',
+    method: 'post',
+    data: data
+  })
+}
+
 export function allYear() {
   return request({
     url: 'api/erp_goods/all_year',
     method: 'get'
+  })
+}
+
+export function saveYear(data) {
+  return request({
+    url: 'api/erp_goods/save_year',
+    method: 'post',
+    data: data
+  })
+}
+
+export function deleteYear(data) {
+  return request({
+    url: 'api/erp_goods/delete_year',
+    method: 'post',
+    data: data
   })
 }
 

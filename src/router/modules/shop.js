@@ -87,6 +87,18 @@ const shopRouter = {
           meta: {title: '订单发货', power: 'manage_platform_company'}
         },
         {
+          path: 'pack_send',
+          component: () => import('@/z/shop/business/pack/index'),
+          name: 'pack_send',
+          meta: {title: '打包发货', power: 'manage_platform_company'}
+        },
+        {
+          path: 'refund',
+          component: () => import('@/z/shop/business/refund/index'),
+          name: 'refund',
+          meta: {title: '退货审核', power: 'manage_platform_company'}
+        },
+        {
           path: 'stock',
           component: () => import('@/z/shop/business/stock/index'),
           name: 'stock',

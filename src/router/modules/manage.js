@@ -80,6 +80,12 @@ const manageRouter = {
           component: () => import('@/z/manage/business/user/user_list'),
           name: 'user_manage',
           meta: {title: '员工管理', power: 'manage_business_employ'}
+        },
+        {
+          path: 'service_phone_400',
+          component: () => import('@/z/manage/business/service_400/service_400'),
+          name: 'service_phone_400',
+          meta: {title: '400客服电话', power: 'manage_business_employ'}
         }
         // {
         //   path: 'role_manage',
@@ -143,6 +149,26 @@ const manageRouter = {
         //   name: 'material',
         //   meta: {title: '素材分类'}
         // }
+      ]
+    },
+    {
+      path: 'wechat_pay',
+      component: () => import('@/z/SubLayout'),
+      name: 'wechat_pay',
+      meta: {title: '微信支付', power: 'manage_wechat'},
+      children: [
+        {
+          path: 'parameter_settings',
+          component: () => import('@/z/manage/business/wechat_pay/parameter_settings'),
+          name: 'parameter_settings',
+          meta: {title: '参数设置', power: 'manage_wechat_parameter'}
+        },
+        {
+          path: 'certificate',
+          component: () => import('@/z/manage/business/wechat_pay/certificate'),
+          name: 'certificate',
+          meta: {title: '证书管理', power: 'manage_wechat_reply'}
+        }
       ]
     },
     {

@@ -10,7 +10,7 @@
         :data="uploadData"
         drag
         :action="importAction" accept=".png,.jpg"
-        :on-preview="handlePreview"
+        :before-upload="handlePreview"
         :limit="200"
         :file-list="importFileList" :headers="importHeaders"
         :on-remove="handleRemove"
@@ -111,6 +111,11 @@
         this.show = true
       },
       handlePreview(file) {
+        if (file.size / 1024 / 1024 > 2) {
+          this.$message.error(file.name + '图片大小不能超过 2MB!')
+          return false
+        }
+        return true
       },
       handleRemove(file, fileList) {
         this.importFileList = fileList

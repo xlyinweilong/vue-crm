@@ -6,13 +6,19 @@
     @close="onClose"
     width="650px">
     <el-form ref="form" :model="form" v-loading="loading" :rules="rules" label-width="80px">
-      <el-form-item label="角色名称" prop="roleName">
-        <el-input v-model.trim="form.roleName" :maxlength="20" placeholder="请输入角色名称"
+      <el-form-item label="编号" prop="code">
+        <el-input v-model.trim="form.code" :maxlength="20" placeholder="请输入编号"
                   @keyup.enter.native="save"></el-input>
       </el-form-item>
-      <el-form-item label="可用平台">
-        <el-checkbox label="CRM后台" v-model="form.platformCrmWeb"></el-checkbox>
-        <el-checkbox label="CRM小程序员工端" v-model="form.platformCrmEmploy"></el-checkbox>
+      <el-form-item label="名称" prop="name">
+        <el-input v-model.trim="form.name" :maxlength="100" placeholder="请输入名称"
+                  @keyup.enter.native="save"></el-input>
+      </el-form-item>
+      <el-form-item label="启用" prop="roleName">
+        <el-select style="width: 100%" v-model="form.disabled" placeholder="请选择">
+          <el-option :key="0" label="启用" :value="0"/>
+          <el-option :key="1" label="失效" :value="1"/>
+        </el-select>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -23,7 +29,7 @@
 </template>
 
 <script>
-  import {info, save} from '@/api/manager/sys_user/role'
+  import {saveData} from '@/api/manager/business/channel'
 
   export default {
     components: {},
@@ -32,13 +38,15 @@
     props: {},
     data() {
       return {
-        show: false,
-        rules: {
-          roleName: [{required: true, trigger: 'blur', message: '必填字段'}]
-        },
         loading: false,
-        title: '',
-        form: {}
+        show: false,
+        form: {
+          id: ''
+        },
+        rules: {
+          code: [{required: true, trigger: 'blur', message: '必填字段'}],
+          name: [{required: true, trigger: 'blur', message: '必填字段'}]
+        }
       }
     },
     mounted() {
@@ -48,17 +56,8 @@
         this.show = false
       },
       onOpen(ele) {
+        this.form = JSON.parse(JSON.stringify(ele))
         this.show = true
-        if (ele.id != '') {
-          this.form = JSON.parse(JSON.stringify(ele))
-        } else {
-          this.form = {
-            id: '',
-            roleName: '',
-            platformCrmWeb: false,
-            platformCrmEmploy: false
-          }
-        }
         if (this.$refs['form'] != null) {
           this.$refs['form'].resetFields()
         }
@@ -67,8 +66,7 @@
         this.$refs['form'].validate((valid) => {
           if (valid) {
             this.loading = true
-            console.log(this.form)
-            save(this.form).then(res => {
+            saveData(this.form).then(res => {
               this.$message({message: '保存成功', type: 'success'})
               this.onClose()
               this.$emit("getList", {})

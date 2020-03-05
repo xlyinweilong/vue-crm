@@ -8,6 +8,7 @@
       <el-select class="filter-item" style="width: 150px;" v-model="listQuery.statusList" placeholder="单据状态" clearable multiple collapse-tags>
         <el-option-group label="快递">
           <el-option key="PENDING_SEND" label="待发货" value="PENDING_SEND"/>
+          <el-option key="SENDING" label="发货中" value="SENDING"/>
           <el-option key="PENDING_RECEIVE" label="待收货" value="PENDING_RECEIVE"/>
         </el-option-group>
         <el-option-group label="自提">
@@ -47,6 +48,7 @@
       <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
     </div>
     <div class="filter-container">
+      <el-button :disabled="selection.length == 0" :loading="listLoading" class="filter-item" type="primary" icon="el-icon-s-order" plain @click="changeSending">修改发货中</el-button>
       <el-button :loading="listLoading" class="filter-item" type="warning" icon="el-icon-upload2" plain @click="updateExpress">上传修改快递</el-button>
     </div>
     <el-table
@@ -57,7 +59,12 @@
       highlight-current-row
       fit
       border
+      @selection-change="handleSelectionChange"
     >
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
       <el-table-column label="下单时间" align="center">
         <template slot-scope="scope">
           {{ scope.row.createDate }}
@@ -131,8 +138,9 @@
       <el-table-column label="操作" align="center" fixed="right" width="260">>
         <template slot-scope="scope">
           <el-button type="text" @click="detail(scope.row)">单据商品</el-button>
-          <el-button v-if="scope.row.status == 'PENDING_SEND' || (scope.row.expressCode == null && scope.row.status == 'REFUND_PART')" type="text" @click="showRefund(scope.row)">退款</el-button>
+          <el-button v-if="scope.row.status == 'EVALUATED' || scope.row.status == 'PENDING_EVALUATE' || scope.row.status == 'PENDING_RECEIVE' || scope.row.status == 'PENDING_SEND' || (scope.row.expressCode == null && scope.row.status == 'REFUND_PART')" type="text" @click="showRefund(scope.row)">退款</el-button>
           <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="send(scope.row)">发货</el-button>
+          <el-button type="text" @click="changeColorOrSize(scope.row)">调换</el-button>
           <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="editAdress(scope.row)">修改地址</el-button>
           <el-button v-if="scope.row.receiveType == 'express' && (scope.row.status == 'PENDING_RECEIVE' || scope.row.status == 'PENDING_EVALUATE' || scope.row.status == 'EVALUATED')" type="text" @click="send(scope.row)">发货信息</el-button>
         </template>
@@ -144,8 +152,10 @@
     <detail ref="detail" @getList="getList"/>
     <exportExcel ref="exportExcel" @getList="getList"/>
     <updateExpress ref="updateExpress" @getList="getList"/>
-    <editAdress ref="editAdress" @getList="getList" />
+    <editAdress ref="editAdress" @getList="getList"/>
     <refund ref="refund" @getList="getList"/>
+    <changeColorOrSize ref="changeColorOrSize" @getList="getList"/>
+    <changeSending ref="changeSending" @getList="getList"/>
   </div>
 </template>
 
@@ -158,6 +168,8 @@
   import exportExcel from "./exportExcel"
   import updateExpress from "./updateExpress"
   import editAdress from "./editAdress"
+  import changeColorOrSize from "./changeColorOrSize"
+  import changeSending from "./changeSending"
 
   export default {
     components: {
@@ -166,8 +178,10 @@
       detail,
       exportExcel,
       updateExpress,
+      changeSending,
       editAdress,
-      refund
+      refund,
+      changeColorOrSize
     },
     filters: {},
     directives: {},
@@ -187,7 +201,8 @@
         },
         list: [],
         total: 0,
-        listLoading: false
+        listLoading: false,
+        selection: []
       }
     },
     created() {
@@ -199,6 +214,12 @@
       this.getList()
     },
     methods: {
+      handleSelectionChange(val) {
+        this.selection = val
+      },
+      changeColorOrSize(ele) {
+        this.$refs.changeColorOrSize.onOpen(ele)
+      },
       detail(ele) {
         this.$refs.detail.onOpen(ele)
       },
@@ -206,6 +227,7 @@
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(response => {
+          this.selection = []
           sessionStorage.shop_order_listQuery = JSON.stringify(this.listQuery)
           this.list = response.data.content
           this.total = response.data.totalElements
@@ -220,12 +242,19 @@
       updateExpress() {
         this.$refs.updateExpress.onOpen()
       },
-      editAdress(ele){
+      editAdress(ele) {
         this.$refs.editAdress.onOpen(ele)
       },
-      showRefund(ele){
+      showRefund(ele) {
         this.$refs.refund.onOpen(ele)
-      }
+      },
+      changeSending() {
+        if (this.selection.some(o => o.status != 'PENDING_SEND')) {
+          this.$message.error('选择的单据中包含非待发货状态的单据');
+          return
+        }
+        this.$refs.changeSending.onOpen(this.selection.map(s => s.id))
+      },
     }
   }
 </script>

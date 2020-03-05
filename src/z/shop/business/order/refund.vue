@@ -51,6 +51,23 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row :gutter="20" v-if="form.status == 'PENDING_RECEIVE' || form.status == 'EVALUATED' || form.status == 'PENDING_EVALUATE'">
+            <el-col :span="8">
+              <el-form-item label="寄回的快递公司" prop="refundExpressCompanyName">
+                <el-input v-model="form.refundExpressCompanyName" placeholder="寄回的快递公司"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="寄回的快递单号" prop="refundExpressCode">
+                <el-input v-model="form.refundExpressCode" placeholder="寄回的快递单号"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="寄回的快递费用" prop="refundExpressFee">
+                <el-input-number style="width: 100%" v-model="form.refundExpressFee" step-strictly :precision="2" :step="0.01" :min="0" :max="99999" :controls="false"></el-input-number>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
       <div>

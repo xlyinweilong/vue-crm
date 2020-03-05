@@ -39,6 +39,22 @@ export function save(data) {
   })
 }
 
+export function saveData(data) {
+  return request({
+    url: 'api/vip/vip_grade/save_data',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteEle(data) {
+  return request({
+    url: 'api/vip/vip_grade/delete',
+    method: 'post',
+    data
+  })
+}
+
 export function saveWeChart(data) {
   return request({
     url: 'api/vip/vip_grade/save_we_chart',

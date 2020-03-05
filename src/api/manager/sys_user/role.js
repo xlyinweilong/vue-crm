@@ -21,6 +21,14 @@ export function all() {
   })
 }
 
+export function save(data) {
+  return request({
+    url: 'api/role/save',
+    method: 'post',
+    data
+  })
+}
+
 export function deleteEle(data) {
   return request({
     url: 'api/role/delete',

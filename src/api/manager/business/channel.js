@@ -47,3 +47,19 @@ export function loadComplaintQrCode(params) {
     params: params
   })
 }
+
+export function deleteEle(data) {
+  return request({
+    url: 'api/channel/delete',
+    method: 'post',
+    data: data
+  })
+}
+
+export function saveData(data) {
+  return request({
+    url: 'api/channel/save_data',
+    method: 'post',
+    data: data
+  })
+}
