@@ -2,17 +2,19 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select :loading="loading"
-                 class="filter-item" v-model="expressId" placeholder="请选择快递">
-        <el-option v-for="item in expressList" :key="item.id" :label="item.label" :value="item.id"/>
+                 class="filter-item" v-model="expressId" placeholder="请选择快递" @change="changeExpress">
+        <el-option v-for="item in expressList" :key="item.id" :label="item.deliveryId + '-' + item.bizId" :value="item.id"/>
       </el-select>
       <el-select :loading="loading"
                  class="filter-item" v-model="serviceId" placeholder="请选择发货服务">
-        <el-option v-for="item in serviceList" :key="item.service_type" :label="item.service_name" :value="item.service_type"/>
+        <el-option v-for="item in serviceList" :key="item.serviceType" :label="item.serviceName" :value="item.serviceType"/>
       </el-select>
       <el-select :loading="loading" class="filter-item" v-model="sendId" filterable placeholder="请选择发货信息">
         <el-option v-for="item in sendList" :key="item.id" :label="item.name" :value="item.id"/>
       </el-select>
-      <el-date-picker class="filter-item" v-model="expectTime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择上门时间"/>
+      <el-tooltip class="item" effect="dark" content="预期的上门揽件时间，需大于当前时间，收件员会在预期时间附近上门。说明：若选择了预期揽件时间，请不要自己打单，由上门揽件的时候打印。" placement="top">
+        <el-date-picker class="filter-item" v-model="expectTime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择上门时间"/>
+      </el-tooltip>
       <el-button :loading="loading" :disabled="selection.length == 0" class="filter-item" icon="el-icon-check" type="primary" plain @click="save">
         确定打包
       </el-button>
@@ -129,7 +131,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <packEle ref="pack" @getList="getList"/>
   </div>
 </template>
 
@@ -137,11 +138,10 @@
   import {loadPackInfo, pack, getAccountList, getAllDelivery} from '@/api/shop/business/pack/pack'
   import {getAll as loadSenderList} from '@/api/shop/config/sender/sender'
   import Pagination from '@/components/Pagination'
-  import packEle from './pack'
 
   export default {
     components: {
-      Pagination, packEle
+      Pagination
     },
     filters: {},
     directives: {},
@@ -163,13 +163,10 @@
     },
     computed: {
       serviceList() {
-        if (this.allDelivery.length > 0 && this.expressId != '') {
+        if (this.expressId != '') {
           let ex = this.expressList.find(e => e.id == this.expressId)
           if (ex != null) {
-            let sevice = this.allDelivery.find(d => d.delivery_id == ex.deliveryId)
-            if (sevice != null) {
-              return sevice.service_type
-            }
+            return ex.serviceTypeList
           }
         }
         return []
@@ -180,10 +177,16 @@
     mounted() {
       this.loadExpressInfo()
       this.loadSenderList()
-      this.getAllDelivery()
+      // this.getAllDelivery()
       this.getList()
     },
     methods: {
+      changeExpress(){
+        this.serviceId = ''
+        if(this.serviceList.length == 1){
+          this.serviceId = this.serviceList[0].serviceType
+        }
+      },
       handleSelectionChange(val) {
         this.selection = val
       },
@@ -199,7 +202,7 @@
       save() {
         let form = {list: this.selection}
         form.sendId = this.sendId
-        let serviceType = this.serviceList.find(s => this.serviceId == s.service_type)
+        let serviceType = this.serviceList.find(s => this.serviceId == s.serviceType)
         if (form.sendId == '') {
           this.$message.error('请选择发货信息')
           return
@@ -208,8 +211,8 @@
           this.$message.error('请选择发货服务')
           return
         }
-        form.serviceType = serviceType.service_type
-        form.serviceName = serviceType.service_name
+        form.serviceType = serviceType.serviceType
+        form.serviceName = serviceType.serviceName
         form.expectTime = this.expectTime
         this.$confirm('确定要发起快递打包吗?', '提示', {
           confirmButtonText: '确定',

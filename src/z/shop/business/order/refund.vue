@@ -149,7 +149,8 @@
         loading: false,
         show: false,
         form: {
-          status: ''
+          status: '',
+          refundExpressAmount:''
         },
         goodsList: [],
         rules: {

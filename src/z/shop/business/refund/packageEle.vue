@@ -2,12 +2,12 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select :loading="loading"
-                 class="filter-item" v-model="expressId" placeholder="请选择快递">
-        <el-option v-for="item in expressList" :key="item.id" :label="item.label" :value="item.id"/>
+                 class="filter-item" v-model="expressId" placeholder="请选择快递" @change="changeExpress">
+        <el-option v-for="item in expressList" :key="item.id" :label="item.deliveryId + '-' + item.bizId" :value="item.id"/>
       </el-select>
       <el-select :loading="loading"
                  class="filter-item" v-model="serviceId" placeholder="请选择发货服务">
-        <el-option v-for="item in serviceList" :key="item.service_type" :label="item.service_name" :value="item.service_type"/>
+        <el-option v-for="item in serviceList" :key="item.serviceType" :label="item.serviceName" :value="item.serviceType"/>
       </el-select>
       <el-select :loading="loading" class="filter-item" v-model="sendId" filterable placeholder="请选择收货信息">
         <el-option v-for="item in sendList" :key="item.id" :label="item.name" :value="item.id"/>
@@ -167,13 +167,10 @@
     },
     computed: {
       serviceList() {
-        if (this.allDelivery.length > 0 && this.expressId != '') {
+        if (this.expressId != '') {
           let ex = this.expressList.find(e => e.id == this.expressId)
           if (ex != null) {
-            let sevice = this.allDelivery.find(d => d.delivery_id == ex.deliveryId)
-            if (sevice != null) {
-              return sevice.service_type
-            }
+            return ex.serviceTypeList
           }
         }
         return []
@@ -182,10 +179,16 @@
     mounted() {
       this.loadExpressInfo()
       this.loadSenderList()
-      this.getAllDelivery()
+      // this.getAllDelivery()
       this.getList()
     },
     methods: {
+      changeExpress(){
+        this.serviceId = ''
+        if(this.serviceList.length == 1){
+          this.serviceId = this.serviceList[0].serviceType
+        }
+      },
       init() {
         this.getList()
       },
@@ -204,7 +207,7 @@
       save() {
         let form = {list: this.selection}
         form.sendId = this.sendId
-        let serviceType = this.serviceList.find(s => this.serviceId == s.service_type)
+        let serviceType = this.serviceList.find(s => this.serviceId == s.serviceType)
         if (form.sendId == '') {
           this.$message.error('请选择发货信息')
           return
@@ -213,8 +216,8 @@
           this.$message.error('请选择发货服务')
           return
         }
-        form.serviceType = serviceType.service_type
-        form.serviceName = serviceType.service_name
+        form.serviceType = serviceType.serviceType
+        form.serviceName = serviceType.serviceName
         this.$confirm('确定要发起快递打包吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

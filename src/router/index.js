@@ -75,7 +75,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/z/vip/ticket/ticket/list'),
+        component: () => import('@/z/report/shop_order/index'),
         name: 'Dashboard',
         meta: {title: 'dashboard', icon: 'dashboard', noCache: true}
       }

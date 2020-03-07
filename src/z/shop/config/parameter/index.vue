@@ -14,9 +14,6 @@
         <el-tab-pane label="打印员设置" name="PRINTER">
           <printer ref="printer"/>
         </el-tab-pane>
-        <el-tab-pane label="邮寄地址" name="LOCATION">
-          <printer ref="printer"/>
-        </el-tab-pane>
       </el-tabs>
     </div>
   </div>

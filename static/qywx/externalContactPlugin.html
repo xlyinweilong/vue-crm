@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+  <META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+  <META HTTP-EQUIV="expires" CONTENT="0">
+  <script charset="utf-8" src="/static/js/jquery-3.4.1.min.js"></script>
+  <script charset="utf-8" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js?t=1"></script>
+</head>
+<body>
+<div>
+  <span id="userInfo"></span>
+</div>
+<script>
+
+  function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      if (pair[0] == variable) {
+        return pair[1];
+      }
+    }
+    return (false);
+  }
+
+  let tnId = getQueryVariable("tnId")
+  $.ajax({
+    // url: 'https://crm.wisdomyy.com/crm/api/qywechat/ticket/jljy',
+    url: 'http://47.92.122.23:9092/crm/api/qywechat/ticket/' + tnId,
+    // url: 'http://127.0.0.1:9092/crm/api/qywechat/ticket/' + tnId,
+    type: 'get',
+    async: false,
+    contentType: 'application/json',
+    // data: JSON.stringify(userArr),
+    dataType: 'json',
+    success: function (res) {
+      jWeixin.config({
+        beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: res.data.copyId, // 必填，企业微信的corpID
+        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+        signature: res.data.signature,// 必填，签名，见 附录-JS-SDK使用权限签名算法
+        jsApiList: ["selectExternalContact", "getCurExternalContact"], // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+        success: function (res) {
+        },
+        fail: function (res) {
+          alert("配置失败，请重试，还不行请联系管理员")
+        }
+      })
+    }
+  })
+  wx.ready(function () {
+    $.ajax({
+      // url: 'https://crm.wisdomyy.com/crm/api/qywechat/ticket/jljy',
+      url: 'http://47.92.122.23:9092/crm/api/qywechat/ticket/agent/' + tnId,
+      // url: 'http://127.0.0.1:9092/crm/api/qywechat/ticket/agent/' + tnId,
+      type: 'get',
+      async: false,
+      contentType: 'application/json',
+      // data: JSON.stringify(userArr),
+      dataType: 'json',
+      success: function (res) {
+        wx.agentConfig({
+          corpid: res.data.copyId, // 必填，企业微信的corpid，必须与当前登录的企业一致
+          agentid: res.data.agentId, // 必填，企业微信的应用id （e.g. 1000247）
+          timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+          signature: res.data.signature,// 必填，签名，见附录1
+          jsApiList: ['selectExternalContact', 'getCurExternalContact'], //必填
+          success: function (res) {
+            wx.invoke('getCurExternalContact', {}, function (res) {
+              if (res.err_msg == "getCurExternalContact:ok") {
+                $("#userInfo").html("123123")
+                let userId = res.userId;
+                alert(userId)
+                alert(JSON.stringify(res))
+                $("#userInfo").html(JSON.stringify(res))
+              } else {
+                alert(res.err_msg)
+                //错误处理
+              }
+            })
+          },
+          fail: function (res) {
+            if (res.errMsg.indexOf('function not exist') > -1) {
+              alert('版本过低请升级')
+            } else {
+              alert("外部配置失败，请重试，还不行请联系管理员")
+            }
+          }
+        });
+      }
+    })
+  })
+
+
+  wx.error(function (res) {
+    alert("发生错误，请联系管理员")
+  })
+
+</script>
+</body>
+</html>

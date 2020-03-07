@@ -45,11 +45,7 @@
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
       </el-button>
-      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
-    </div>
-    <div class="filter-container">
-      <el-button :disabled="selection.length == 0" :loading="listLoading" class="filter-item" type="primary" icon="el-icon-s-order" plain @click="changeSending">修改发货中</el-button>
-      <el-button :loading="listLoading" class="filter-item" type="warning" icon="el-icon-upload2" plain @click="updateExpress">上传修改快递</el-button>
+      <!--<el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>-->
     </div>
     <el-table
       v-loading="listLoading"
@@ -138,50 +134,24 @@
       <el-table-column label="操作" align="center" fixed="right" width="260">>
         <template slot-scope="scope">
           <el-button type="text" @click="detail(scope.row)">单据商品</el-button>
-          <el-button v-if="scope.row.status == 'SENDING' || scope.row.status == 'EVALUATED' || scope.row.status == 'PENDING_EVALUATE' || scope.row.status == 'PENDING_RECEIVE' || scope.row.status == 'PENDING_SEND' || (scope.row.expressCode == null && scope.row.status == 'REFUND_PART')" type="text" @click="showRefund(scope.row)">退款</el-button>
-          <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="send(scope.row)">发货</el-button>
-          <el-button type="text" @click="changeColorOrSize(scope.row)">调换</el-button>
-          <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="editAdress(scope.row)">修改地址</el-button>
-          <el-button v-if="scope.row.receiveType == 'express' && (scope.row.status == 'PENDING_RECEIVE' || scope.row.status == 'PENDING_EVALUATE' || scope.row.status == 'EVALUATED')" type="text" @click="send(scope.row)">发货信息</el-button>
         </template>
       </el-table-column>
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex"
                 :limit.sync="listQuery.pageSize" @pagination="getList"/>
-    <send ref="send" @getList="getList"/>
     <detail ref="detail" @getList="getList"/>
-    <exportExcel ref="exportExcel" @getList="getList"/>
-    <updateExpress ref="updateExpress" @getList="getList"/>
-    <editAdress ref="editAdress" @getList="getList"/>
-    <refund ref="refund" @getList="getList"/>
-    <changeColorOrSize ref="changeColorOrSize" @getList="getList"/>
-    <changeSending ref="changeSending" @getList="getList"/>
   </div>
 </template>
 
 <script>
   import {getList} from '@/api/shop/business/order/order'
   import Pagination from '@/components/Pagination'
-  import send from "./send"
-  import detail from "./detail"
-  import refund from "./refund"
-  import exportExcel from "./exportExcel"
-  import updateExpress from "./updateExpress"
-  import editAdress from "./editAdress"
-  import changeColorOrSize from "./changeColorOrSize"
-  import changeSending from "./changeSending"
+  import detail from "@/z/shop/business/order/detail"
 
   export default {
     components: {
       Pagination,
-      send,
-      detail,
-      exportExcel,
-      updateExpress,
-      changeSending,
-      editAdress,
-      refund,
-      changeColorOrSize
+      detail
     },
     filters: {},
     directives: {},
@@ -217,9 +187,6 @@
       handleSelectionChange(val) {
         this.selection = val
       },
-      changeColorOrSize(ele) {
-        this.$refs.changeColorOrSize.onOpen(ele)
-      },
       detail(ele) {
         this.$refs.detail.onOpen(ele)
       },
@@ -233,28 +200,9 @@
           this.total = response.data.totalElements
         }).finally(() => this.listLoading = false)
       },
-      send(ele) {
-        this.$refs.send.onOpen(ele)
-      },
       exportExcel() {
         this.$refs.exportExcel.onOpen(this.listQuery)
-      },
-      updateExpress() {
-        this.$refs.updateExpress.onOpen()
-      },
-      editAdress(ele) {
-        this.$refs.editAdress.onOpen(ele)
-      },
-      showRefund(ele) {
-        this.$refs.refund.onOpen(ele)
-      },
-      changeSending() {
-        if (this.selection.some(o => o.status != 'PENDING_SEND')) {
-          this.$message.error('选择的单据中包含非待发货状态的单据');
-          return
-        }
-        this.$refs.changeSending.onOpen(this.selection.map(s => s.id))
-      },
+      }
     }
   }
 </script>
