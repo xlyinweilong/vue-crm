@@ -7,6 +7,9 @@
                 @keyup.enter.native="getList"/>
       <el-input placeholder="尺码" clearable v-model.trim="listQuery.sizeName" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="getList"/>
+      <el-select v-model="listQuery.brandIds"  multiple collapse-tags filterable class="filter-item" clearable placeholder="品牌">
+        <el-option v-for="ele in allBrandList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
+      </el-select>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
       </el-button>
@@ -36,6 +39,11 @@
           {{ scope.row.sizeName }}
         </template>
       </el-table-column>
+      <el-table-column label="品牌" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.brandName }}
+        </template>
+      </el-table-column>
       <el-table-column label="库存数量" align="center">
         <template slot-scope="scope">
           {{ scope.row.stockCount }}
@@ -53,7 +61,8 @@
 </template>
 
 <script>
-  import {getList,exportExcel} from '@/api/shop/business/stock/stock'
+  import {getList, exportExcel} from '@/api/shop/business/stock/stock'
+  import {allBrand} from '@/api/transfer/goods'
   import Pagination from '@/components/Pagination'
 
 
@@ -70,14 +79,17 @@
           pageSize: 10,
           goodsCode: '',
           sizeName: '',
-          colorName: ''
+          colorName: '',
+          brandIds:[]
         },
+        allBrandList:[],
         list: [],
         total: 0,
         listLoading: false
       }
     },
     created() {
+      this.allBrand()
       if (sessionStorage.shop_stock_listQuery != null) {
         this.listQuery = JSON.parse(sessionStorage.shop_stock_listQuery)
       }
@@ -86,6 +98,9 @@
       this.getList()
     },
     methods: {
+      async allBrand() {
+        await allBrand().then(res => this.allBrandList = res.data.filter(b => b.isShow))
+      },
       // 获取列表
       getList() {
         this.listLoading = true

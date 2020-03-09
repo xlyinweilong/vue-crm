@@ -6,14 +6,61 @@
   <META HTTP-EQUIV="pragma" CONTENT="no-cache">
   <META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
   <META HTTP-EQUIV="expires" CONTENT="0">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   <script charset="utf-8" src="/static/js/jquery-3.4.1.min.js"></script>
-  <script charset="utf-8" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js?t=1"></script>
+  <script charset="utf-8" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script src="/static/js/echarts/echarts.min.js"></script>
+  <style>
+    .baseInfo {
+      display: flex;
+    }
+
+    .baseInfo .item {
+      width: 50%;
+    }
+
+    .textCenter {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 <div>
   <span id="userInfo"></span>
+  <!-- 基础信息 -->
+  <div class="baseInfo">
+    <div class="item">卡号:<span id="vipCode"></span></div>
+    <div class="item">姓名:<span id="vipName"></span></div>
+  </div>
+  <div class="baseInfo">
+    <div class="item">电话:<span id="vipMobile"></span></div>
+    <div class="item">等级:<span id="gradeName"></span></div>
+  </div>
+  <div class="baseInfo">
+    <div class="item">生日:<span id="birthday"></span></div>
+    <div class="item">年龄:<span id="age"></span></div>
+  </div>
+  <div class="baseInfo">
+    <div class="item">积分:<span id="integral"></span></div>
+    <div class="item">焕新币:<span id="washingBalance"></span></div>
+  </div>
+  <!--图标-->
+
+  <div id="main" style="width: 100%;height:10px;margin-top: 18px"></div>
+  <div class="baseInfo">
+    <div class="item">单笔消费额:<span id="underSingleAmount"></span></div>
+    <div class="item">最近消费:<span id="underLastPayDay"></span></div>
+  </div>
+  <div class="baseInfo">
+    <div class="item">消费频次:<span id="underPayFrequency"></span></div>
+    <div class="item">单笔消费数:<span id="underSingleCount"></span></div>
+  </div>
+  <div class="baseInfo">
+    <div class="item">消费额:<span id="underLineBillAmount"></span></div>
+  </div>
 </div>
 <script>
+  $("#main").height($("#main").width())
 
   function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
@@ -29,8 +76,8 @@
 
   let tnId = getQueryVariable("tnId")
   $.ajax({
-    // url: 'https://crm.wisdomyy.com/crm/api/qywechat/ticket/jljy',
-    url: 'http://47.92.122.23:9092/crm/api/qywechat/ticket/' + tnId,
+    url: 'https://crm.wisdomyy.com/crm/api/qywechat/ticket/' + tnId,
+    // url: 'http://47.92.122.23:9092/crm/api/qywechat/ticket/' + tnId,
     // url: 'http://127.0.0.1:9092/crm/api/qywechat/ticket/' + tnId,
     type: 'get',
     async: false,
@@ -40,7 +87,7 @@
     success: function (res) {
       jWeixin.config({
         beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: res.data.copyId, // 必填，企业微信的corpID
         timestamp: res.data.timestamp, // 必填，生成签名的时间戳
         nonceStr: res.data.noncestr, // 必填，生成签名的随机串
@@ -56,8 +103,8 @@
   })
   wx.ready(function () {
     $.ajax({
-      // url: 'https://crm.wisdomyy.com/crm/api/qywechat/ticket/jljy',
-      url: 'http://47.92.122.23:9092/crm/api/qywechat/ticket/agent/' + tnId,
+      url: 'https://crm.wisdomyy.com/crm/api/qywechat/ticket/agent/' + tnId,
+      // url: 'http://47.92.122.23:9092/crm/api/qywechat/ticket/agent/' + tnId,
       // url: 'http://127.0.0.1:9092/crm/api/qywechat/ticket/agent/' + tnId,
       type: 'get',
       async: false,
@@ -75,11 +122,31 @@
           success: function (res) {
             wx.invoke('getCurExternalContact', {}, function (res) {
               if (res.err_msg == "getCurExternalContact:ok") {
-                $("#userInfo").html("123123")
                 let userId = res.userId;
-                alert(userId)
-                alert(JSON.stringify(res))
-                $("#userInfo").html(JSON.stringify(res))
+                $.ajax({
+                  url: 'https://crm.wisdomyy.com/crm/api/qywechat/external_contact/info/' + tnId + "?userId=" + userId,
+                  type: 'get',
+                  contentType: 'application/json',
+                  dataType: 'json',
+                  success: function (res) {
+                    let data = res.data
+                    $("#vipCode").html(data.vipCode)
+                    $("#vipName").html(data.vipName)
+                    $("#vipMobile").html(data.vipMobile)
+                    $("#gradeName").html(data.gradeName)
+                    $("#birthday").html(data.birthday)
+                    $("#age").html(data.age)
+                    $("#integral").html(data.integral)
+                    $("#washingBalance").html(data.washingBalance)
+                    loadEcharts(data);
+                    $("#underSingleAmount").html(data.underSingleAmount)
+                    $("#underLastPayDay").html(data.underLastPayDay)
+                    $("#underPayFrequency").html(data.underPayFrequency)
+                    $("#underSingleCount").html(data.underSingleCount)
+                    $("#underLineBillAmount").html(data.underLineBillAmount)
+                  }
+                })
+
               } else {
                 alert(res.err_msg)
                 //错误处理
@@ -98,10 +165,71 @@
     })
   })
 
-
   wx.error(function (res) {
     alert("发生错误，请联系管理员")
   })
+
+  // $.ajax({
+  //   url: 'http://127.0.0.1:9091/crm/api/qywechat/external_contact/info/' + tnId + "?userId=wmBj0MDAAAB7cZ3PeZusJ_pidj9aBECg",
+  //   type: 'get',
+  //   contentType: 'application/json',
+  //   dataType: 'json',
+  //   success: function (res) {
+  //     let data = res.data
+  //     loadEcharts(data);
+  //   }
+  // })
+
+  function loadEcharts(data) {
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+      title: {
+        // text: '基础雷达图'
+      },
+      tooltip: {},
+      legend: {
+        // data: ['线下', '线上']
+      },
+      radar: {
+        // shape: 'circle',
+        nameGap: 2,
+        name: {
+          textStyle: {
+            width: '100%',
+            fontSize: 11,
+            color: '#fff',
+            backgroundColor: '#999',
+            borderRadius: 3,
+            padding: [3, 5]
+          }
+        },
+        indicator: [
+          {name: '单笔消费额', max: data.maxUnderSingleAmount},
+          {name: '最近消费', max: data.maxUnderLastPayDay},
+          {name: '消费频次', max: data.maxUnderPayFrequency},
+          {name: '单笔消费数', max: data.maxUnderSingleCount},
+          {name: '消费额', max: data.maxUnderLineBillAmount}
+
+          // { name: '市场', max: 25000}
+        ]
+      },
+      series: [{
+        // name: '预算 vs 开销（Budget vs spending）',
+        type: 'radar',
+        areaStyle: {normal: {}},
+        data: [
+          {
+            value: [data.underSingleAmount, data.underLastPayDay, data.underPayFrequency, data.underSingleCount, data.underLineBillAmount]
+          }
+        ]
+      }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+  }
 
 </script>
 </body>
