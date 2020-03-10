@@ -139,7 +139,7 @@
         <template slot-scope="scope">
           <el-button type="text" @click="detail(scope.row)">单据商品</el-button>
           <el-button v-if="scope.row.status == 'SENDING' || scope.row.status == 'EVALUATED' || scope.row.status == 'PENDING_EVALUATE' || scope.row.status == 'PENDING_RECEIVE' || scope.row.status == 'PENDING_SEND' || (scope.row.expressCode == null && scope.row.status == 'REFUND_PART')" type="text" @click="showRefund(scope.row)">退款</el-button>
-          <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="send(scope.row)">发货</el-button>
+          <el-button v-if="scope.row.status == 'SENDING'" type="text" @click="send(scope.row)">发货</el-button>
           <el-button type="text" @click="changeColorOrSize(scope.row)">调换</el-button>
           <el-button v-if="scope.row.status == 'PENDING_SEND'" type="text" @click="editAdress(scope.row)">修改地址</el-button>
           <el-button v-if="scope.row.receiveType == 'express' && (scope.row.status == 'PENDING_RECEIVE' || scope.row.status == 'PENDING_EVALUATE' || scope.row.status == 'EVALUATED')" type="text" @click="send(scope.row)">发货信息</el-button>
