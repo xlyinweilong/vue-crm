@@ -48,20 +48,34 @@ const vipRouter = {
           component: () => import('@/z/vip/power/list'),
           name: 'vip_power',
           meta: {title: '会员权益设置', power: 'vip_grade_explain'}
+        }
+      ]
+    },
+    {
+      path: 'diy_ticket',
+      component: () => import('@/z/SubLayout'),
+      name: 'diy_ticket',
+      meta: {title: '优惠券', power: 'vip_ticket'},
+      children: [
+        {
+          path: 'diy_ticket_list',
+          component: () => import('@/z/vip/diy_ticket/ticket/index'),
+          name: 'diy_ticket_list',
+          meta: {title: '优惠券列表', power: 'vip_ticket_list'}
         },
-        // {
-        //   path: 'vip_rule',
-        //   component: () => import('@/z/vip/rule/list'),
-        //   name: 'vip_rule',
-        //   meta: { title: '会员规则设置' }
-        // }
+        {
+          path: 'diy_ticket_detail_list',
+          component: () => import('@/z/vip/diy_ticket/ticket/list'),
+          name: 'diy_ticket_detail_list',
+          meta: {title: '优惠券明细', power: 'vip_ticket_list'}
+        }
       ]
     },
     {
       path: 'ticket_manager',
       component: () => import('@/z/SubLayout'),
       name: 'ticket_manager',
-      meta: {title: '卡券管理', power: 'vip_ticket'},
+      meta: {title: '微信卡券', power: 'vip_ticket'},
       children: [
         {
           path: 'ticket_list',
@@ -99,29 +113,9 @@ const vipRouter = {
           component: () => import('@/z/vip/ticket/pay_order/list'),
           name: 'we_chat_pay_order',
           meta: {title: '支付单据', power: 'we_chat_pay_order'}
-        },
-        // {
-        //   path: 'ticket_log',
-        //   component: () => import('@/z/bill/transfer/transfer_list'),
-        //   name: 'ticket_log',
-        //   meta: { title: '卡卷记录' }
-        // }
+        }
       ]
-    },
-    // {
-    //   path: 'vip_belong_manager',
-    //   component: () => import('@/z/SubLayout'),
-    //   name: 'vip_belong_manager',
-    //   meta: { title: '会员归属管理' },
-    //   children: [
-    //     {
-    //       path: 'vip_channel',
-    //       component: () => import('@/z/bill/transfer/transfer_list'),
-    //       name: 'vip_channel',
-    //       meta: { title: '多门店所属' }
-    //     }
-    //   ]
-    // }
+    }
   ]
 }
 export default vipRouter

@@ -211,6 +211,11 @@
           this.$message.error('请选择发货服务')
           return
         }
+        if(this.expressId == null){
+          this.$message.error('请选择快递')
+          return
+        }
+        form.expressAccountId = this.expressId
         form.serviceType = serviceType.serviceType
         form.serviceName = serviceType.serviceName
         form.expectTime = this.expectTime

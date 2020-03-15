@@ -99,6 +99,12 @@ const shopRouter = {
           meta: {title: '退货审核', power: 'manage_platform_company'}
         },
         {
+          path: 'package_list',
+          component: () => import('@/z/shop/business/package_list/index'),
+          name: 'package_list',
+          meta: {title: '包裹管理', power: 'manage_platform_ui'}
+        },
+        {
           path: 'stock',
           component: () => import('@/z/shop/business/stock/index'),
           name: 'stock',

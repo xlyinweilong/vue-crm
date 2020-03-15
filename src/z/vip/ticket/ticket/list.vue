@@ -201,6 +201,7 @@
         listLoading: false,
         selectedIds: [],
         listQuery: {
+          type:'WE_CHAT',
           code: '',
           title: '',
           cardType: '',

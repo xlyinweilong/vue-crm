@@ -292,6 +292,7 @@
             onOpen(ele) {
                 if (ele.id == '') {
                     this.form = {
+                        type:'WE_CHAT',
                         code: '',
                         cardType: 'CASH',
                         title: '',

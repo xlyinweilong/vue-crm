@@ -9,7 +9,7 @@
       <el-upload
         :data="uploadData"
         drag
-        :action="importAction" accept=".png,.jpg"
+        :action="importAction" accept=".png,.jpg,.JPG,.PNG"
         :before-upload="handlePreview"
         :limit="200"
         :file-list="importFileList" :headers="importHeaders"
@@ -111,6 +111,7 @@
         this.show = true
       },
       handlePreview(file) {
+        console.log(file);
         if (file.size / 1024 / 1024 > 2) {
           this.$message.error(file.name + '图片大小不能超过 2MB!')
           return false

@@ -5,14 +5,16 @@
     :visible="show"
     top="1vh"
     @close="onClose"
-    width="800px">
+    width="1000px">
     <!--商品明细-->
     <div v-loading="loading">
       <h4>单号：{{form.code}}
         <el-tooltip class="item" effect="dark" content="提示：本操作不可逆，请谨慎使用。距离支付时间不能超过半年，次数不能超过10次（次数与其他退款方式共用次数）" placement="top">
           <i class="el-icon-question" style="margin-left: 8px;cursor: pointer;"></i>
         </el-tooltip>
-        <span v-show="totalRefundAmount > 0">本次将退款金额：{{totalRefundAmount}}元</span>
+        <span v-show="form.ticketAmount > 0">优惠券总金额：{{form.ticketAmount}}元</span>
+        <span v-show="form.refundTotalTicketAmount > 0">已退优惠券总金额：{{form.refundTotalTicketAmount}}元</span>
+        <div v-show="totalRefundAmount > 0">本次将退款金额：{{totalRefundAmount}}元</div>
       </h4>
       <div>
         <p>快速设置：
@@ -21,16 +23,21 @@
         </p>
         <el-form ref="form" :model="form" :rules="rules">
           <el-row :gutter="20">
-            <el-col :span="12">
+            <el-col :span="8">
               <el-form-item label="退款原因" prop="refundReason">
                 <el-input v-model="form.refundReason" placeholder="退款原因" :maxlength="200"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
               <el-form-item label="退款备注" prop="refundRemarks">
                 <el-tooltip class="item" effect="dark" content="备注客户看不见，原因客户可见" placement="top">
                   <el-input v-model="form.refundRemarks" placeholder="退款备注" :maxlength="200"></el-input>
                 </el-tooltip>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="本次退回优惠券金额" prop="refundTicketAmount">
+                <el-input-number style="width: 100%" v-model="form.refundTicketAmount" step-strictly :precision="2" :step="0.01" :min="0" :max="form.ticketAmount - form.refundTotalTicketAmount" :controls="false"></el-input-number>
               </el-form-item>
             </el-col>
           </el-row>
@@ -131,7 +138,7 @@
     </div>
     <div slot="footer" class="dialog-footer">
       <el-button :loading="loading" @click="onClose">关闭</el-button>
-      <el-button type="primary" :loading="loading" @click="doRefund" :disabled="totalRefundAmount == 0">确定退款</el-button>
+      <el-button type="primary" :loading="loading" @click="doRefund" :disabled="goodsList.filter(g => g.refundQuantity > 0).length == 0">确定退款</el-button>
     </div>
   </el-dialog>
 </template>
@@ -150,7 +157,7 @@
         show: false,
         form: {
           status: '',
-          refundExpressAmount:''
+          refundExpressAmount: ''
         },
         goodsList: [],
         rules: {
@@ -164,7 +171,9 @@
         if (this.goodsList.filter(g => g.refundQuantity > 0).length == 0) {
           return refundExpressAmount
         }
-        return refundExpressAmount.add(this.goodsList.filter(g => g.refundQuantity > 0).reduce((t, a) => t.add(a.refundQuantity.mul(a.refundPrice)), 0))
+        let refundTicketAmount = this.form.refundTicketAmount > 0 ? this.form.refundTicketAmount : 0
+        let amount = refundExpressAmount.add(this.goodsList.filter(g => g.refundQuantity > 0).reduce((t, a) => t.add(a.refundQuantity.mul(a.refundPrice)), 0)).sub(refundTicketAmount)
+        return amount > 0 ? amount : 0
       }
     },
     mounted() {
