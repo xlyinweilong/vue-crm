@@ -111,8 +111,14 @@
           {{ scope.row.refundTotalQuantity }}
         </template>
       </el-table-column>
+      <el-table-column label="操作" align="center" fixed="right" width="140">>
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.status == 'PENDING_PACKAGE'" type="text" @click="showChangeInfo(scope.row)">修改发货</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList"/>
+    <changeInfo ref="changeInfo" @getList="getList"/>
     <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
@@ -129,10 +135,11 @@
 <script>
   import {getList, checkPackage} from '@/api/shop/business/refund/refund'
   import Pagination from '@/components/Pagination'
+  import changeInfo from './changeInfo'
 
   export default {
     components: {
-      Pagination
+      Pagination,changeInfo
     },
     filters: {},
     directives: {},
@@ -157,6 +164,9 @@
     mounted() {
     },
     methods: {
+      showChangeInfo(row){
+        this.$refs.changeInfo.onOpen(row)
+      },
       handleSelectionChange(val) {
         this.selection = val
       },

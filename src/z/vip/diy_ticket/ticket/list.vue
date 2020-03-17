@@ -105,13 +105,15 @@
           <el-tag v-if="!scope.row.disabled">否</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" fixed="right" width="160">
+      <el-table-column label="操作" align="center" fixed="right" width="200">
         <template slot-scope="scope">
           <el-button v-if="!scope.row.disabled" type="text" @click="edit(scope.row)">编辑</el-button>
           <el-button v-if="!scope.row.disabled" :disabled="scope.row.onShelfType == 'FULL_COURT'" type="text" @click="goodsList(scope.row)">适用商品</el-button>
+          <el-button v-if="!scope.row.disabled" type="text" @click="showRef('qrCode',scope.row)">二维码</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <qrCode ref="qrCode"/>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex"
                 :limit.sync="listQuery.pageSize" @pagination="getList"/>
   </div>
@@ -120,10 +122,11 @@
 <script>
   import {getList, deleteEle} from '@/api/vip/ticket/ticket'
   import Pagination from '@/components/Pagination'
+  import qrCode from './qrCode'
 
   export default {
     components: {
-       Pagination
+      Pagination, qrCode
     },
     filters: {},
     directives: {},
@@ -134,7 +137,7 @@
         listLoading: false,
         selectedIds: [],
         listQuery: {
-          type:'INDEPENDENT',
+          type: 'INDEPENDENT',
           code: '',
           title: '',
           ticketType: '',
@@ -156,8 +159,11 @@
       edit(row) {
         this.$emit("changeStatus", {status: "save", id: row.id})
       },
-      goodsList(row){
+      goodsList(row) {
         this.$emit("changeStatus", {status: "goodsList", id: row.id})
+      },
+      showRef(ref, ele) {
+        this.$refs[ref].onOpen(ele)
       },
       getList() {
         this.listLoading = true

@@ -31,3 +31,11 @@ export function checkRefundOrder(data) {
     data
   })
 }
+
+export function changeRefundSenderLocation(data) {
+  return request({
+    url: 'api/shop/refund_order/change_refund_sender_location',
+    method: 'post',
+    data
+  })
+}
