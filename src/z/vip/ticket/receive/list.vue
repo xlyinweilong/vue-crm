@@ -11,15 +11,16 @@
         <el-option :key="false" label="否" :value="false"/>
       </el-select>
       <el-date-picker class="filter-item" clearable
-        v-model="listQuery.startDate"
-        type="date"
-        placeholder="核销开始日期">
+                      v-model="listQuery.startDate"
+                      type="date"
+                      placeholder="核销开始日期">
       </el-date-picker>
       <el-date-picker class="filter-item" clearable
-        v-model="listQuery.endDate"
-        type="date"
-        placeholder="核销结束日期">
+                      v-model="listQuery.endDate"
+                      type="date"
+                      placeholder="核销结束日期">
       </el-date-picker>
+      <weChatUser @changeUser="changeUser"/>
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">查询</el-button>
     </div>
     <el-table
@@ -119,9 +120,10 @@
 <script>
   import {getList} from '@/api/vip/ticket/ticketDetail'
   import Pagination from '@/components/Pagination'
+  import weChatUser from '@/z/components/selectCom/weChatUser'
 
   export default {
-    components: {Pagination},
+    components: {Pagination, weChatUser},
     filters: {},
     directives: {},
     data() {
@@ -134,7 +136,8 @@
           pageSize: 10,
           outStr: '',
           ticketCode: '',
-          checked: null
+          checked: null,
+          platformOpenId: null
         }
       }
     },
@@ -142,6 +145,10 @@
       this.getList()
     },
     methods: {
+      changeUser(ele) {
+
+        this.listQuery.platformOpenId = ele.platformOpenId
+      },
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(res => {

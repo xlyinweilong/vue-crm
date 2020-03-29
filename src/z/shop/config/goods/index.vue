@@ -7,7 +7,7 @@
       </el-select>
       <el-input placeholder="货号" clearable v-model.trim="listQuery.code" style="width: 250px;" class="filter-item"
                 @keyup.enter.native="getList"/>
-      <el-select v-model="listQuery.brandId" filterable class="filter-item" clearable placeholder="品牌">
+      <el-select v-model="listQuery.brandIds" multiple collapse-tags filterable filterable class="filter-item" clearable placeholder="品牌">
         <el-option v-for="ele in allBrandList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
       </el-select>
       <el-select v-model="listQuery.categoryId" filterable class="filter-item" clearable placeholder="品类">
@@ -16,11 +16,11 @@
       <el-select v-model="listQuery.category2Id" filterable class="filter-item" clearable placeholder="二级品类">
         <el-option v-for="ele in allCategory2List" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
       </el-select>
-      <el-select v-model="listQuery.seasonId" filterable class="filter-item" clearable placeholder="年份">
-        <el-option v-for="ele in allSeasonList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
-      </el-select>
-      <el-select v-model="listQuery.yearId" filterable class="filter-item" clearable placeholder="季节">
+      <el-select v-model="listQuery.yearId" filterable class="filter-item" clearable placeholder="年份">
         <el-option v-for="ele in allYearList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
+      </el-select>
+      <el-select v-model="listQuery.seasonId" filterable class="filter-item" clearable placeholder="季节">
+        <el-option v-for="ele in allSeasonList" :key="ele.id" :label="ele.name" :value="ele.erpId"/>
       </el-select>
       <el-input placeholder="零售价" clearable v-model.trim="listQuery.price" style="width: 100px;" class="filter-item"
                 @keyup.enter.native="getList"/>
@@ -161,6 +161,7 @@
           code: '',
           type: '',
           brandId: '',
+          brandIds:[],
           categoryId: '',
           category2Id: '',
           seasonId: '',
