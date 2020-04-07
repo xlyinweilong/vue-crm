@@ -63,6 +63,16 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="是否开启自提业务" prop="stockLockMinute">
+            <el-select v-model="form.shopOrderSelf" style="width: 100%" placeholder="是否开启自提业务">
+              <el-option :key="0" label="关闭" value="0" />
+              <el-option :key="1" label="开启" value="1" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="购物车话术(显示在购物车货品列表下方)" prop="cardTips">
         <el-input type="textarea" :rows="2" placeholder="例如：温馨提示：订单满99包邮，吊牌毁坏不能退换货等" :maxlength="250" v-model="form.cardTips"></el-input>
       </el-form-item>
@@ -93,7 +103,8 @@
           stockLockMinute: '',
           orderAutoReceive: '',
           cardTips: '',
-          receivedLocation:''
+          receivedLocation:'',
+          shopOrderSelf:'0'
         },
         rules: {
           consumeGotIntegral: [{required: true, message: '必填字段', trigger: 'blur'}],
@@ -123,6 +134,7 @@
         this.getInfo('SHOP_CONFIG_order_max_payment', 'orderMaxInPayment')
         this.getInfo('SHOP_CONFIG_stock_lock_minute', 'stockLockMinute')
         this.getInfo('SHOP_CONFIG_order_auto_receive', 'orderAutoReceive')
+        this.getInfo('SHOW_ORDER_SELF', 'shopOrderSelf')
         this.getInfo('SHOP_CONFIG_card_tips', 'cardTips')
         this.getInfo('SHOP_CONFIG_received_location', 'receivedLocation')
         this.loading = false
@@ -148,6 +160,7 @@
             this.saveConfig('SHOP_CONFIG_order_max_count', 'orderMaxCount')
             this.saveConfig('SHOP_CONFIG_order_max_payment', 'orderMaxInPayment')
             this.saveConfig('SHOP_CONFIG_stock_lock_minute', 'stockLockMinute')
+            this.saveConfig('SHOW_ORDER_SELF', 'shopOrderSelf')
             this.saveConfig('SHOP_CONFIG_order_auto_receive', 'orderAutoReceive')
             this.saveConfig('SHOP_CONFIG_card_tips', 'cardTips')
             this.saveConfig('SHOP_CONFIG_received_location', 'receivedLocation')
