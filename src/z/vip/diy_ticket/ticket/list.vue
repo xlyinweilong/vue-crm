@@ -109,11 +109,13 @@
         <template slot-scope="scope">
           <el-button v-if="!scope.row.disabled" type="text" @click="edit(scope.row)">编辑</el-button>
           <el-button v-if="!scope.row.disabled" :disabled="scope.row.onShelfType == 'FULL_COURT'" type="text" @click="goodsList(scope.row)">适用商品</el-button>
+          <el-button v-if="!scope.row.disabled" type="text" @click="uploadUser(scope.row)">指定用户</el-button>
           <el-button v-if="!scope.row.disabled" type="text" @click="showRef('qrCode',scope.row)">二维码</el-button>
         </template>
       </el-table-column>
     </el-table>
     <qrCode ref="qrCode"/>
+    <upload-user ref="uploadUser" @getList="getList"/>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex"
                 :limit.sync="listQuery.pageSize" @pagination="getList"/>
   </div>
@@ -123,10 +125,11 @@
   import {getList, deleteEle} from '@/api/vip/ticket/ticket'
   import Pagination from '@/components/Pagination'
   import qrCode from './qrCode'
+  import UploadUser from "./uploadUser";
 
   export default {
     components: {
-      Pagination, qrCode
+      Pagination, qrCode,UploadUser
     },
     filters: {},
     directives: {},
@@ -153,6 +156,9 @@
       this.getList()
     },
     methods: {
+      uploadUser(row) {
+        this.$refs.uploadUser.onOpen(row)
+      },
       add() {
         this.$emit("changeStatus", {status: "save", id: ''})
       },

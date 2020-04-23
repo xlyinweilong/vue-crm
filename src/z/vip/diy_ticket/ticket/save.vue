@@ -104,6 +104,14 @@
                              @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
+        <el-col :span="6">
+          <el-form-item label="是否指定会员" prop="isSettleUser">
+            <el-select style="width: 100%" v-model="form.isSettleUser" placeholder="指定会员">
+              <el-option label="是" :value="1"></el-option>
+              <el-option label="否" :value="0"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <el-button :loading="loading" type="primary" @click="save">保存</el-button>
@@ -158,7 +166,8 @@
             type: 'INDEPENDENT',
             dateInfoType: 'DATE_TYPE_FIX_TIME_RANGE',
             getLimit: 1,
-            quantity: 10000
+            quantity: 10000,
+            isSettleUser:0
           }
         } else {
           this.loading = true

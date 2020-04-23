@@ -36,6 +36,16 @@
           <span>{{ scope.row.userNickName }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="会员默认手机号" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.defaultVipMobile }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="会员默认编号" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.defaultVipCode }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <pagination v-show="total>0 && !listLoading" :total="total" :page.sync="listQuery.pageIndex" :limit.sync="listQuery.pageSize" @pagination="getList"/>
   </div>
