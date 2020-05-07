@@ -24,6 +24,12 @@ const shopRouter = {
           meta: {title: '参数配置'}
         },
         {
+          path: 'diy_goods_list',
+          component: () => import('@/z/shop/config/diy_goods_list/index'),
+          name: 'diy_goods_list',
+          meta: {title: '自定义商品列表'}
+        },
+        {
           path: 'theme',
           component: () => import('@/z/shop/config/theme/index'),
           name: 'theme',
