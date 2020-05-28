@@ -11,6 +11,7 @@
           <el-form-item label="卡类型" prop="cardType">
             <el-select style="width: 100%" v-model="form.cardType" placeholder="请选择">
               <el-option key="CASH" label="代金券" value="CASH"/>
+              <el-option key="DISCOUNT" label="折扣券" value="DISCOUNT"/>
             </el-select>
           </el-form-item>
         </el-col>
@@ -24,6 +25,12 @@
           <el-form-item label="使用门槛" prop="leastCost">
             <el-input-number style="width: 100%" v-model="form.leastCost" :min="0" :max="99999999" :step="1"
                              step-strictly @keyup.enter.native="save"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6" v-if="form.cardType === 'DISCOUNT'">
+          <el-form-item label="折扣" prop="discount">
+            <el-input-number style="width: 100%" v-model="form.discount" :min="0.01" :max="1" :step="0.01" step-strictly
+                             @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -136,6 +143,7 @@
         form: {},
         rules: {
           onShelf: [{required: true, message: '必填字段', trigger: 'blur'}],
+          discount: [{required: true, message: '必填字段', trigger: 'blur'}],
           onShelfType: [{required: true, message: '必填字段', trigger: 'blur'}],
           title: [{required: true, message: '必填字段', trigger: 'blur'}],
           cardType: [{required: true, message: '必填字段', trigger: 'blur'}],

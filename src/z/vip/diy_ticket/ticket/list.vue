@@ -14,6 +14,7 @@
                 @keyup.enter.native="getList"/>
       <el-select class="filter-item" style="width: 100px;" v-model="listQuery.ticketType" clearable placeholder="类型">
         <el-option key="CASH" label="代金券" value="CASH"/>
+        <el-option key="DISCOUNT" label="折扣券" value="DISCOUNT"/>
       </el-select>
       <el-select class="filter-item" style="width: 100px;" v-model="listQuery.disabled" clearable placeholder="禁用">
         <el-option key="false" label="启用" :value="false"/>
