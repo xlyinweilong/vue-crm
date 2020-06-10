@@ -29,7 +29,7 @@
         </el-col>
         <el-col :span="6" v-if="form.cardType === 'DISCOUNT'">
           <el-form-item label="折扣" prop="discount">
-            <el-input-number style="width: 100%" v-model="form.discount" :min="0.01" :max="1" :step="0.01" step-strictly
+            <el-input-number style="width: 100%" v-model="form.discount" :min="0.001" :max="1" :step="0.001" step-strictly
                              @keyup.enter.native="save"></el-input-number>
           </el-form-item>
         </el-col>
