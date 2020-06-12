@@ -65,7 +65,7 @@ const vipRouter = {
         },
         {
           path: 'diy_ticket_detail_list',
-          component: () => import('@/z/vip/diy_ticket/ticket/list'),
+          component: () => import('@/z/vip/diy_ticket/ticket_detail/index'),
           name: 'diy_ticket_detail_list',
           meta: {title: '优惠券明细', power: 'vip_ticket_list'}
         }
