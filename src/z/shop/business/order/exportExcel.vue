@@ -47,6 +47,7 @@
       },
       exportExcel() {
         this.loading = true
+        this.listQuery.type = this.type
         exportExcel(this.listQuery).then(res => {
         }).finally(() => this.loading = false)
       }

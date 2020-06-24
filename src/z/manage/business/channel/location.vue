@@ -77,22 +77,32 @@
               center: new qq.maps.LatLng(39.916527, 116.397128),
               zoom: 13
             })
-            //获取城市列表接口设置中心点
-            var citylocation = new qq.maps.CityService({
-              complete: function (result) {
-                _this.map.setCenter(result.detail.latLng);
-                //设置坐标
-                _this.marker = new qq.maps.Marker({
-                  position: _this.map.getCenter(),
-                  draggable: true,
-                  map: _this.map,
-                  title: _this.ele.name
-                })
-                _this.loading = false
-              }
+            // setTimeout(() => {
+            //   //获取城市列表接口设置中心点
+            //   var citylocation = new qq.maps.CityService({
+            //     complete: function (result) {
+            //       console.log(result)
+            //       _this.map.setCenter(result.detail.latLng);
+            //       //设置坐标
+            //       _this.marker = new qq.maps.Marker({
+            //         position: _this.map.getCenter(),
+            //         draggable: true,
+            //         map: _this.map,
+            //         title: _this.ele.name
+            //       })
+            //       _this.loading = false
+            //     }
+            //   })
+            //   //调用searchLocalCity();方法    根据用户IP查询城市信息。
+            //   citylocation.searchLocalCity();
+            // }, 3000)
+            _this.marker = new qq.maps.Marker({
+              position: _this.map.getCenter(),
+              draggable: true,
+              map: _this.map,
+              title: _this.ele.name
             })
-            //调用searchLocalCity();方法    根据用户IP查询城市信息。
-            citylocation.searchLocalCity();
+            _this.loading = false
           } else {
             _this.map = new qq.maps.Map(document.getElementById('container'), {
               center: new qq.maps.LatLng(this.ele.lat, this.ele.lng),

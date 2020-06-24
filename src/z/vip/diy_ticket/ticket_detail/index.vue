@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input placeholder="券编号" clearable v-model.trim="listQuery.ticketCode" style="width: 200px;" class="filter-item"
+      <el-input placeholder="券编号" clearable v-model.trim="listQuery.ticketCode" style="width: 250px;" class="filter-item"
                 @keyup.enter.native="getList"/>
-      <el-input placeholder="券标题" clearable v-model.trim="listQuery.title" style="width: 200px;" class="filter-item"
+      <el-input placeholder="券标题" clearable v-model.trim="listQuery.title" style="width: 250px;" class="filter-item"
                 @keyup.enter.native="getList"/>
       <el-select class="filter-item" style="width: 100px;" v-model="listQuery.usePlatform" clearable placeholder="使用平台类型">
         <el-option key="ONLINE" label="线上" value="ONLINE"/>
@@ -16,6 +16,9 @@
       <el-button :loading="listLoading" class="filter-item" icon="el-icon-search" type="primary" plain @click="getList">
         查询
       </el-button>
+    </div>
+    <div class="filter-container">
+      <el-button :disabled="total==0" :loading="listLoading" class="filter-item" icon="el-icon-download" type="warning" plain @click="exportExcel">导出</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -108,7 +111,7 @@
 </template>
 
 <script>
-  import {getList} from '@/api/vip/ticket/ticketDetail'
+  import {getList,exportExcel} from '@/api/vip/ticket/ticketDetail'
   import Pagination from '@/components/Pagination'
 
   export default {
@@ -126,6 +129,7 @@
         listQuery: {
           usePlatform: 'ONLINE',
           code: '',
+          title:'',
           ticketType: '',
           pageIndex: 1,
           pageSize: 10
@@ -144,6 +148,11 @@
           // sessionStorage.ticket_listQuery = JSON.stringify(this.listQuery)
           this.list = res.data.content
           this.total = res.data.totalElements
+        }).finally(() => this.listLoading = false)
+      },
+      exportExcel() {
+        this.listLoading = true
+        exportExcel(this.listQuery).then(res => {
         }).finally(() => this.listLoading = false)
       }
     }
